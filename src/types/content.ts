@@ -1,0 +1,119 @@
+export type NavItem = {
+  label: string;
+  href: string;
+  description?: string;
+  cta?: boolean;
+};
+
+export type Stat = {
+  value: string;
+  label: string;
+};
+
+export type CtaLink = {
+  label: string;
+  href: string;
+  variant?: "default" | "outline" | "ghost" | "secondary";
+};
+
+export type HeroBlock = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  primaryCta: CtaLink;
+  secondaryCta?: CtaLink;
+  stats: Stat[];
+  highlight?: string;
+};
+
+export type FeatureCard = {
+  title: string;
+  description: string;
+  bullets: string[];
+  tag: string;
+};
+
+export type NewsCategory =
+  | "Algarve"
+  | "Municipios"
+  | "Economia"
+  | "Turismo"
+  | "Seguranca"
+  | "Eventos";
+
+export type NewsItem = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: NewsCategory;
+  href: string;
+  imageLabel: string;
+  featured?: boolean;
+  live?: boolean;
+};
+
+export type VideoItem = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  duration: string;
+  category: string;
+  href: string;
+  imageLabel: string;
+  featured?: boolean;
+};
+
+export type EventItem = {
+  slug: string;
+  title: string;
+  date: string;
+  location: string;
+  description: string;
+  href: string;
+  imageLabel: string;
+};
+
+export type PartnerItem = {
+  name: string;
+  hint: string;
+  tier: string;
+};
+
+export type ContactLink = {
+  label: string;
+  value: string;
+  href: string;
+};
+
+export type FounderItem = {
+  name: string;
+  role: string;
+  description: string;
+  imageLabel: string;
+};
+
+export type CommunityMessage = {
+  name: string;
+  municipality: string;
+  message: string;
+};
+
+export type SupportCard = {
+  title: string;
+  description: string;
+  cta: CtaLink;
+};
+
+export type ContactFormField = {
+  label: string;
+  name: string;
+  type: "text" | "email" | "textarea";
+  placeholder: string;
+};
+
+export type SocialLink = {
+  label: string;
+  href: string;
+  handle: string;
+};
