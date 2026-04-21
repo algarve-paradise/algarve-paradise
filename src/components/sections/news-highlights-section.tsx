@@ -3,12 +3,19 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { NewsCard } from "@/components/cards/news-card";
 import { Reveal } from "@/components/shared/reveal";
-import { newsItems } from "@/data/news";
+import { getPublishedNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 
-export function NewsHighlightsSection() {
+export async function NewsHighlightsSection() {
+  const newsItems = await getPublishedNews();
   const featured = newsItems.filter((item) => item.featured);
+  const featuredLead = featured[0] ?? newsItems[0];
+  const featuredSecondary = featured.length > 1 ? featured.slice(1) : newsItems.slice(1, 4);
   const secondary = newsItems.filter((item) => !item.featured).slice(0, 3);
+
+  if (!newsItems.length) {
+    return null;
+  }
 
   return (
     <Reveal as="section" className="py-10 sm:py-14">
@@ -30,20 +37,20 @@ export function NewsHighlightsSection() {
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           {/* Featured - large article */}
           <div>
-            <NewsCard item={featured[0]} featured />
+            <NewsCard item={featuredLead} featured />
           </div>
 
           {/* Sidebar - stacked articles */}
           <div className="border-l border-border pl-8 hidden lg:block">
             <div className="space-y-0">
-              {featured.slice(1).map((item) => (
+              {featuredSecondary.map((item) => (
                 <NewsCard key={item.slug} item={item} />
               ))}
             </div>
           </div>
           {/* Mobile fallback for sidebar */}
           <div className="lg:hidden space-y-0">
-            {featured.slice(1).map((item) => (
+            {featuredSecondary.map((item) => (
               <NewsCard key={item.slug} item={item} />
             ))}
           </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { cn } from "@/lib/utils";
@@ -26,6 +25,7 @@ export function NewsCard({ item, featured = false, anchorId }: NewsCardProps) {
       <MediaPlaceholder
         label={item.category}
         title={item.imageLabel}
+        imageUrl={item.imageUrl}
         tone={featured ? "hero" : "editorial"}
         className={featured ? "min-h-[320px] mb-5" : "min-h-[200px] mb-4"}
       />

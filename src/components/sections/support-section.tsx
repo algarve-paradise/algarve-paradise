@@ -1,5 +1,3 @@
-import { ArrowRight } from "lucide-react";
-
 import { Container } from "@/components/layout/container";
 import { SupportCard } from "@/components/cards/support-card";
 import { Reveal } from "@/components/shared/reveal";
