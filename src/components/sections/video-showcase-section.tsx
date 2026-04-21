@@ -1,49 +1,42 @@
-import { ArrowRight, Clapperboard } from "lucide-react";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { VideoCard } from "@/components/cards/video-card";
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { Reveal } from "@/components/shared/reveal";
 import { videoItems } from "@/data/videos";
 import { siteRoutes } from "@/lib/site";
-import { ButtonLink } from "@/components/ui/button-link";
 
 export function VideoShowcaseSection() {
   const [featured, ...rest] = videoItems;
 
   return (
-    <Reveal as="section" className="bg-[#04162f] py-14 text-white sm:py-18">
-      <Container className="space-y-8">
-        <div className="rounded-[2rem] border border-white/10 bg-white/6 p-5 backdrop-blur sm:p-6">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Reportagens / Videos"
-              title="Thumbnails, destaques e ritmo visual de canal digital"
-              description="A secao de video reforca a linguagem media do projeto com destaque principal, cards secundarios e leitura rapida."
-              className="text-white"
-            />
-            <div className="flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-white/66">
-                <Clapperboard className="size-3.5 text-[var(--color-signal)]" />
-                Formato TV
-              </span>
-              <ButtonLink href={siteRoutes.tv} variant="secondary" className="w-fit rounded-full">
-                Ver todos os videos
-                <ArrowRight className="size-4" />
-              </ButtonLink>
-            </div>
-          </div>
+    <Reveal as="section" className="py-10 sm:py-14 border-t border-border">
+      <Container>
+        {/* Section header */}
+        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
+          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            Reportagens & Vídeos
+          </h2>
+          <Link
+            href={siteRoutes.tv}
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Ver todos →
+          </Link>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <VideoCard item={featured} featured />
-          <StaggerGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
+          <div className="border-l border-border pl-8 hidden lg:block space-y-0">
             {rest.slice(0, 3).map((item) => (
-              <StaggerItem key={item.slug}>
-                <VideoCard item={item} />
-              </StaggerItem>
+              <VideoCard key={item.slug} item={item} />
             ))}
-          </StaggerGroup>
+          </div>
+          <div className="lg:hidden space-y-0">
+            {rest.slice(0, 3).map((item) => (
+              <VideoCard key={item.slug} item={item} />
+            ))}
+          </div>
         </div>
       </Container>
     </Reveal>

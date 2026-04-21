@@ -2,18 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Menu, Radio, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import { navigationMain } from "@/data/navigation";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
 import { siteRoutes } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/layout/container";
-import { BrandMark } from "@/components/shared/brand-mark";
-import { LiveIndicator } from "@/components/shared/live-indicator";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -32,92 +30,58 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b border-white/10 bg-background/92 backdrop-blur-xl transition-all duration-300",
-        scrolled && "shadow-[0_18px_40px_rgba(7,32,67,0.08)]"
-      )}
-    >
-      <div className={cn("border-b border-slate-200/80 bg-white/88 transition-all duration-300", scrolled && "bg-white/96")}>
-        <Container className="flex min-h-11 items-center justify-between gap-3 text-xs uppercase tracking-[0.22em] text-slate-500">
-          <div className="flex items-center gap-3">
-            <LiveIndicator className="hidden sm:inline-flex" />
-            <span className="inline-flex items-center gap-2">
-              <Radio className="size-3.5 text-[var(--color-brand-700)]" />
-              Informacao regional, comunidade e agenda do Algarve
-            </span>
+    <header className="bg-background">
+      {/* Top Bar */}
+      <div className="border-b border-border/80 hidden sm:block">
+        <Container className="flex min-h-10 items-center justify-between text-[11px] uppercase tracking-widest text-muted-foreground">
+          <div>{new Date().toLocaleDateString('pt-PT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+          <div className="flex items-center gap-5">
+            <Link href={siteRoutes.news} className="hover:text-foreground transition-colors">Edição de Hoje</Link>
+            <Link href={siteRoutes.support} className="font-semibold text-foreground hover:underline underline-offset-2">Subscrever</Link>
           </div>
-          <span className="hidden sm:block">Edicao institucional e digital</span>
         </Container>
       </div>
 
-      <Container className={cn("flex items-center justify-between gap-4 py-4 transition-all duration-300", scrolled && "py-3")}>
-        <BrandMark compact />
+      {/* Logo Bar */}
+      <div className="flex flex-col items-center justify-center py-6 sm:py-8 border-b border-border sm:border-none relative">
+        <Container className="flex items-center justify-between sm:justify-center w-full">
+           <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-none sm:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? "Fechar navegacao" : "Abrir navegacao"}
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </Button>
 
-        <nav aria-label="Navegacao principal" className="hidden items-center gap-1 lg:flex">
-          {navigationMain.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <motion.div
+          <Link href="/" className="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight text-foreground text-center">
+            O Portal do Algarve
+          </Link>
+
+          <div className="w-10 sm:hidden"></div> {/* Spacer para centrar o logo em mobile */}
+        </Container>
+      </div>
+
+      {/* Navigation Bar */}
+      <div className="sticky top-0 z-50 border-t border-b border-border bg-background transition-all duration-300">
+        <Container className="flex items-center justify-center py-3">
+          <nav aria-label="Navegacao principal" className="hidden items-center justify-center gap-7 lg:flex flex-wrap">
+            {navigationMain.map((item) => (
+              <Link
                 key={item.href}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.18 }}
-                className="relative"
+                href={item.href}
+                className={cn(
+                  "text-xs font-semibold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors",
+                  pathname === item.href && "underline decoration-border underline-offset-4"
+                )}
               >
-                {active && !item.cta ? (
-                  <motion.span
-                    layoutId="nav-active-pill"
-                    className="absolute inset-0 rounded-full bg-[var(--color-brand-50)] shadow-[0_10px_24px_rgba(0,76,153,0.12)]"
-                    transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                  />
-                ) : null}
-                <ButtonLink
-                  href={item.href}
-                  variant={active ? "secondary" : "ghost"}
-                  className={cn(
-                    "relative rounded-full px-4 transition-all duration-200",
-                    !item.cta && "hover:bg-[var(--color-brand-50)] hover:text-[var(--color-brand-800)]",
-                    item.cta &&
-                      "bg-[var(--color-signal)] text-white shadow-[0_14px_28px_rgba(204,20,57,0.24)] hover:bg-[color:var(--color-signal-hover)] hover:shadow-[0_18px_34px_rgba(204,20,57,0.28)]",
-                    active && !item.cta && "text-[var(--color-brand-800)] shadow-sm"
-                  )}
-                >
-                  {item.label}
-                </ButtonLink>
-              </motion.div>
-            );
-          })}
-        </nav>
-
-        <div className="hidden items-center gap-3 lg:flex">
-          <ButtonLink
-            href={siteRoutes.contact}
-            variant="outline"
-            className="rounded-full transition-all duration-200 hover:-translate-y-0.5"
-          >
-            Contactar redacao
-          </ButtonLink>
-          <ButtonLink
-            href={siteRoutes.support}
-            className="rounded-full shadow-[0_14px_28px_rgba(0,76,153,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(0,76,153,0.28)]"
-          >
-            Apoiar projeto
-            <ArrowRight className="size-4" />
-          </ButtonLink>
-        </div>
-
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full lg:hidden"
-          onClick={() => setOpen((value) => !value)}
-          aria-label={open ? "Fechar navegacao" : "Abrir navegacao"}
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-        >
-          {open ? <X className="size-4" /> : <Menu className="size-4" />}
-        </Button>
-      </Container>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </Container>
+      </div>
 
       <AnimatePresence>
         {open ? (
@@ -127,37 +91,27 @@ export function SiteHeader() {
             exit="hidden"
             variants={fadeIn}
             id="mobile-navigation"
-            className="border-t border-border/50 bg-background/95 lg:hidden"
+            className="border-b border-border bg-background lg:hidden"
           >
             <Container className="py-4">
               <motion.div variants={staggerContainer} className="grid gap-2">
                 {navigationMain.map((item) => {
                   const active = pathname === item.href;
-
                   return (
                     <motion.div key={item.href} variants={fadeUp}>
-                      <ButtonLink
+                      <Link
                         href={item.href}
-                        variant={active ? "secondary" : "ghost"}
                         className={cn(
-                          "w-full justify-start rounded-2xl px-4 py-6",
-                          item.cta &&
-                            "bg-[var(--color-signal)] text-white hover:bg-[color:var(--color-signal-hover)]"
+                          "block w-full text-left py-3 px-2 text-sm font-semibold uppercase tracking-widest text-foreground border-b border-border/40",
+                          active && "bg-muted/30"
                         )}
+                        onClick={() => setOpen(false)}
                       >
                         {item.label}
-                      </ButtonLink>
+                      </Link>
                     </motion.div>
                   );
                 })}
-                <div className="mt-2 grid gap-3 sm:grid-cols-2">
-                  <ButtonLink href={siteRoutes.contact} variant="outline" className="rounded-2xl">
-                    Contactar redacao
-                  </ButtonLink>
-                  <ButtonLink href={siteRoutes.support} className="rounded-2xl">
-                    Apoiar projeto
-                  </ButtonLink>
-                </div>
               </motion.div>
             </Container>
           </motion.div>

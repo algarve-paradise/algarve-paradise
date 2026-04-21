@@ -1,42 +1,27 @@
 import { Container } from "@/components/layout/container";
 import { PartnerCard } from "@/components/cards/partner-card";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { MediaPlaceholder } from "@/components/shared/media-placeholder";
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
+import { Reveal } from "@/components/shared/reveal";
 import { partners } from "@/data/partners";
 
 export function PartnersSection() {
   return (
-    <Reveal as="section" className="border-y border-slate-200/80 bg-slate-50/70 py-14 sm:py-18">
-      <Container className="space-y-8">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <SectionHeading
-            eyebrow="Parcerias"
-            title="Em parceria com entidades que contribuem para o desenvolvimento do Algarve"
-            description="O bloco institucional reforca credibilidade, proximidade com o territorio e espaco para logos reais numa fase seguinte."
-          />
-
-          <StaggerGroup className="grid gap-4 sm:grid-cols-3">
-            {partners.map((item) => (
-              <StaggerItem key={item.name}>
-                <MediaPlaceholder
-                  label={item.tier}
-                  title={item.name}
-                  tone="logo"
-                  className="min-h-[150px] shadow-[0_16px_36px_rgba(7,32,67,0.08)]"
-                />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
+    <Reveal as="section" className="border-t border-border py-10 sm:py-14">
+      <Container>
+        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
+          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            Parceiros Institucionais
+          </h2>
         </div>
 
-        <StaggerGroup className="grid gap-6 md:grid-cols-3">
+        <p className="text-sm leading-6 text-muted-foreground max-w-xl mb-8">
+          O bloco institucional reforça credibilidade, proximidade com o território e espaço para logos reais numa fase seguinte.
+        </p>
+
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {partners.map((item) => (
-            <StaggerItem key={item.name}>
-              <PartnerCard item={item} />
-            </StaggerItem>
+            <PartnerCard key={item.name} item={item} />
           ))}
-        </StaggerGroup>
+        </div>
       </Container>
     </Reveal>
   );

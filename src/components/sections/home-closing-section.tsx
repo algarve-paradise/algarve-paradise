@@ -1,62 +1,78 @@
 import { ArrowRight, Mail, MessageSquareMore } from "lucide-react";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/shared/reveal";
-import { SectionHeading } from "@/components/shared/section-heading";
 import { homeClosing } from "@/data/home";
-import { ButtonLink } from "@/components/ui/button-link";
 
 export function HomeClosingSection() {
   return (
     <Reveal
       as="section"
-      className="relative overflow-hidden border-t border-white/10 bg-[linear-gradient(135deg,#04162f,#08264e_55%,#0d3a74)] py-16 text-white sm:py-20"
+      className="border-t border-border py-12 sm:py-16"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_22%),radial-gradient(circle_at_bottom_left,rgba(204,20,57,0.18),transparent_26%)]" />
-      <Container className="relative grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
-        <SectionHeading
-          eyebrow={homeClosing.eyebrow}
-          title={homeClosing.title}
-          description={homeClosing.description}
-          className="text-white"
-        />
+      <Container>
+        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
+          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            {homeClosing.title}
+          </h2>
+        </div>
 
-        <div className="grid gap-4">
-          <div className="rounded-[2rem] border border-white/10 bg-white/8 p-6 backdrop-blur">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-3">
-                <div className="inline-flex size-11 items-center justify-center rounded-2xl bg-white/10">
-                  <Mail className="size-5 text-white" />
-                </div>
-                <h3 className="font-heading text-2xl">Contacto institucional</h3>
-                <p className="text-sm leading-6 text-white/74">
-                  Para parcerias, patrocinio, colaboracoes ou ligacao com entidades regionais.
-                </p>
-              </div>
-              <div className="space-y-3">
-                <div className="inline-flex size-11 items-center justify-center rounded-2xl bg-white/10">
-                  <MessageSquareMore className="size-5 text-white" />
-                </div>
-                <h3 className="font-heading text-2xl">Participacao da comunidade</h3>
-                <p className="text-sm leading-6 text-white/74">
-                  Para mensagens, sugestoes e proximidade com a atualidade e os eventos do Algarve.
-                </p>
-              </div>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <ButtonLink href={homeClosing.primaryCta.href} className="rounded-full bg-white text-[#052247] hover:bg-white/92">
+        <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
+          <div className="space-y-4">
+            <p className="text-sm leading-6 text-muted-foreground">{homeClosing.description}</p>
+
+            <div className="flex flex-wrap gap-4 mt-6">
+              <Link
+                href={homeClosing.primaryCta.href}
+                className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-muted-foreground transition-colors"
+              >
                 {homeClosing.primaryCta.label}
-                <ArrowRight className="size-4" />
-              </ButtonLink>
+                <ArrowRight className="size-3" />
+              </Link>
               {homeClosing.secondaryCta ? (
-                <ButtonLink
+                <Link
                   href={homeClosing.secondaryCta.href}
-                  variant="outline"
-                  className="rounded-full border-white/18 bg-white/5 text-white hover:bg-white/10"
+                  className="inline-flex items-center gap-2 border border-border px-6 py-3 text-xs font-bold uppercase tracking-widest text-foreground hover:bg-muted transition-colors"
                 >
                   {homeClosing.secondaryCta.label}
-                </ButtonLink>
+                </Link>
               ) : null}
+            </div>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 border-l border-border pl-8 hidden lg:grid">
+            <div className="space-y-3">
+              <Mail className="size-5 text-foreground" />
+              <h3 className="font-heading text-lg font-medium text-foreground">Contacto institucional</h3>
+              <p className="text-sm leading-6 text-muted-foreground">
+                Para parcerias, patrocínio, colaborações ou ligação com entidades regionais.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <MessageSquareMore className="size-5 text-foreground" />
+              <h3 className="font-heading text-lg font-medium text-foreground">Participação da comunidade</h3>
+              <p className="text-sm leading-6 text-muted-foreground">
+                Para mensagens, sugestões e proximidade com a atualidade e os eventos do Algarve.
+              </p>
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:hidden">
+            <div className="space-y-3 border-t border-border pt-6">
+              <Mail className="size-5 text-foreground" />
+              <h3 className="font-heading text-lg font-medium text-foreground">Contacto institucional</h3>
+              <p className="text-sm leading-6 text-muted-foreground">
+                Para parcerias, patrocínio, colaborações ou ligação com entidades regionais.
+              </p>
+            </div>
+            <div className="space-y-3 border-t border-border pt-6">
+              <MessageSquareMore className="size-5 text-foreground" />
+              <h3 className="font-heading text-lg font-medium text-foreground">Participação da comunidade</h3>
+              <p className="text-sm leading-6 text-muted-foreground">
+                Para mensagens, sugestões e proximidade com a atualidade e os eventos do Algarve.
+              </p>
             </div>
           </div>
         </div>

@@ -1,132 +1,98 @@
-import { ArrowRight, PlayCircle, Radio, Waves } from "lucide-react";
-
 import { Container } from "@/components/layout/container";
-import { LiveIndicator } from "@/components/shared/live-indicator";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
-import { ButtonLink } from "@/components/ui/button-link";
-import { homeEditorialLabels, homeHero, homePillars } from "@/data/home";
+import { Reveal } from "@/components/shared/reveal";
+import { homeHero, homePillars } from "@/data/home";
 
 export function HomeHeroSection() {
   return (
     <Reveal
       as="section"
-      className="relative overflow-hidden border-b border-white/10 bg-[#04162f] py-14 text-white sm:py-20 lg:py-24"
+      className="relative overflow-hidden py-8 sm:py-12"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(11,139,217,0.38),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(204,20,57,0.24),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_30%)]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent)]" />
-      <Container className="relative space-y-6">
-        <div className="flex flex-wrap gap-2">
-          {homeEditorialLabels.map((label) => (
-            <span
-              key={label}
-              className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-white/72"
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-7">
-            <div className="flex flex-wrap items-center gap-3">
-              <LiveIndicator />
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-white/68">
-                <Radio className="size-3.5 text-[var(--color-signal)]" />
-                Edicao regional
-              </span>
-            </div>
-
-            <div className="space-y-5">
-              <p className="text-sm uppercase tracking-[0.24em] text-white/70">{homeHero.eyebrow}</p>
-              <h1 className="max-w-4xl font-heading text-4xl leading-[1.02] font-semibold text-balance sm:text-5xl lg:text-6xl xl:text-[4.5rem]">
+      <Container className="space-y-12">
+        {/* Top Grid - Asymmetrical Layout */}
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch">
+          
+          {/* Main Article (Left) - Light Theme */}
+          <div className="flex flex-col md:flex-row gap-6 border-b lg:border-b-0 lg:border-r border-border pb-8 lg:pb-0 lg:pr-6">
+            <div className="flex-1 space-y-4">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                TECHNOLOGY / PEOPLE
+              </p>
+              <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.1] font-medium tracking-tight text-foreground">
                 {homeHero.title}
               </h1>
-              <p className="max-w-2xl text-base leading-7 text-white/76 sm:text-lg">
-                {homeHero.description}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <ButtonLink
-                href={homeHero.primaryCta.href}
-                className="rounded-full bg-white text-[#052247] hover:bg-white/92"
-              >
-                {homeHero.primaryCta.label}
-                <ArrowRight className="size-4" />
-              </ButtonLink>
-              {homeHero.secondaryCta ? (
-                <ButtonLink
-                  href={homeHero.secondaryCta.href}
-                  variant="outline"
-                  className="rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
-                >
-                  {homeHero.secondaryCta.label}
-                </ButtonLink>
-              ) : null}
-            </div>
-
-            <StaggerGroup className="grid gap-4 sm:grid-cols-3">
-              {homeHero.stats.map((stat) => (
-                <StaggerItem key={stat.label}>
-                  <div className="rounded-[1.75rem] border border-white/10 bg-white/6 p-5 backdrop-blur">
-                    <div className="font-heading text-2xl font-semibold">{stat.value}</div>
-                    <div className="mt-1 text-sm leading-6 text-white/70">{stat.label}</div>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerGroup>
-          </div>
-
-          <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-black/15 p-3 shadow-[0_40px_100px_rgba(2,20,43,0.4)] backdrop-blur">
-              <div className="mb-3 flex items-center justify-between rounded-[1.25rem] border border-white/10 bg-white/8 px-4 py-3">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] text-white/72">
-                  <span className="size-2 rounded-full bg-[var(--color-signal)] shadow-[0_0_16px_var(--color-signal)]" />
-                  Sinal editorial
-                </div>
-                <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] text-white/60">
-                  <Waves className="size-3.5" />
-                  Algarve
-                </div>
+              
+              <div className="flex gap-4">
+                <p className="text-sm leading-relaxed text-muted-foreground w-1/2">
+                  {homeHero.description}
+                </p>
+                <p className="font-heading text-xl italic leading-tight text-foreground w-1/2 border-l border-border pl-4">
+                  "We will not shrink from this responsibility."
+                </p>
               </div>
 
+              <div className="flex items-center gap-3 pt-6">
+                <div className="size-8 rounded-full bg-muted border border-border" />
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                  By <span className="font-bold text-foreground">REDACAO ALGARVE</span>
+                  <br />
+                  <span className="font-normal opacity-80">Oct 18, 2026</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="w-full md:w-5/12 h-[300px] md:h-auto shrink-0 border border-border bg-muted">
               <MediaPlaceholder
-                label="Grande plano"
-                title="Placeholder premium para imagem hero do Algarve com overlay editorial e linguagem televisiva."
+                label="Main Image"
                 tone="hero"
-                className="min-h-[440px]"
+                className="h-full w-full object-cover grayscale"
               />
-
-              <div className="mt-3 grid gap-3 sm:grid-cols-[1.2fr_0.8fr]">
-                <div className="rounded-[1.5rem] border border-white/10 bg-white/7 px-4 py-4">
-                  <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-white/55">
-                    <PlayCircle className="size-4 text-[var(--color-signal)]" />
-                    Cobertura regional
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-white/74">{homeHero.highlight}</p>
-                </div>
-                <div className="rounded-[1.5rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.03))] px-4 py-4">
-                  <div className="text-xs uppercase tracking-[0.24em] text-white/55">Em foco</div>
-                  <div className="mt-2 text-sm leading-6 text-white/80">
-                    Praia, cidades, reportagens, eventos e comunidade com imagem forte e leitura clara.
-                  </div>
-                </div>
-              </div>
             </div>
-
-            <StaggerGroup className="grid gap-3 md:grid-cols-3">
-              {homePillars.map((item) => (
-                <StaggerItem key={item.title}>
-                  <div className="rounded-[1.6rem] border border-white/10 bg-white/6 p-4 backdrop-blur">
-                    <div className="text-[11px] uppercase tracking-[0.24em] text-white/55">{item.tag}</div>
-                    <h2 className="mt-2 font-heading text-lg leading-tight">{item.title}</h2>
-                    <p className="mt-2 text-sm leading-6 text-white/68">{item.description}</p>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerGroup>
           </div>
+
+          {/* Secondary Article (Right) - Dark Theme */}
+          <div className="bg-[#111111] text-white p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
+             {/* Simulating image background */}
+             <div className="absolute inset-0 z-0 opacity-40 grayscale group-hover:opacity-50 transition-opacity duration-500 bg-gradient-to-t from-black to-transparent" />
+             <div className="relative z-10 space-y-4 max-w-sm">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/70">
+                  SPORT
+                </p>
+                <h2 className="font-heading text-3xl sm:text-4xl leading-[1.1] font-medium tracking-tight">
+                  Surfing Under the Northern Lights
+                </h2>
+                <p className="text-sm leading-relaxed text-white/80">
+                  There's a thriving surf scene in Norway's Lofoten Islands, where the waves are cold and the air is colder.
+                </p>
+             </div>
+
+             <div className="relative z-10 flex items-center gap-3 mt-12">
+                <div className="size-8 rounded-full bg-white/20" />
+                <div className="text-[10px] uppercase tracking-widest text-white/70">
+                  By <span className="font-bold text-white">NICK WINGFIELD</span>
+                  <br />
+                  <span className="font-normal opacity-80">Nov 28, 2026</span>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        {/* Bottom Row - Smaller Articles */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 border-t border-b border-border py-6">
+           {homePillars.map((item, idx) => (
+             <div key={item.title} className="flex gap-4 group cursor-pointer">
+               <div className="size-16 shrink-0 bg-muted border border-border grayscale group-hover:grayscale-0 transition-all" />
+               <div className="space-y-1">
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                   {item.tag}
+                 </p>
+                 <h3 className="font-heading text-base leading-snug font-medium text-foreground group-hover:underline decoration-foreground/30 underline-offset-2">
+                   {item.title}
+                 </h3>
+               </div>
+             </div>
+           ))}
         </div>
       </Container>
     </Reveal>

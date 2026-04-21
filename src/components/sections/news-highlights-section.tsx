@@ -1,50 +1,60 @@
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { NewsCard } from "@/components/cards/news-card";
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { Reveal } from "@/components/shared/reveal";
 import { newsItems } from "@/data/news";
 import { siteRoutes } from "@/lib/site";
-import { ButtonLink } from "@/components/ui/button-link";
 
 export function NewsHighlightsSection() {
   const featured = newsItems.filter((item) => item.featured);
   const secondary = newsItems.filter((item) => !item.featured).slice(0, 3);
 
   return (
-    <Reveal as="section" className="py-14 sm:py-18">
-      <Container className="space-y-8">
-        <div className="rounded-[2rem] border border-slate-200/80 bg-white p-5 shadow-[0_16px_40px_rgba(7,32,67,0.08)] sm:p-6">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Destaques"
-              title="Atualidade regional com leitura editorial forte e imediata"
-              description="A Home abre a cobertura noticiosa com noticias em destaque, imagem relevante e estrutura clara de portal digital."
-            />
-            <ButtonLink href={siteRoutes.news} className="w-fit rounded-full">
-              Ver todas as noticias
-              <ArrowRight className="size-4" />
-            </ButtonLink>
-          </div>
+    <Reveal as="section" className="py-10 sm:py-14">
+      <Container>
+        {/* Section header */}
+        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
+          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            Destaques
+          </h2>
+          <Link
+            href={siteRoutes.news}
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Ver todas →
+          </Link>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <NewsCard item={featured[0]} featured />
-          <div className="grid gap-6">
+        {/* Main grid */}
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          {/* Featured - large article */}
+          <div>
+            <NewsCard item={featured[0]} featured />
+          </div>
+
+          {/* Sidebar - stacked articles */}
+          <div className="border-l border-border pl-8 hidden lg:block">
+            <div className="space-y-0">
+              {featured.slice(1).map((item) => (
+                <NewsCard key={item.slug} item={item} />
+              ))}
+            </div>
+          </div>
+          {/* Mobile fallback for sidebar */}
+          <div className="lg:hidden space-y-0">
             {featured.slice(1).map((item) => (
               <NewsCard key={item.slug} item={item} />
             ))}
           </div>
         </div>
 
-        <StaggerGroup className="grid gap-6 md:grid-cols-3">
+        {/* Secondary row */}
+        <div className="grid gap-8 md:grid-cols-3 mt-8 pt-8 border-t border-border">
           {secondary.map((item) => (
-            <StaggerItem key={item.slug}>
-              <NewsCard item={item} />
-            </StaggerItem>
+            <NewsCard key={item.slug} item={item} />
           ))}
-        </StaggerGroup>
+        </div>
       </Container>
     </Reveal>
   );

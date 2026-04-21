@@ -1,13 +1,13 @@
 export const siteConfig = {
-  name: "Algarve Paradise Media",
-  shortName: "TV Algarve",
+  name: "O Portal do Algarve",
+  shortName: "Algarve Portal",
   description:
-    "Plataforma digital regional dedicada a noticias, eventos, comunidade e apoio institucional no Algarve.",
-  url: "https://algarveparadisemedia.pt",
-  email: "geral@algarveparadisemedia.pt",
+    "Portal digital regional dedicado a notícias, política, sociedade e eventos do Algarve, numa abordagem editorial e clássica.",
+  url: "https://algarveportal.pt",
+  email: "redacao@algarveportal.pt",
   phone: "+351 289 000 000",
   location: "Algarve, Portugal",
-  tagline: "A voz do Algarve, em direto para si",
+  tagline: "O grande jornal digital do sul do país.",
   social: {
     instagram: "https://instagram.com/algarveparadisemedia",
     facebook: "https://facebook.com/algarveparadisemedia",

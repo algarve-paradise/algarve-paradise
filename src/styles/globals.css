@@ -49,47 +49,54 @@
 }
 
 :root {
-  --background: oklch(0.983 0.004 250);
-  --foreground: oklch(0.2 0.03 255);
-  --card: oklch(1 0.002 250);
-  --card-foreground: oklch(0.2 0.03 255);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.03 255);
-  --primary: oklch(0.39 0.11 255);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.95 0.012 245);
-  --secondary-foreground: oklch(0.25 0.03 255);
-  --muted: oklch(0.95 0.01 245);
-  --muted-foreground: oklch(0.53 0.02 255);
-  --accent: oklch(0.95 0.013 250);
-  --accent-foreground: oklch(0.25 0.03 255);
-  --destructive: oklch(0.58 0.2 28);
-  --border: oklch(0.91 0.012 250);
-  --input: oklch(0.9 0.012 250);
-  --ring: oklch(0.58 0.11 255);
-  --chart-1: oklch(0.39 0.11 255);
-  --chart-2: oklch(0.64 0.08 220);
-  --chart-3: oklch(0.58 0.18 27);
-  --chart-4: oklch(0.73 0.07 90);
-  --chart-5: oklch(0.55 0.13 260);
-  --radius: 1rem;
-  --sidebar: oklch(0.99 0 0);
-  --sidebar-foreground: oklch(0.2 0.03 255);
-  --sidebar-primary: oklch(0.39 0.11 255);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.95 0.01 245);
-  --sidebar-accent-foreground: oklch(0.25 0.03 255);
-  --sidebar-border: oklch(0.91 0.012 250);
-  --sidebar-ring: oklch(0.58 0.11 255);
-  --color-brand-50: #f3f8fd;
-  --color-brand-100: #dcebf8;
-  --color-brand-200: #bdd8ef;
-  --color-brand-700: #004c99;
-  --color-brand-800: #052247;
-  --color-signal: #cc1439;
-  --color-signal-hover: #b40f31;
-  --color-signal-soft: rgba(204, 20, 57, 0.12);
-  --color-signal-foreground: #94112b;
+  /* === DESIGN TRANSFORMER — ESTÉTICA NYT === */
+  --dt-color-bg: #FFFFFF;
+  --dt-color-surface: #F9F9F9;
+  --dt-color-text: #111111;
+  --dt-color-brand: #111111;
+  --dt-color-accent: #333333;
+  
+  --background: var(--dt-color-bg);
+  --foreground: var(--dt-color-text);
+  --card: var(--dt-color-surface);
+  --card-foreground: var(--dt-color-text);
+  --popover: var(--dt-color-surface);
+  --popover-foreground: var(--dt-color-text);
+  --primary: var(--dt-color-brand);
+  --primary-foreground: #ffffff;
+  --secondary: #EBEBEB;
+  --secondary-foreground: var(--dt-color-text);
+  --muted: #F3F3F3;
+  --muted-foreground: #555555;
+  --accent: #EBEBEB;
+  --accent-foreground: var(--dt-color-text);
+  --destructive: #111111;
+  --border: #E5E5E5;
+  --input: #E5E5E5;
+  --ring: var(--dt-color-brand);
+  --chart-1: var(--dt-color-brand);
+  --chart-2: #333333;
+  --chart-3: #555555;
+  --chart-4: #777777;
+  --chart-5: #999999;
+  --radius: 0rem; /* Bordas retas, sem arredondamento para o look clássico NYT */
+  --sidebar: var(--dt-color-bg);
+  --sidebar-foreground: var(--dt-color-text);
+  --sidebar-primary: var(--dt-color-brand);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #EBEBEB;
+  --sidebar-accent-foreground: var(--dt-color-text);
+  --sidebar-border: #E5E5E5;
+  --sidebar-ring: var(--dt-color-brand);
+  --color-brand-50: #F3F3F3;
+  --color-brand-100: #EBEBEB;
+  --color-brand-200: #E5E5E5;
+  --color-brand-700: var(--dt-color-brand);
+  --color-brand-800: var(--dt-color-text);
+  --color-signal: var(--dt-color-text);
+  --color-signal-hover: #333333;
+  --color-signal-soft: rgba(0, 0, 0, 0.05);
+  --color-signal-foreground: #000000;
 }
 
 .dark {
@@ -137,15 +144,14 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(circle at top left, rgba(0, 76, 153, 0.12), transparent 30%),
-      radial-gradient(circle at top right, rgba(204, 20, 57, 0.08), transparent 24%),
-      linear-gradient(to bottom, #fcfdff, #f5f8fb 40%, #f7fafc);
+    /* [ANTES] Radiais complexos e azulados no fundo */
+    /* [DEPOIS] Fundo super limpo que simula papel (noise) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
     background-attachment: fixed;
   }
 
   ::selection {
-    background: rgba(0, 76, 153, 0.18);
+    background: rgba(0, 0, 0, 0.15);
   }
 }
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Manrope, Space_Grotesk } from "next/font/google";
+import { IBM_Plex_Mono, Manrope, Playfair_Display } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "@/styles/globals.css";
@@ -12,8 +12,8 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const playfair = Playfair_Display({
+  variable: "--font-space-grotesk", /* Mantém o nome da variável por compatibilidade com shadcn/tailwind */
   subsets: ["latin"],
 });
 
@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-PT"
-      className={`${manrope.variable} ${spaceGrotesk.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${playfair.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="font-sans min-h-full flex flex-col bg-background text-foreground">
         <SiteHeader />

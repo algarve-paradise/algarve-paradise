@@ -1,45 +1,37 @@
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { SupportCard } from "@/components/cards/support-card";
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { Reveal } from "@/components/shared/reveal";
 import { supportOptions } from "@/data/support";
 import { siteRoutes } from "@/lib/site";
-import { ButtonLink } from "@/components/ui/button-link";
+import Link from "next/link";
 
 export function SupportSection() {
   return (
-    <Reveal as="section" className="bg-[#031224] py-14 text-white sm:py-18">
-      <Container className="space-y-8">
-        <div className="rounded-[2rem] border border-white/10 bg-white/6 p-5 backdrop-blur sm:p-6">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Doacoes / Patrocinios"
-              title="Este projeto e feito para o Algarve"
-              description="Com o apoio da comunidade e dos seus parceiros, a plataforma ganha forca para levar mais informacao, mais voz e mais proximidade a toda a regiao."
-              className="text-white"
-            />
-            <div className="flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-white/66">
-                <ShieldCheck className="size-3.5 text-[var(--color-signal)]" />
-                Apoio institucional
-              </span>
-              <ButtonLink href={siteRoutes.support} variant="secondary" className="w-fit rounded-full">
-                Conhecer apoio
-                <ArrowRight className="size-4" />
-              </ButtonLink>
-            </div>
-          </div>
+    <Reveal as="section" className="py-10 sm:py-14 border-t border-border">
+      <Container>
+        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
+          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            Apoie o Projeto
+          </h2>
+          <Link
+            href={siteRoutes.support}
+            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Conhecer apoio →
+          </Link>
         </div>
 
-        <StaggerGroup className="grid gap-6 md:grid-cols-2">
+        <p className="text-sm leading-6 text-muted-foreground max-w-xl mb-8">
+          Com o apoio da comunidade e dos seus parceiros, a plataforma ganha força para levar mais informação, mais voz e mais proximidade a toda a região.
+        </p>
+
+        <div className="grid gap-6 md:grid-cols-2">
           {supportOptions.map((item) => (
-            <StaggerItem key={item.title}>
-              <SupportCard item={item} />
-            </StaggerItem>
+            <SupportCard key={item.title} item={item} />
           ))}
-        </StaggerGroup>
+        </div>
       </Container>
     </Reveal>
   );
