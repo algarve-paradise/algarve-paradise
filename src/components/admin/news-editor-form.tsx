@@ -37,11 +37,12 @@ export function NewsEditorForm({
   postId,
   initialValues,
 }: NewsEditorFormProps) {
-  const router = useRouter();
-  const [values, setValues] = useState<NewsFormValues>({
+  const mergedInitialValues = {
     ...defaultValues,
     ...initialValues,
-  });
+  };
+  const router = useRouter();
+  const [values, setValues] = useState<NewsFormValues>(mergedInitialValues);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -113,7 +114,11 @@ export function NewsEditorForm({
       const nextId = data?.id ?? postId;
       setSuccess(mode === "create" ? "Noticia criada com sucesso." : "Noticia atualizada com sucesso.");
 
-      if (nextId) {
+      if (mode === "create") {
+        setValues(defaultValues);
+        setSlugTouched(false);
+        router.replace("/admin");
+      } else if (postId) {
         router.replace(`/admin/noticias/${nextId}`);
       }
 
