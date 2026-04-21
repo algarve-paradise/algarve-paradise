@@ -19,6 +19,8 @@ export const siteRoutes = {
   home: "/",
   about: "/sobre",
   news: "/noticias",
+  login: "/login",
+  admin: "/admin",
   tv: "/tv",
   events: "/eventos",
   community: "/comunidade",

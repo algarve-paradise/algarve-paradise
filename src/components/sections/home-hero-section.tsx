@@ -28,7 +28,7 @@ export function HomeHeroSection() {
                   {homeHero.description}
                 </p>
                 <p className="font-heading text-xl italic leading-tight text-foreground w-1/2 border-l border-border pl-4">
-                  "We will not shrink from this responsibility."
+                  &quot;We will not shrink from this responsibility.&quot;
                 </p>
               </div>
 
@@ -63,7 +63,7 @@ export function HomeHeroSection() {
                   Surfing Under the Northern Lights
                 </h2>
                 <p className="text-sm leading-relaxed text-white/80">
-                  There's a thriving surf scene in Norway's Lofoten Islands, where the waves are cold and the air is colder.
+                  There is a thriving surf scene in Norway&apos;s Lofoten Islands, where the waves are cold and the air is colder.
                 </p>
              </div>
 
@@ -80,7 +80,7 @@ export function HomeHeroSection() {
 
         {/* Bottom Row - Smaller Articles */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 border-t border-b border-border py-6">
-           {homePillars.map((item, idx) => (
+           {homePillars.map((item) => (
              <div key={item.title} className="flex gap-4 group cursor-pointer">
                <div className="size-16 shrink-0 bg-muted border border-border grayscale group-hover:grayscale-0 transition-all" />
                <div className="space-y-1">

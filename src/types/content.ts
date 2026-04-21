@@ -41,7 +41,10 @@ export type NewsCategory =
   | "Seguranca"
   | "Eventos";
 
+export type NewsStatus = "draft" | "published";
+
 export type NewsItem = {
+  id?: string;
   slug: string;
   title: string;
   excerpt: string;
@@ -49,6 +52,12 @@ export type NewsItem = {
   category: NewsCategory;
   href: string;
   imageLabel: string;
+  imageUrl?: string | null;
+  content?: string;
+  authorName?: string | null;
+  sourceName?: string | null;
+  sourceUrl?: string | null;
+  status?: NewsStatus;
   featured?: boolean;
   live?: boolean;
 };
