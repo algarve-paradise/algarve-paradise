@@ -1,10 +1,12 @@
 import { z } from "zod";
 
 import { newsCategories, slugifyNewsTitle } from "@/lib/news-shared";
+import { siteConfig, siteRoutes } from "@/lib/site";
 
 const optionalUrl = z
   .string()
   .trim()
+  .nullable()
   .optional()
   .transform((value) => value || undefined)
   .refine((value) => !value || /^https?:\/\//.test(value), {
@@ -29,11 +31,15 @@ export const newsFormSchema = z.object({
 export type NewsFormValues = z.infer<typeof newsFormSchema>;
 
 export function normalizeNewsFormValues(values: NewsFormValues) {
+  const slug = values.slug?.trim() ? slugifyNewsTitle(values.slug) : slugifyNewsTitle(values.title);
+  const sourceName = values.sourceName?.trim() || siteConfig.name;
+  const sourceUrl = values.sourceUrl || `${siteConfig.url}${siteRoutes.news}/${slug}`;
+
   return {
     ...values,
-    slug: values.slug?.trim() ? slugifyNewsTitle(values.slug) : slugifyNewsTitle(values.title),
-    sourceName: values.sourceName?.trim() || null,
-    sourceUrl: values.sourceUrl || null,
+    slug,
+    sourceName,
+    sourceUrl,
     coverImageUrl: values.coverImageUrl || null,
     coverImagePath: values.coverImagePath?.trim() || null,
   };
