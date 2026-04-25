@@ -60,6 +60,12 @@ export type NewsItem = {
   status?: NewsStatus;
   featured?: boolean;
   live?: boolean;
+  region?: string;
+  aiGenerated?: boolean;
+  aiProvider?: string | null;
+  aiModel?: string | null;
+  aiConfidence?: number | null;
+  aiReviewDeadline?: string | null;
 };
 
 export type VideoItem = {
@@ -74,13 +80,26 @@ export type VideoItem = {
 };
 
 export type EventItem = {
+  id?: string;
   slug: string;
   title: string;
   date: string;
+  startsAt?: string;
+  endsAt?: string | null;
   location: string;
   description: string;
   href: string;
   imageLabel: string;
+  imageUrl?: string | null;
+  sourceName?: string | null;
+  sourceUrl?: string | null;
+  status?: NewsStatus;
+  region?: string;
+  aiGenerated?: boolean;
+  aiProvider?: string | null;
+  aiModel?: string | null;
+  aiConfidence?: number | null;
+  aiReviewDeadline?: string | null;
 };
 
 export type PartnerItem = {

@@ -23,6 +23,13 @@ export type NewsRecord = {
   created_at: string;
   updated_at: string;
   published_at: string | null;
+  region: string | null;
+  ai_generated: boolean | null;
+  ai_provider: string | null;
+  ai_model: string | null;
+  ai_confidence: number | null;
+  ai_review_deadline: string | null;
+  ingest_item_id: string | null;
 };
 
 function mapNewsRecordToItem(record: NewsRecord): NewsItem {
@@ -43,6 +50,12 @@ function mapNewsRecordToItem(record: NewsRecord): NewsItem {
     status: record.status,
     featured: record.featured,
     live: record.live,
+    region: record.region ?? "algarve",
+    aiGenerated: record.ai_generated ?? false,
+    aiProvider: record.ai_provider,
+    aiModel: record.ai_model,
+    aiConfidence: record.ai_confidence,
+    aiReviewDeadline: record.ai_review_deadline,
   };
 }
 
@@ -122,5 +135,26 @@ export async function getAdminSummary() {
     published: items.filter((item) => item.status === "published").length,
     featured: items.filter((item) => item.featured).length,
     live: items.filter((item) => item.live).length,
+    aiPending: items.filter(
+      (item) => item.aiGenerated && item.status === "draft"
+    ).length,
   };
+}
+
+export async function getAiDraftQueue() {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("news_posts")
+    .select("*")
+    .eq("ai_generated", true)
+    .eq("status", "draft")
+    .order("ai_confidence", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Failed to load AI draft queue", error);
+    return [] as NewsItem[];
+  }
+
+  return (data as NewsRecord[]).map(mapNewsRecordToItem);
 }

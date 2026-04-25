@@ -6,7 +6,8 @@ import { PageShell } from "@/components/shared/page-shell";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { events } from "@/data/events";
+import { events as fallbackEvents } from "@/data/events";
+import { getPublishedEvents } from "@/lib/events";
 import { siteRoutes } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
   description: "Agenda regional de eventos da Algarve Paradise Media.",
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const dbEvents = await getPublishedEvents();
+  const events = dbEvents.length ? dbEvents : fallbackEvents;
+
   return (
     <PageShell
       eyebrow="Eventos"
