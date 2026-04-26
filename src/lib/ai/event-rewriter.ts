@@ -1,11 +1,12 @@
 import { z } from "zod";
-import { env } from "@/lib/env";
 import { slugifyNewsTitle } from "@/lib/news-shared";
 import type { RewrittenEvent } from "@/lib/ingest/types";
+import { getAiProvider } from "@/lib/settings";
 
 import { RewriterError } from "./errors";
 import { rewriteWithAnthropic } from "./providers/anthropic";
 import { rewriteWithOpenAI } from "./providers/openai";
+import { rewriteWithGemini } from "./providers/gemini";
 
 export type EventRewriterInput = {
   sourceName: string;
@@ -59,15 +60,18 @@ Devolve apenas o objeto JSON.`;
 }
 
 export async function rewriteEvent(input: EventRewriterInput): Promise<RewrittenEvent> {
-  const provider = env.AI_PROVIDER;
+  const provider = await getAiProvider();
   const userPrompt = buildUserPrompt(input);
 
   let raw: unknown;
   try {
-    raw =
-      provider === "openai"
-        ? await rewriteWithOpenAI({ system: SYSTEM_PROMPT, user: userPrompt })
-        : await rewriteWithAnthropic({ system: SYSTEM_PROMPT, user: userPrompt });
+    if (provider === "openai") {
+      raw = await rewriteWithOpenAI({ system: SYSTEM_PROMPT, user: userPrompt });
+    } else if (provider === "gemini") {
+      raw = await rewriteWithGemini({ system: SYSTEM_PROMPT, user: userPrompt });
+    } else {
+      raw = await rewriteWithAnthropic({ system: SYSTEM_PROMPT, user: userPrompt });
+    }
   } catch (error) {
     throw new RewriterError(
       `Provider ${provider} falhou (evento): ${(error as Error).message}`,

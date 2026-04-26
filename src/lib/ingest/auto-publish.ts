@@ -8,8 +8,8 @@
  *
  * Runs against both `news_posts` and `events`.
  */
-import { env } from "@/lib/env";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { getAppSettings } from "@/lib/settings";
 import { bumpSourceCounter } from "./repository";
 
 export type AutoPublishReport = {
@@ -28,9 +28,10 @@ type TablePublishReport = {
 
 export async function runAutoPublish(): Promise<AutoPublishReport> {
   const startedAt = new Date();
+  const settings = await getAppSettings();
 
-  const news = await publishExpiredDrafts("news_posts");
-  const events = await publishExpiredDrafts("events");
+  const news = await publishExpiredDrafts("news_posts", settings.autoPublishMinConfidence);
+  const events = await publishExpiredDrafts("events", settings.autoPublishMinConfidence);
 
   return {
     startedAt: startedAt.toISOString(),
@@ -40,7 +41,10 @@ export async function runAutoPublish(): Promise<AutoPublishReport> {
   };
 }
 
-async function publishExpiredDrafts(table: "news_posts" | "events"): Promise<TablePublishReport> {
+async function publishExpiredDrafts(
+  table: "news_posts" | "events",
+  minConfidence: number
+): Promise<TablePublishReport> {
   const report: TablePublishReport = {
     candidates: 0,
     published: 0,
@@ -67,7 +71,7 @@ async function publishExpiredDrafts(table: "news_posts" | "events"): Promise<Tab
 
   for (const row of candidates ?? []) {
     const confidence = Number(row.ai_confidence ?? 0);
-    if (confidence < env.AUTO_PUBLISH_MIN_CONFIDENCE) {
+    if (confidence < minConfidence) {
       report.skippedLowConfidence += 1;
       continue;
     }

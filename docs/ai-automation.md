@@ -38,17 +38,34 @@ sem capa e o revisor escolhe.
 
 | Var | Default | Descricao |
 |---|---|---|
-| `AI_PROVIDER` | `anthropic` | `anthropic` ou `openai` |
+| `AI_PROVIDER` | `anthropic` | Provider padrao (overridable em `/admin/configuracoes`): `anthropic` / `openai` / `gemini` |
 | `ANTHROPIC_API_KEY` | — | Obrigatoria se provider = anthropic |
 | `OPENAI_API_KEY` | — | Obrigatoria se provider = openai |
+| `GEMINI_API_KEY` | — | Obrigatoria se provider = gemini |
+| `ANTHROPIC_MODEL` | `claude-haiku-4-5-20251001` | Modelo Claude |
+| `OPENAI_MODEL` | `gpt-4o-mini` | Modelo OpenAI |
+| `GEMINI_MODEL` | `gemini-2.0-flash` | Modelo Gemini |
 | `CRON_SECRET` | — | Obrigatoria. `openssl rand -hex 32` |
-| `AUTO_PUBLISH_AFTER_HOURS` | `6` | Janela de revisao humana |
-| `AUTO_PUBLISH_MIN_CONFIDENCE` | `0.75` | 0 = publica tudo apos a janela |
+| `AUTO_PUBLISH_AFTER_HOURS` | `6` | Janela de revisao humana (overridable no admin) |
+| `AUTO_PUBLISH_MIN_CONFIDENCE` | `0.75` | 0 = publica tudo apos a janela (overridable no admin) |
 | `INGEST_MAX_ITEMS_PER_SOURCE` | `5` | Limite por fonte por run |
 | `INGEST_MAX_SOURCES_PER_RUN` | `10` | Limite de fontes por run |
 | `IMAGE_PROVIDER` | `pexels` | `pexels`, `unsplash` ou `none` |
 | `PEXELS_API_KEY` | — | Necessario se provider = pexels |
 | `UNSPLASH_ACCESS_KEY` | — | Necessario se provider = unsplash |
+
+### Configuracao em runtime (sem deploy)
+
+A pagina `/admin/configuracoes` permite trocar:
+
+- O provider de IA padrao (entre os tres providers cujas API keys foram
+  configuradas no Vercel).
+- A janela de auto-publicacao em horas.
+- A confianca minima para auto-publicar.
+
+Os valores ficam guardados na tabela `app_settings` e tem prioridade
+sobre as env vars. Reverter um valor para o default e tao simples como
+remover a linha correspondente em `app_settings` via SQL.
 
 ## Setup
 
@@ -58,6 +75,7 @@ sem capa e o revisor escolhe.
 psql "$DATABASE_URL" -f supabase/migrations/0001_ai_ingestion.sql
 psql "$DATABASE_URL" -f supabase/migrations/0002_seed_algarve_sources.sql
 psql "$DATABASE_URL" -f supabase/migrations/0003_events_and_quality.sql
+psql "$DATABASE_URL" -f supabase/migrations/0004_app_settings.sql
 ```
 
 ### 2. Cadastrar fontes de eventos

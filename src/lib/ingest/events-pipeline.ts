@@ -7,6 +7,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { rewriteEvent } from "@/lib/ai/event-rewriter";
 import { findCoverImage } from "@/lib/images";
 import { slugifyNewsTitle } from "@/lib/news-shared";
+import { getAppSettings } from "@/lib/settings";
 
 import { politeFetch } from "./fetcher";
 import { parseICal } from "./parsers/ical";
@@ -146,9 +147,11 @@ async function rewriteAndStoreEvent(
     });
 
     const cover = await findCoverImage(`${rewritten.title} ${rewritten.location}`);
+    const settings = await getAppSettings();
+    const provider = settings.aiProvider;
 
     const supabase = createSupabaseAdminClient();
-    const reviewDeadline = new Date(Date.now() + env.AUTO_PUBLISH_AFTER_HOURS * 3600 * 1000);
+    const reviewDeadline = new Date(Date.now() + settings.autoPublishAfterHours * 3600 * 1000);
     const slug = await ensureUniqueSlug(rewritten.slug || slugifyNewsTitle(rewritten.title), "events");
 
     const description = cover
@@ -173,8 +176,8 @@ async function rewriteAndStoreEvent(
         published_at: null,
         region: source.region,
         ai_generated: true,
-        ai_provider: env.AI_PROVIDER,
-        ai_model: env.AI_PROVIDER === "openai" ? env.OPENAI_MODEL : env.ANTHROPIC_MODEL,
+        ai_provider: provider,
+        ai_model: provider === "openai" ? env.OPENAI_MODEL : provider === "gemini" ? env.GEMINI_MODEL : env.ANTHROPIC_MODEL,
         ai_confidence: rewritten.confidence,
         ai_review_deadline: reviewDeadline.toISOString(),
         ingest_item_id: item.id,

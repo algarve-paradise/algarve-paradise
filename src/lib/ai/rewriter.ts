@@ -9,14 +9,15 @@
  * Selection is controlled by the AI_PROVIDER env var.
  */
 import { z } from "zod";
-import { env } from "@/lib/env";
 import type { NewsCategory } from "@/types/content";
 import type { RewrittenArticle } from "@/lib/ingest/types";
 import { newsCategories, slugifyNewsTitle } from "@/lib/news-shared";
+import { getAiProvider } from "@/lib/settings";
 
 import { RewriterError } from "./errors";
 import { rewriteWithAnthropic } from "./providers/anthropic";
 import { rewriteWithOpenAI } from "./providers/openai";
+import { rewriteWithGemini } from "./providers/gemini";
 
 export { RewriterError } from "./errors";
 
@@ -85,15 +86,18 @@ Devolve apenas o objeto JSON, sem prefixos, sem suffixos, sem code fences.`;
 }
 
 export async function rewriteArticle(input: RewriterInput): Promise<RewrittenArticle> {
-  const provider = env.AI_PROVIDER;
+  const provider = await getAiProvider();
   const userPrompt = buildUserPrompt(input);
 
   let raw: unknown;
   try {
-    raw =
-      provider === "openai"
-        ? await rewriteWithOpenAI({ system: SYSTEM_PROMPT, user: userPrompt })
-        : await rewriteWithAnthropic({ system: SYSTEM_PROMPT, user: userPrompt });
+    if (provider === "openai") {
+      raw = await rewriteWithOpenAI({ system: SYSTEM_PROMPT, user: userPrompt });
+    } else if (provider === "gemini") {
+      raw = await rewriteWithGemini({ system: SYSTEM_PROMPT, user: userPrompt });
+    } else {
+      raw = await rewriteWithAnthropic({ system: SYSTEM_PROMPT, user: userPrompt });
+    }
   } catch (error) {
     throw new RewriterError(
       `Provider ${provider} falhou: ${(error as Error).message}`,

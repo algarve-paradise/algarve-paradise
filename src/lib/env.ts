@@ -12,13 +12,15 @@ const requiredServerEnv = {
 // platform still boots without an AI key — the cron route validates them
 // at runtime and returns 503 if not configured.
 const ingestionEnv = {
-  // Provider selection. "anthropic" (default) uses Claude Haiku 4.5;
-  // "openai" uses GPT-4o-mini.
-  AI_PROVIDER: (process.env.AI_PROVIDER ?? "anthropic") as "anthropic" | "openai",
+  // Default provider when no override exists in app_settings.
+  // "anthropic" -> Claude Haiku 4.5 / "openai" -> GPT-4o-mini / "gemini" -> Gemini 2.0 Flash.
+  AI_PROVIDER: (process.env.AI_PROVIDER ?? "anthropic") as "anthropic" | "openai" | "gemini",
   ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ?? "",
   ANTHROPIC_MODEL: process.env.ANTHROPIC_MODEL ?? "claude-haiku-4-5-20251001",
   OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "",
   OPENAI_MODEL: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? "",
+  GEMINI_MODEL: process.env.GEMINI_MODEL ?? "gemini-2.0-flash",
 
   // Cron auth: required header X-Cron-Secret on /api/cron/* routes.
   CRON_SECRET: process.env.CRON_SECRET ?? "",

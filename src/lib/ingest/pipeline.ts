@@ -10,6 +10,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { rewriteArticle } from "@/lib/ai/rewriter";
 import { findCoverImage } from "@/lib/images";
 import { slugifyNewsTitle } from "@/lib/news-shared";
+import { getAppSettings } from "@/lib/settings";
 
 import { politeFetch } from "./fetcher";
 import { parseFeed } from "./parsers/rss";
@@ -227,10 +228,11 @@ async function rewriteAndStore(
     });
 
     const cover = await findCoverImage(rewritten.title);
+    const settings = await getAppSettings();
 
     const supabase = createSupabaseAdminClient();
     const reviewDeadline = new Date(
-      Date.now() + env.AUTO_PUBLISH_AFTER_HOURS * 3600 * 1000
+      Date.now() + settings.autoPublishAfterHours * 3600 * 1000
     );
 
     const slug = await ensureUniqueSlug(rewritten.slug || slugifyNewsTitle(rewritten.title), "news_posts");
@@ -256,8 +258,8 @@ async function rewriteAndStore(
         published_at: null,
         region: source.region,
         ai_generated: true,
-        ai_provider: env.AI_PROVIDER,
-        ai_model: env.AI_PROVIDER === "openai" ? env.OPENAI_MODEL : env.ANTHROPIC_MODEL,
+        ai_provider: settings.aiProvider,
+        ai_model: modelForProvider(settings.aiProvider),
         ai_confidence: rewritten.confidence,
         ai_review_deadline: reviewDeadline.toISOString(),
         ingest_item_id: item.id,
@@ -282,6 +284,12 @@ async function rewriteAndStore(
     });
     return "failed";
   }
+}
+
+function modelForProvider(provider: "anthropic" | "openai" | "gemini"): string {
+  if (provider === "openai") return env.OPENAI_MODEL;
+  if (provider === "gemini") return env.GEMINI_MODEL;
+  return env.ANTHROPIC_MODEL;
 }
 
 export async function ensureUniqueSlug(base: string, table: "news_posts" | "events"): Promise<string> {
