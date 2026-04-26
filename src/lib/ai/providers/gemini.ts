@@ -8,7 +8,7 @@ type GeminiArgs = {
 
 type GeminiResponse = {
   candidates?: Array<{
-    content?: { parts?: Array<{ text?: string }> };
+    content?: { parts?: Array<{ text?: string; thought?: boolean }> };
     finishReason?: string;
   }>;
   promptFeedback?: { blockReason?: string };
@@ -57,8 +57,11 @@ export async function rewriteWithGemini({ system, user }: GeminiArgs): Promise<u
     throw new Error(`Gemini bloqueou o pedido: ${payload.promptFeedback.blockReason}`);
   }
 
+  // gemini-2.5+ returns "thought" parts (internal reasoning) alongside the
+  // final response. Only the non-thought parts contain the JSON we need.
   const text = payload.candidates
     ?.flatMap((candidate) => candidate.content?.parts ?? [])
+    .filter((part) => !part.thought)
     .map((part) => part.text ?? "")
     .join("\n")
     .trim();
