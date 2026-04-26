@@ -125,6 +125,14 @@ export async function rewriteArticle(input: RewriterInput): Promise<RewrittenArt
     );
   }
 
+  // Normalise category casing before schema validation — models sometimes
+  // return lowercase or accented variants (e.g. "segurança", "municipios").
+  if (raw && typeof raw === "object" && "category" in raw) {
+    const cat = String((raw as Record<string, unknown>).category ?? "");
+    const match = newsCategories.find((c) => c.toLowerCase() === cat.toLowerCase());
+    if (match) (raw as Record<string, unknown>).category = match;
+  }
+
   const parsed = rewriterOutputSchema.safeParse(raw);
   if (!parsed.success) {
     throw new RewriterError(

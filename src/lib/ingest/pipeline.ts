@@ -85,16 +85,17 @@ export async function runIngestionPipeline(options: RunOptions = {}): Promise<Ru
         if (aiBudgetRemaining <= 0) break;
         aiBudgetRemaining -= 1;
 
-        const result = await rewriteAndStore(source, item);
-        if (result === "rewritten") {
+        const { outcome, error: itemError } = await rewriteAndStore(source, item);
+        if (outcome === "rewritten") {
           report.rewrittenCount += 1;
           await bumpSourceCounter(source.id, "rewritten");
-        } else if (result === "rejected") {
+        } else if (outcome === "rejected") {
           report.rejectedCount += 1;
           await bumpSourceCounter(source.id, "rejected");
         } else {
           report.failedCount += 1;
           await bumpSourceCounter(source.id, "failed");
+          if (itemError) report.errors.push(`[${source.name}] ${itemError}`);
         }
       }
     } catch (error) {
@@ -217,12 +218,12 @@ function isPlausibleItem(item: RawIngestedItem): boolean {
   return true;
 }
 
-type RewriteOutcome = "rewritten" | "rejected" | "failed";
+type RewriteResult = { outcome: "rewritten" | "rejected" | "failed"; error?: string };
 
 async function rewriteAndStore(
   source: IngestSourceRow,
   item: IngestItemRow
-): Promise<RewriteOutcome> {
+): Promise<RewriteResult> {
   try {
     const rewritten = await rewriteArticle({
       sourceName: source.name,
@@ -279,21 +280,17 @@ async function rewriteAndStore(
       .single();
 
     if (error) {
-      await markIngestItem(item.id, {
-        status: "failed",
-        failure_reason: `Insert news_posts: ${error.message}`,
-      });
-      return "failed";
+      const msg = `Insert news_posts: ${error.message}`;
+      await markIngestItem(item.id, { status: "failed", failure_reason: msg });
+      return { outcome: "failed", error: msg };
     }
 
     await markIngestItem(item.id, { status: "rewritten", news_post_id: data.id });
-    return "rewritten";
+    return { outcome: "rewritten" };
   } catch (error) {
-    await markIngestItem(item.id, {
-      status: "failed",
-      failure_reason: (error as Error).message.slice(0, 500),
-    });
-    return "failed";
+    const msg = (error as Error).message.slice(0, 500);
+    await markIngestItem(item.id, { status: "failed", failure_reason: msg });
+    return { outcome: "failed", error: msg };
   }
 }
 
