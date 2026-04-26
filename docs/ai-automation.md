@@ -92,9 +92,13 @@ values
 
 `vercel.json` ja inclui:
 
-- `0 6,12,18,22 * * *` — `/api/cron/ingest`     (noticias, 4x/dia)
-- `15 7,19 * * *`     — `/api/cron/events`      (eventos, 2x/dia)
-- `30 * * * *`        — `/api/cron/auto-publish` (cada hora)
+- `0 8 * * *`  — `/api/cron/ingest`     (noticias, 1x/dia, 08:00 UTC)
+- `0 9 * * *`  — `/api/cron/events`     (eventos, 1x/dia, 09:00 UTC)
+- `0 10 * * *` — `/api/cron/auto-publish` (1x/dia, 10:00 UTC)
+
+> **Nota (Vercel Hobby):** O plano Hobby limita cron jobs a uma execucao por
+> dia. Os horarios acima respeitam esse limite. Para execucoes mais frequentes
+> (ex: ingest de hora em hora), faca upgrade para o plano Pro.
 
 ### 4. Smoke tests
 

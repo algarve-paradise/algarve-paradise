@@ -3,15 +3,15 @@
   "crons": [
     {
       "path": "/api/cron/ingest",
-      "schedule": "0 6,12,18,22 * * *"
+      "schedule": "0 8 * * *"
     },
     {
       "path": "/api/cron/events",
-      "schedule": "15 7,19 * * *"
+      "schedule": "0 9 * * *"
     },
     {
       "path": "/api/cron/auto-publish",
-      "schedule": "30 * * * *"
+      "schedule": "0 10 * * *"
     }
   ]
 }
