@@ -76,7 +76,7 @@ export async function runIngestionPipeline(options: RunOptions = {}): Promise<Ru
     report.sourcesProcessed += 1;
 
     try {
-      const newItems = await collectFromSource(source);
+      const newItems = await collectFromSource(source, options.dryRun);
       report.newRawItems += newItems.length;
 
       if (options.dryRun) continue;
@@ -108,26 +108,26 @@ export async function runIngestionPipeline(options: RunOptions = {}): Promise<Ru
   return report;
 }
 
-async function collectFromSource(source: IngestSourceRow): Promise<IngestItemRow[]> {
+async function collectFromSource(source: IngestSourceRow, dryRun = false): Promise<IngestItemRow[]> {
   if (source.type === "rss") {
-    return collectFromRss(source);
+    return collectFromRss(source, dryRun);
   }
   if (source.type === "sitemap") {
-    return collectFromSitemap(source);
+    return collectFromSitemap(source, dryRun);
   }
   if (source.type === "html") {
-    return collectFromSingleHtml(source);
+    return collectFromSingleHtml(source, dryRun);
   }
   // Other types (ical/api) handled by their dedicated pipelines.
-  await markSourceFetched(source.id, `Tipo de fonte nao suportado neste pipeline: ${source.type}`);
+  if (!dryRun) await markSourceFetched(source.id, `Tipo de fonte nao suportado neste pipeline: ${source.type}`);
   return [];
 }
 
-async function collectFromRss(source: IngestSourceRow): Promise<IngestItemRow[]> {
+async function collectFromRss(source: IngestSourceRow, dryRun = false): Promise<IngestItemRow[]> {
   const fetched = await politeFetch(source.url, { ifModifiedSince: source.last_fetched_at });
 
   if (fetched.notModified) {
-    await markSourceFetched(source.id, null);
+    if (!dryRun) await markSourceFetched(source.id, null);
     return [];
   }
   if (!fetched.ok) {
@@ -138,16 +138,18 @@ async function collectFromRss(source: IngestSourceRow): Promise<IngestItemRow[]>
     .slice(0, env.INGEST_MAX_ITEMS_PER_SOURCE)
     .filter(isPlausibleItem);
 
+  if (dryRun) return items as unknown as IngestItemRow[];
+
   const inserted = await insertNewIngestItems(source, items);
   await markSourceFetched(source.id, null);
   return inserted;
 }
 
-async function collectFromSitemap(source: IngestSourceRow): Promise<IngestItemRow[]> {
+async function collectFromSitemap(source: IngestSourceRow, dryRun = false): Promise<IngestItemRow[]> {
   const fetched = await politeFetch(source.url, { ifModifiedSince: source.last_fetched_at });
 
   if (fetched.notModified) {
-    await markSourceFetched(source.id, null);
+    if (!dryRun) await markSourceFetched(source.id, null);
     return [];
   }
   if (!fetched.ok) {
@@ -170,16 +172,18 @@ async function collectFromSitemap(source: IngestSourceRow): Promise<IngestItemRo
     }
   }
 
+  if (dryRun) return items as unknown as IngestItemRow[];
+
   const inserted = await insertNewIngestItems(source, items);
   await markSourceFetched(source.id, null);
   return inserted;
 }
 
-async function collectFromSingleHtml(source: IngestSourceRow): Promise<IngestItemRow[]> {
+async function collectFromSingleHtml(source: IngestSourceRow, dryRun = false): Promise<IngestItemRow[]> {
   const fetched = await politeFetch(source.url, { ifModifiedSince: source.last_fetched_at });
 
   if (fetched.notModified) {
-    await markSourceFetched(source.id, null);
+    if (!dryRun) await markSourceFetched(source.id, null);
     return [];
   }
   if (!fetched.ok) {
@@ -188,11 +192,13 @@ async function collectFromSingleHtml(source: IngestSourceRow): Promise<IngestIte
 
   const extracted = extractArticle(fetched.body);
   if (!extracted) {
-    await markSourceFetched(source.id, "Nao foi possivel extrair artigo do HTML.");
+    if (!dryRun) await markSourceFetched(source.id, "Nao foi possivel extrair artigo do HTML.");
     return [];
   }
 
   const item = articleToRawItem(source.url, extracted, null);
+  if (dryRun) return isPlausibleItem(item) ? [item] as unknown as IngestItemRow[] : [];
+
   const inserted = isPlausibleItem(item) ? await insertNewIngestItems(source, [item]) : [];
   await markSourceFetched(source.id, null);
   return inserted;
