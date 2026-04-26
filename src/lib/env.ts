@@ -20,7 +20,7 @@ const ingestionEnv = {
   OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "",
   OPENAI_MODEL: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
   GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? "",
-  GEMINI_MODEL: process.env.GEMINI_MODEL ?? "gemini-2.0-flash",
+  GEMINI_MODEL: process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
 
   // Cron auth: required header X-Cron-Secret on /api/cron/* routes.
   CRON_SECRET: process.env.CRON_SECRET ?? "",
