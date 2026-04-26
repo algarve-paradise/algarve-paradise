@@ -194,7 +194,12 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                   {aiEventQueue.map((event) => (
                     <tr key={event.id} className="border-b border-border/70 align-top">
                       <td className="py-4 pr-6">
-                        <div className="font-medium">{event.title}</div>
+                        <Link
+                          href={`/admin/eventos/${event.id}`}
+                          className="font-medium hover:underline"
+                        >
+                          {event.title}
+                        </Link>
                         <div className="max-w-md text-sm text-muted-foreground">
                           {event.description}
                         </div>

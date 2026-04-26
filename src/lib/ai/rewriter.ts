@@ -37,6 +37,8 @@ export const rewriterOutputSchema = z.object({
   category: z.enum(newsCategories as [NewsCategory, ...NewsCategory[]]),
   slug: z.string().trim().min(3).max(80).optional(),
   confidence: z.number().min(0).max(1).optional(),
+  needsImage: z.boolean().optional(),
+  imageQuery: z.string().trim().min(2).max(120).optional(),
 });
 
 export type RewriterOutput = z.infer<typeof rewriterOutputSchema>;
@@ -54,6 +56,21 @@ REGRAS OBRIGATORIAS:
 7. O corpo (content) deve ter entre 3 e 5 paragrafos curtos, separados por linha em branco.
 8. NAO uses markdown, apenas texto puro com paragrafos separados por \\n\\n.
 
+DECISAO DE IMAGEM:
+Decides se a noticia beneficia de uma foto de capa de banco de imagens.
+Devolve "needsImage": true APENAS quando:
+  - O tema e visualmente identificavel (turismo, evento publico, obras, natureza,
+    eventos culturais, gastronomia, desporto, urbanismo, transportes).
+  - Uma foto generica relevante NAO induz o leitor em erro.
+Devolve "needsImage": false quando:
+  - E uma noticia institucional, administrativa, juridica, eleitoral, financeira,
+    politica, ou de pessoas/organizacoes especificas (uma foto stock generica seria
+    desonesta ou enganadora).
+  - O texto original e curto / faltam factos para descrever uma cena visual segura.
+Quando needsImage = true, sugere "imageQuery" — 2 a 5 palavras em ingles para
+pesquisar no banco de imagens (ex: "algarve coastline", "lisbon city hall",
+"beach festival crowd"). Sem nomes proprios.
+
 Devolves SEMPRE um objeto JSON valido com este formato exato:
 {
   "title": "string",
@@ -61,10 +78,13 @@ Devolves SEMPRE um objeto JSON valido com este formato exato:
   "content": "string",
   "category": "string",
   "slug": "string opcional",
-  "confidence": 0.0 a 1.0
+  "confidence": 0.0 a 1.0,
+  "needsImage": true | false,
+  "imageQuery": "string em ingles (so quando needsImage=true)"
 }
 
-A confidence reflete o quao confortavel estas com a reescrita. Usa < 0.5 quando faltam factos chave ou o original e ambiguo.`;
+A confidence reflete o quao confortavel estas com a reescrita. Usa < 0.5 quando
+faltam factos chave ou o original e ambiguo.`;
 
 export function buildUserPrompt(input: RewriterInput): string {
   const datePart = input.publishedAt
@@ -124,6 +144,8 @@ export async function rewriteArticle(input: RewriterInput): Promise<RewrittenArt
     category: parsed.data.category,
     slug,
     confidence: parsed.data.confidence ?? 0.6,
+    needsImage: parsed.data.needsImage ?? false,
+    imageQuery: parsed.data.imageQuery,
   };
 }
 

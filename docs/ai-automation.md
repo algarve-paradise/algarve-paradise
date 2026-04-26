@@ -150,6 +150,25 @@ A IA e instruida no system prompt a:
 sao copiadas das fontes originais — vem do Pexels/Unsplash com credito
 visivel ("Foto: Nome / Pexels") anexado ao corpo.
 
+## Decisao automatica de imagem
+
+A IA decide se cada item beneficia de uma capa de banco de imagens. O
+prompt instrui a devolver `needsImage: true | false` mais um `imageQuery`
+em ingles quando true. O pipeline so chama o provider de imagens quando
+needsImage = true, evitando attaching foto stock a noticias institucionais
+(eleicoes, decisoes camararias, financas) onde uma imagem generica seria
+desonesta.
+
+Heuristica do prompt:
+- TRUE para temas visuais: turismo, festivais, gastronomia, desporto,
+  obras, natureza, mercados.
+- FALSE para temas administrativos, juridicos, eleitorais, financeiros,
+  ou quando o original nao tem factos suficientes para descrever uma
+  cena visual segura.
+
+O admin pode sempre adicionar/remover/substituir manualmente a capa em
+`/admin/noticias/[id]` (ja existia) ou `/admin/eventos/[id]` (novo).
+
 ## Custos estimados
 
 Por noticia (~500 in + ~600 out tokens) ou evento (~300 in + ~250 out):

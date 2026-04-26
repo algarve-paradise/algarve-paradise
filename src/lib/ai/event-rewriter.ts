@@ -24,6 +24,8 @@ const eventOutputSchema = z.object({
   location: z.string().trim().min(2).max(200),
   slug: z.string().trim().min(3).max(80).optional(),
   confidence: z.number().min(0).max(1).optional(),
+  needsImage: z.boolean().optional(),
+  imageQuery: z.string().trim().min(2).max(120).optional(),
 });
 
 const SYSTEM_PROMPT = `Es um editor profissional do portal regional "O Portal do Algarve".
@@ -37,13 +39,24 @@ REGRAS OBRIGATORIAS:
 5. O local deve ser conciso (cidade ou recinto + cidade).
 6. NAO uses markdown.
 
+DECISAO DE IMAGEM:
+Decides se o evento beneficia de uma foto de capa de banco de imagens.
+Devolve "needsImage": true para eventos visuais (festivais, concertos, feiras
+gastronomicas, exposicoes, festas, mercados, desporto ao ar livre).
+Devolve "needsImage": false para reunioes institucionais, sessoes de camara,
+assembleias, conferencias academicas ou eventos sem dimensao visual clara.
+Quando true, sugere "imageQuery" — 2 a 5 palavras em ingles, sem nomes proprios
+(ex: "outdoor music festival", "seafood market", "wine tasting event").
+
 Devolves SEMPRE um objeto JSON valido:
 {
   "title": "string",
   "description": "string",
   "location": "string",
   "slug": "string opcional",
-  "confidence": 0.0 a 1.0
+  "confidence": 0.0 a 1.0,
+  "needsImage": true | false,
+  "imageQuery": "string em ingles (so quando needsImage=true)"
 }`;
 
 function buildUserPrompt(input: EventRewriterInput): string {
@@ -97,5 +110,7 @@ export async function rewriteEvent(input: EventRewriterInput): Promise<Rewritten
     location: parsed.data.location,
     slug,
     confidence: parsed.data.confidence ?? 0.6,
+    needsImage: parsed.data.needsImage ?? false,
+    imageQuery: parsed.data.imageQuery,
   };
 }

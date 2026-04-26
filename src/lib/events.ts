@@ -90,6 +90,15 @@ export async function getAdminEventsList() {
   return (data as EventRecord[]).map(mapEventRecordToItem);
 }
 
+export async function getAdminEventById(id: string) {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.from("events").select("*").eq("id", id).maybeSingle();
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data ? mapEventRecordToItem(data as EventRecord) : null;
+}
+
 export async function getAiEventDraftQueue() {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase

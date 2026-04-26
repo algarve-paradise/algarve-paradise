@@ -146,7 +146,9 @@ async function rewriteAndStoreEvent(
       endsAt,
     });
 
-    const cover = await findCoverImage(`${rewritten.title} ${rewritten.location}`);
+    const cover = rewritten.needsImage
+      ? await findCoverImage(rewritten.imageQuery ?? `${rewritten.title} ${rewritten.location}`)
+      : null;
     const settings = await getAppSettings();
     const provider = settings.aiProvider;
 

@@ -227,7 +227,12 @@ async function rewriteAndStore(
       publishedAt: item.raw_published_at ? new Date(item.raw_published_at) : null,
     });
 
-    const cover = await findCoverImage(rewritten.title);
+    // The AI itself decides if a stock cover is appropriate. Skipping the
+    // lookup saves an API call and avoids attaching a misleading photo to
+    // institutional / administrative items.
+    const cover = rewritten.needsImage
+      ? await findCoverImage(rewritten.imageQuery ?? rewritten.title)
+      : null;
     const settings = await getAppSettings();
 
     const supabase = createSupabaseAdminClient();

@@ -80,6 +80,10 @@ export type RewrittenArticle = {
   category: NewsCategory;
   slug: string;
   confidence: number;
+  /** AI's call on whether a stock cover photo should be attached. */
+  needsImage: boolean;
+  /** Optional refined query the AI suggests for stock-photo search. */
+  imageQuery?: string;
 };
 
 /** Output expected from the event AI rewriter. */
@@ -89,4 +93,6 @@ export type RewrittenEvent = {
   location: string;
   slug: string;
   confidence: number;
+  needsImage: boolean;
+  imageQuery?: string;
 };
