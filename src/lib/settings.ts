@@ -20,12 +20,14 @@ export type AppSettings = {
   aiProvider: AiProvider;
   autoPublishAfterHours: number;
   autoPublishMinConfidence: number;
+  aiEnabled: boolean;
 };
 
 const SETTING_KEYS = {
   aiProvider: "ai_provider",
   autoPublishAfterHours: "auto_publish_after_hours",
   autoPublishMinConfidence: "auto_publish_min_confidence",
+  aiEnabled: "ai_enabled",
 } as const;
 
 type SettingKey = (typeof SETTING_KEYS)[keyof typeof SETTING_KEYS];
@@ -68,7 +70,10 @@ export const getAppSettings = cache(async (): Promise<AppSettings> => {
       ? rawConfidence
       : env.AUTO_PUBLISH_MIN_CONFIDENCE;
 
-  return { aiProvider, autoPublishAfterHours, autoPublishMinConfidence };
+  const rawAiEnabled = overrides.get(SETTING_KEYS.aiEnabled);
+  const aiEnabled: boolean = typeof rawAiEnabled === "boolean" ? rawAiEnabled : true;
+
+  return { aiProvider, autoPublishAfterHours, autoPublishMinConfidence, aiEnabled };
 });
 
 export async function getAiProvider(): Promise<AiProvider> {

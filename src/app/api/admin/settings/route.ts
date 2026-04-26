@@ -8,6 +8,7 @@ const patchSchema = z.object({
   aiProvider: z.enum(aiProviders).optional(),
   autoPublishAfterHours: z.number().min(0).max(168).optional(),
   autoPublishMinConfidence: z.number().min(0).max(1).optional(),
+  aiEnabled: z.boolean().optional(),
 });
 
 export async function PATCH(request: Request) {
@@ -42,6 +43,9 @@ export async function PATCH(request: Request) {
         user.id
       )
     );
+  }
+  if (parsed.data.aiEnabled !== undefined) {
+    ops.push(setAppSetting(SETTINGS_KEYS.aiEnabled, parsed.data.aiEnabled, user.id));
   }
 
   try {

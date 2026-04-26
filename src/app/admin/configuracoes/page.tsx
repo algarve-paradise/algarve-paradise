@@ -28,7 +28,15 @@ export default async function AdminSettingsPage() {
           <CardTitle>Pipeline de IA</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <SettingsForm initial={settings} providerStatus={providerStatus} />
+          <SettingsForm
+            initial={{
+              aiProvider: settings.aiProvider,
+              autoPublishAfterHours: settings.autoPublishAfterHours,
+              autoPublishMinConfidence: settings.autoPublishMinConfidence,
+              aiEnabled: settings.aiEnabled,
+            }}
+            providerStatus={providerStatus}
+          />
         </CardContent>
       </Card>
     </AdminShell>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { isAuthorizedCron } from "@/lib/cron-auth";
 import { runIngestionPipeline } from "@/lib/ingest/pipeline";
+import { getAppSettings } from "@/lib/settings";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,6 +22,11 @@ export const dynamic = "force-dynamic";
 async function handle(request: Request) {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const settings = await getAppSettings();
+  if (!settings.aiEnabled) {
+    return NextResponse.json({ skipped: true, reason: "AI automation is disabled" });
   }
 
   const url = new URL(request.url);

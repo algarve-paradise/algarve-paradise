@@ -10,27 +10,82 @@ import { getAdminNewsList, getAdminSummary, getAiDraftQueue } from "@/lib/news";
 import { getAiEventDraftQueue } from "@/lib/events";
 
 const ITEMS_PER_PAGE = 8;
+const AI_QUEUE_PER_PAGE = 5;
 
 type AdminDashboardPageProps = {
   searchParams: Promise<{
     filter?: string;
     page?: string;
+    aiPage?: string;
+    evPage?: string;
   }>;
 };
 
-function buildDashboardHref(filter: string, page: number) {
+type Params = {
+  filter?: string;
+  page?: string;
+  aiPage?: string;
+  evPage?: string;
+};
+
+function buildHref(current: Params, overrides: Partial<Params>) {
+  const merged = { ...current, ...overrides };
   const params = new URLSearchParams();
-
-  if (filter !== "all") {
-    params.set("filter", filter);
-  }
-
-  if (page > 1) {
-    params.set("page", String(page));
-  }
-
+  if (merged.filter && merged.filter !== "all") params.set("filter", merged.filter);
+  if (merged.page && Number(merged.page) > 1) params.set("page", merged.page);
+  if (merged.aiPage && Number(merged.aiPage) > 1) params.set("aiPage", merged.aiPage);
+  if (merged.evPage && Number(merged.evPage) > 1) params.set("evPage", merged.evPage);
   const query = params.toString();
   return query ? `/admin?${query}` : "/admin";
+}
+
+function PaginationBar({
+  currentPage,
+  totalPages,
+  prevHref,
+  nextHref,
+  label,
+}: {
+  currentPage: number;
+  totalPages: number;
+  prevHref: string;
+  nextHref: string;
+  label: string;
+}) {
+  return (
+    <div className="flex flex-col gap-4 border-t border-border pt-5 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+      <p>{label}</p>
+      <div className="flex flex-wrap items-center gap-2">
+        <Link
+          href={prevHref}
+          aria-disabled={currentPage === 1}
+          className={[
+            "inline-flex h-9 items-center border px-3 text-xs font-semibold uppercase tracking-[0.18em]",
+            currentPage === 1
+              ? "pointer-events-none border-border text-muted-foreground/50"
+              : "border-border text-foreground hover:bg-muted",
+          ].join(" ")}
+        >
+          Anterior
+        </Link>
+        <span className="px-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+          Pagina {currentPage} de {totalPages}
+        </span>
+        <Link
+          href={nextHref}
+          aria-disabled={currentPage === totalPages}
+          className={[
+            "inline-flex h-9 items-center border px-3 text-xs font-semibold uppercase tracking-[0.18em]",
+            currentPage === totalPages
+              ? "pointer-events-none border-border text-muted-foreground/50"
+              : "border-border text-foreground hover:bg-muted",
+          ].join(" ")}
+        >
+          Seguinte
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardPageProps) {
@@ -42,11 +97,11 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     getAiDraftQueue(),
     getAiEventDraftQueue(),
   ]);
+
+  // News list pagination
   const activeFilter = params.filter === "published" || params.filter === "draft" ? params.filter : "all";
   const filteredItems =
-    activeFilter === "all"
-      ? items
-      : items.filter((item) => item.status === activeFilter);
+    activeFilter === "all" ? items : items.filter((item) => item.status === activeFilter);
   const totalPages = Math.max(1, Math.ceil(filteredItems.length / ITEMS_PER_PAGE));
   const currentPage = Math.min(
     Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1),
@@ -56,6 +111,29 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
+
+  // AI news queue pagination
+  const aiTotalPages = Math.max(1, Math.ceil(aiQueue.length / AI_QUEUE_PER_PAGE));
+  const aiCurrentPage = Math.min(
+    Math.max(1, Number.parseInt(params.aiPage ?? "1", 10) || 1),
+    aiTotalPages
+  );
+  const aiPageItems = aiQueue.slice(
+    (aiCurrentPage - 1) * AI_QUEUE_PER_PAGE,
+    aiCurrentPage * AI_QUEUE_PER_PAGE
+  );
+
+  // AI events queue pagination
+  const evTotalPages = Math.max(1, Math.ceil(aiEventQueue.length / AI_QUEUE_PER_PAGE));
+  const evCurrentPage = Math.min(
+    Math.max(1, Number.parseInt(params.evPage ?? "1", 10) || 1),
+    evTotalPages
+  );
+  const evPageItems = aiEventQueue.slice(
+    (evCurrentPage - 1) * AI_QUEUE_PER_PAGE,
+    evCurrentPage * AI_QUEUE_PER_PAGE
+  );
+
   const filterOptions = [
     { key: "all", label: "Todas", count: items.length },
     { key: "published", label: "Publicadas", count: summary.published },
@@ -96,6 +174,9 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
             <CardTitle className="flex items-center gap-2">
               <Bot className="size-5" />
               Fila de revisao da IA — Noticias
+              <span className="ml-1 text-sm font-normal text-muted-foreground">
+                ({aiQueue.length})
+              </span>
             </CardTitle>
             <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Itens nao revistos sao auto-publicados ao fim da janela.
@@ -115,7 +196,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                   </tr>
                 </thead>
                 <tbody>
-                  {aiQueue.map((item) => (
+                  {aiPageItems.map((item) => (
                     <tr key={item.id} className="border-b border-border/70 align-top">
                       <td className="py-4 pr-6">
                         <div className="space-y-1">
@@ -162,6 +243,15 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                 </tbody>
               </table>
             </div>
+            {aiTotalPages > 1 ? (
+              <PaginationBar
+                currentPage={aiCurrentPage}
+                totalPages={aiTotalPages}
+                prevHref={buildHref(params, { aiPage: String(Math.max(1, aiCurrentPage - 1)) })}
+                nextHref={buildHref(params, { aiPage: String(Math.min(aiTotalPages, aiCurrentPage + 1)) })}
+                label={`A mostrar ${aiPageItems.length} de ${aiQueue.length} rascunho(s) pendentes.`}
+              />
+            ) : null}
           </CardContent>
         </Card>
       ) : null}
@@ -172,6 +262,9 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
             <CardTitle className="flex items-center gap-2">
               <CalendarDays className="size-5" />
               Fila de revisao da IA — Eventos
+              <span className="ml-1 text-sm font-normal text-muted-foreground">
+                ({aiEventQueue.length})
+              </span>
             </CardTitle>
             <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Eventos nao revistos sao auto-publicados ao fim da janela.
@@ -191,7 +284,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                   </tr>
                 </thead>
                 <tbody>
-                  {aiEventQueue.map((event) => (
+                  {evPageItems.map((event) => (
                     <tr key={event.id} className="border-b border-border/70 align-top">
                       <td className="py-4 pr-6">
                         <Link
@@ -222,6 +315,15 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                 </tbody>
               </table>
             </div>
+            {evTotalPages > 1 ? (
+              <PaginationBar
+                currentPage={evCurrentPage}
+                totalPages={evTotalPages}
+                prevHref={buildHref(params, { evPage: String(Math.max(1, evCurrentPage - 1)) })}
+                nextHref={buildHref(params, { evPage: String(Math.min(evTotalPages, evCurrentPage + 1)) })}
+                label={`A mostrar ${evPageItems.length} de ${aiEventQueue.length} evento(s) pendentes.`}
+              />
+            ) : null}
           </CardContent>
         </Card>
       ) : null}
@@ -233,11 +335,10 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
             <div className="flex flex-wrap gap-2">
               {filterOptions.map((option) => {
                 const isActive = activeFilter === option.key;
-
                 return (
                   <Link
                     key={option.key}
-                    href={buildDashboardHref(option.key, 1)}
+                    href={buildHref(params, { filter: option.key, page: "1" })}
                     className={[
                       "inline-flex h-9 items-center gap-2 border px-3 text-xs font-semibold uppercase tracking-[0.18em] transition-colors",
                       isActive
@@ -314,40 +415,13 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
             </div>
           )}
           {filteredItems.length ? (
-            <div className="flex flex-col gap-4 border-t border-border pt-5 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-              <p>
-                A mostrar {pageItems.length} de {filteredItems.length} noticia(s) no filtro atual.
-              </p>
-              <div className="flex flex-wrap items-center gap-2">
-                <Link
-                  href={buildDashboardHref(activeFilter, Math.max(1, currentPage - 1))}
-                  aria-disabled={currentPage === 1}
-                  className={[
-                    "inline-flex h-9 items-center border px-3 text-xs font-semibold uppercase tracking-[0.18em]",
-                    currentPage === 1
-                      ? "pointer-events-none border-border text-muted-foreground/50"
-                      : "border-border text-foreground hover:bg-muted",
-                  ].join(" ")}
-                >
-                  Anterior
-                </Link>
-                <span className="px-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                  Pagina {currentPage} de {totalPages}
-                </span>
-                <Link
-                  href={buildDashboardHref(activeFilter, Math.min(totalPages, currentPage + 1))}
-                  aria-disabled={currentPage === totalPages}
-                  className={[
-                    "inline-flex h-9 items-center border px-3 text-xs font-semibold uppercase tracking-[0.18em]",
-                    currentPage === totalPages
-                      ? "pointer-events-none border-border text-muted-foreground/50"
-                      : "border-border text-foreground hover:bg-muted",
-                  ].join(" ")}
-                >
-                  Seguinte
-                </Link>
-              </div>
-            </div>
+            <PaginationBar
+              currentPage={currentPage}
+              totalPages={totalPages}
+              prevHref={buildHref(params, { page: String(Math.max(1, currentPage - 1)) })}
+              nextHref={buildHref(params, { page: String(Math.min(totalPages, currentPage + 1)) })}
+              label={`A mostrar ${pageItems.length} de ${filteredItems.length} noticia(s) no filtro atual.`}
+            />
           ) : null}
         </CardContent>
       </Card>
