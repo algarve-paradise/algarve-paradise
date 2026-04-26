@@ -263,7 +263,6 @@ async function rewriteAndStore(
         cover_image_path: null,
         source_name: source.name,
         source_url: item.raw_url,
-        author_name: "Redacao IA",
         featured: false,
         live: false,
         status: "draft",

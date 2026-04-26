@@ -42,6 +42,7 @@ export async function rewriteWithGemini({ system, user }: GeminiArgs): Promise<u
         temperature: 0.4,
         maxOutputTokens: 1500,
         responseMimeType: "application/json",
+        thinkingConfig: { thinkingBudget: 0 },
       },
     }),
   });
