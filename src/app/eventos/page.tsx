@@ -3,6 +3,7 @@ import { CalendarRange, MapPinned } from "lucide-react";
 
 import { EventCard } from "@/components/cards/event-card";
 import { PageShell } from "@/components/shared/page-shell";
+import { EventsCalendar } from "@/components/shared/events-calendar";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/shared/reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
@@ -91,8 +92,8 @@ export default async function EventsPage() {
               Cobertura territorial
             </div>
             <p className="text-sm leading-7 text-muted-foreground">
-              Eventos de todos os municípios do Algarve, com filtros por data e localização a
-              crescer progressivamente com a plataforma.
+              Eventos de todos os municípios do Algarve, organizados por data e local para facilitar
+              o planeamento de residentes, visitantes e parceiros institucionais.
             </p>
           </CardContent>
         </Card>
@@ -115,27 +116,11 @@ export default async function EventsPage() {
         </div>
 
         <Card className="border border-white/10 bg-white shadow-[0_16px_40px_rgba(7,32,67,0.08)]">
-          <CardContent className="space-y-4 pt-6">
-            <div className="text-xs uppercase tracking-[0.24em] text-[var(--color-brand-700)]">
-              Calendário visual
+          <CardContent className="pt-6">
+            <div className="text-xs uppercase tracking-[0.24em] text-[var(--color-brand-700)] mb-5">
+              Calendário mensal
             </div>
-            <h2 className="font-heading text-2xl text-foreground">
-              Vista mensal em desenvolvimento
-            </h2>
-            <p className="text-sm leading-6 text-muted-foreground">
-              Em breve, filtros por município, destaque por data e integração com agendas regionais
-              para uma experiência ainda mais completa.
-            </p>
-            <div className="grid grid-cols-7 gap-2">
-              {Array.from({ length: 28 }, (_, index) => (
-                <div
-                  key={index}
-                  className="grid aspect-square place-items-center rounded-2xl border border-slate-200 bg-slate-50 text-xs text-slate-500"
-                >
-                  {index + 1}
-                </div>
-              ))}
-            </div>
+            <EventsCalendar events={events} />
           </CardContent>
         </Card>
       </Reveal>
