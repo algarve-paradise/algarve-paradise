@@ -3,19 +3,40 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { VideoCard } from "@/components/cards/video-card";
 import { Reveal } from "@/components/shared/reveal";
-import { videoItems } from "@/data/videos";
+import { videoItems as fallbackVideos } from "@/data/videos";
+import { getPublishedNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
+import type { NewsItem } from "@/types/content";
+import type { VideoItem } from "@/types/content";
 
-export function VideoShowcaseSection() {
-  const [featured, ...rest] = videoItems;
+function newsToVideoItem(news: NewsItem): VideoItem {
+  return {
+    slug: news.slug,
+    title: news.title,
+    excerpt: news.excerpt,
+    duration: "Reportagem",
+    category: news.category,
+    href: news.href,
+    imageLabel: news.title,
+    imageUrl: news.imageUrl,
+    featured: news.featured,
+  };
+}
+
+export async function VideoShowcaseSection() {
+  const newsItems = await getPublishedNews();
+  const videos = newsItems.length > 0
+    ? newsItems.slice(0, 5).map(newsToVideoItem)
+    : fallbackVideos;
+
+  const [featured, ...rest] = videos;
 
   return (
     <Reveal as="section" className="py-10 sm:py-14 border-t border-border">
       <Container>
-        {/* Section header */}
         <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
           <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-            Reportagens & Vídeos
+            Reportagens &amp; Vídeos
           </h2>
           <Link
             href={siteRoutes.tv}

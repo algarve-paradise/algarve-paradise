@@ -5,23 +5,43 @@ import { VideoCard } from "@/components/cards/video-card";
 import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { videoItems } from "@/data/videos";
+import { videoItems as fallbackVideos } from "@/data/videos";
+import { getPublishedNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
+import type { NewsItem, VideoItem } from "@/types/content";
 
 export const metadata: Metadata = {
   title: "TV",
-  description: "Pagina de videos e reportagens da Algarve Paradise Media.",
+  description: "Reportagens, entrevistas e cobertura audiovisual do Algarve.",
 };
 
-export default function TvPage() {
-  const [featured, ...rest] = videoItems;
+function newsToVideoItem(news: NewsItem): VideoItem {
+  return {
+    slug: news.slug,
+    title: news.title,
+    excerpt: news.excerpt,
+    duration: "Reportagem",
+    category: news.category,
+    href: news.href,
+    imageLabel: news.title,
+    imageUrl: news.imageUrl,
+    featured: news.featured,
+  };
+}
+
+export default async function TvPage() {
+  const newsItems = await getPublishedNews();
+  const videos =
+    newsItems.length > 0 ? newsItems.slice(0, 9).map(newsToVideoItem) : fallbackVideos;
+
+  const [featured, ...rest] = videos;
 
   return (
     <PageShell
-      eyebrow="TV e videos"
-      title="Grelha editorial inspirada em canal de televisao digital"
-      description="A pagina de TV organiza reportagens, entrevistas e clips da comunidade numa estrutura visual pronta para thumbnails reais."
-      primaryCta={{ label: "Ver noticias", href: siteRoutes.news }}
+      eyebrow="TV e Reportagens"
+      title="Cobertura audiovisual do Algarve"
+      description="Reportagens, entrevistas e conteúdos de proximidade sobre as histórias que moldam a região — com leitura rápida e formato editorial forte."
+      primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
       secondaryCta={{ label: "Agenda de eventos", href: siteRoutes.events }}
     >
       <section className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
@@ -32,10 +52,10 @@ export default function TvPage() {
               <Clapperboard className="size-4 text-[var(--color-signal)]" />
               Canal digital
             </div>
-            <h2 className="font-heading text-3xl">Grelha de reportagens e formatos de proximidade</h2>
+            <h2 className="font-heading text-3xl">Reportagens e formatos de proximidade</h2>
             <p className="text-sm leading-7 text-white/74">
-              Esta pagina foi desenhada como uma extensao natural da identidade de canal de TV:
-              thumbnails fortes, destaques editoriais e leitura imediata entre reportagem, agenda e comunidade.
+              Conteúdo editorial com cobertura regional real — das notícias de impacto às histórias
+              de comunidade que raramente chegam aos meios nacionais.
             </p>
             <div className="grid gap-3">
               {rest.slice(0, 3).map((item) => (
@@ -59,9 +79,9 @@ export default function TvPage() {
 
       <section className="space-y-6">
         <SectionHeading
-          eyebrow="Reportagem em destaque"
-          title="Formato principal para video hero"
-          description="Area preparada para um destaque forte e uma grelha secundaria de conteudos."
+          eyebrow="Destaque editorial"
+          title="As últimas reportagens da região"
+          description="Conteúdo atualizado com as histórias mais relevantes do Algarve."
         />
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {rest.slice(0, 3).map((item) => (
@@ -73,11 +93,11 @@ export default function TvPage() {
       <section className="space-y-6 py-10">
         <SectionHeading
           eyebrow="Arquivo"
-          title="Base pronta para crescer em colecoes, programas e rubricas"
-          description="Nesta fase o objetivo e deixar clara a estrutura de card, grelha e destaque."
+          title="Mais conteúdos da plataforma"
+          description="Toda a cobertura editorial disponível, organizada por data de publicação."
         />
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {videoItems.map((item) => (
+          {videos.map((item) => (
             <VideoCard key={item.slug} item={item} anchorId={item.slug} />
           ))}
         </div>

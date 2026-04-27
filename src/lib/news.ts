@@ -141,6 +141,24 @@ export async function getAdminSummary() {
   };
 }
 
+export const getPublishedEventNews = cache(async () => {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("news_posts")
+    .select("*")
+    .eq("status", "published")
+    .eq("category", "Eventos")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .limit(10);
+
+  if (error) {
+    console.error("Failed to load event news", error);
+    return [] as NewsItem[];
+  }
+
+  return (data as NewsRecord[]).map(mapNewsRecordToItem);
+});
+
 export async function getAiDraftQueue() {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase

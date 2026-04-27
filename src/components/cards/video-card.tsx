@@ -26,6 +26,7 @@ export function VideoCard({ item, featured = false, anchorId }: VideoCardProps) 
       <MediaPlaceholder
         label={`${item.category} · ${item.duration}`}
         title={item.imageLabel}
+        imageUrl={item.imageUrl}
         tone={featured ? "hero" : "editorial"}
         className={featured ? "min-h-[300px] mb-4" : "min-h-[180px] mb-3"}
       />

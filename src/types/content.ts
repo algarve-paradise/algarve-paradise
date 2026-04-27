@@ -76,6 +76,7 @@ export type VideoItem = {
   category: string;
   href: string;
   imageLabel: string;
+  imageUrl?: string | null;
   featured?: boolean;
 };
 

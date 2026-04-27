@@ -8,23 +8,66 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { events as fallbackEvents } from "@/data/events";
 import { getPublishedEvents } from "@/lib/events";
+import { getPublishedEventNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
+import type { EventItem, NewsItem } from "@/types/content";
 
 export const metadata: Metadata = {
   title: "Eventos",
-  description: "Agenda regional de eventos da Algarve Paradise Media.",
+  description: "Agenda regional de eventos do Algarve — cultura, gastronomia, desporto e muito mais.",
 };
 
+function newsToEventItem(news: NewsItem): EventItem {
+  return {
+    slug: `news-${news.slug}`,
+    title: news.title,
+    description: news.excerpt,
+    date: new Date(news.date).toLocaleDateString("pt-PT", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    startsAt: news.date,
+    location: news.region ?? "Algarve",
+    href: news.href,
+    imageLabel: news.title,
+    imageUrl: news.imageUrl,
+    status: news.status,
+    region: news.region,
+  };
+}
+
 export default async function EventsPage() {
-  const dbEvents = await getPublishedEvents();
-  const events = dbEvents.length ? dbEvents : fallbackEvents;
+  const [dbEvents, eventNews] = await Promise.all([
+    getPublishedEvents(),
+    getPublishedEventNews(),
+  ]);
+
+  const convertedNews = eventNews.map(newsToEventItem);
+  const seen = new Set<string>();
+  const allEvents: EventItem[] = [];
+
+  for (const ev of [...dbEvents, ...convertedNews]) {
+    if (!seen.has(ev.slug)) {
+      seen.add(ev.slug);
+      allEvents.push(ev);
+    }
+  }
+
+  allEvents.sort((a, b) => {
+    const dateA = a.startsAt ? new Date(a.startsAt).getTime() : 0;
+    const dateB = b.startsAt ? new Date(b.startsAt).getTime() : 0;
+    return dateA - dateB;
+  });
+
+  const events = allEvents.length > 0 ? allEvents : fallbackEvents;
 
   return (
     <PageShell
       eyebrow="Eventos"
-      title="Agenda regional com lista editorial e calendario visual"
-      description="A pagina de eventos organiza atividades culturais, institucionais e comunitarias do Algarve numa base clara e expansivel."
-      primaryCta={{ label: "Ver noticias", href: siteRoutes.news }}
+      title="Agenda regional do Algarve"
+      description="Cultura, gastronomia, desporto, instituições e muito mais — os eventos que movem a região, reunidos num só lugar."
+      primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
       secondaryCta={{ label: "Comunidade", href: siteRoutes.community }}
     >
       <Reveal className="grid gap-8 md:grid-cols-2">
@@ -34,10 +77,10 @@ export default async function EventsPage() {
               <CalendarRange className="size-4 text-[var(--color-signal)]" />
               Agenda ativa
             </div>
-            <h2 className="font-heading text-3xl">Eventos regionais com leitura simples e util</h2>
+            <h2 className="font-heading text-3xl">Eventos regionais com cobertura editorial</h2>
             <p className="text-sm leading-7 text-white/74">
-              A estrutura combina lista editorial e zona reservada para calendario visual, sem
-              introduzir complexidade desnecessaria nesta primeira versao.
+              Da cultura à gastronomia, do desporto às iniciativas institucionais — todos os eventos
+              relevantes do Algarve com informação clara e atualizada.
             </p>
           </CardContent>
         </Card>
@@ -48,8 +91,8 @@ export default async function EventsPage() {
               Cobertura territorial
             </div>
             <p className="text-sm leading-7 text-muted-foreground">
-              Esta pagina ja esta pronta para evoluir para filtros por municipio, destaque por data
-              e integracao futura com agendas regionais.
+              Eventos de todos os municípios do Algarve, com filtros por data e localização a
+              crescer progressivamente com a plataforma.
             </p>
           </CardContent>
         </Card>
@@ -59,8 +102,8 @@ export default async function EventsPage() {
         <div className="space-y-6">
           <SectionHeading
             eyebrow="Agenda"
-            title="Lista principal de eventos"
-            description="Cards preparados para integrar imagem, data, local e descricao resumida."
+            title="Próximos eventos na região"
+            description="Selecção editorial dos eventos mais relevantes para residentes, visitantes e parceiros institucionais."
           />
           <StaggerGroup className="grid gap-8 md:grid-cols-2">
             {events.map((item) => (
@@ -74,14 +117,14 @@ export default async function EventsPage() {
         <Card className="border border-white/10 bg-white shadow-[0_16px_40px_rgba(7,32,67,0.08)]">
           <CardContent className="space-y-4 pt-6">
             <div className="text-xs uppercase tracking-[0.24em] text-[var(--color-brand-700)]">
-              Calendario visual
+              Calendário visual
             </div>
             <h2 className="font-heading text-2xl text-foreground">
-              Espaco reservado para uma vista mensal numa fase seguinte
+              Vista mensal em desenvolvimento
             </h2>
             <p className="text-sm leading-6 text-muted-foreground">
-              A pagina ja reserva uma zona clara para calendario, filtros por municipio ou destaques
-              por data sem introduzir complexidade desnecessaria nesta etapa.
+              Em breve, filtros por município, destaque por data e integração com agendas regionais
+              para uma experiência ainda mais completa.
             </p>
             <div className="grid grid-cols-7 gap-2">
               {Array.from({ length: 28 }, (_, index) => (

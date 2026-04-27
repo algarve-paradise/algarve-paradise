@@ -2,9 +2,13 @@ import { Container } from "@/components/layout/container";
 import { MessageCard } from "@/components/cards/message-card";
 import { CommunityForm } from "@/components/forms/community-form";
 import { Reveal } from "@/components/shared/reveal";
-import { communityMessages } from "@/data/community";
+import { communityMessages as fallbackMessages } from "@/data/community";
+import { getApprovedCommunityMessages } from "@/lib/community";
 
-export function CommunitySection() {
+export async function CommunitySection() {
+  const dbMessages = await getApprovedCommunityMessages();
+  const messages = dbMessages.length > 0 ? dbMessages : fallbackMessages;
+
   return (
     <Reveal as="section" className="py-10 sm:py-14 border-t border-border">
       <Container>
@@ -18,10 +22,10 @@ export function CommunitySection() {
           {/* Messages */}
           <div>
             <p className="text-sm leading-6 text-muted-foreground mb-6">
-              Partilhe a sua opinião, sugestões ou mensagens com a comunidade. Esta secção foi pensada para reforçar proximidade sem perder clareza institucional.
+              Partilhe a sua opinião, sugestões ou mensagens com a comunidade do Algarve.
             </p>
             <div>
-              {communityMessages.map((item) => (
+              {messages.map((item) => (
                 <MessageCard key={`${item.name}-${item.municipality}`} item={item} />
               ))}
             </div>

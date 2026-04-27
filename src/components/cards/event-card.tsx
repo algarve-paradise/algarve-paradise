@@ -22,7 +22,7 @@ export function EventCard({ item, anchorId }: EventCardProps) {
         anchorId && "scroll-mt-32"
       )}
     >
-      <MediaPlaceholder label={item.date} title={item.imageLabel} className="min-h-[200px] mb-4" />
+      <MediaPlaceholder label={item.date} title={item.imageLabel} imageUrl={item.imageUrl} className="min-h-[200px] mb-4" />
       <div className="space-y-2">
         <h3 className="font-heading text-lg leading-tight font-medium text-foreground group-hover:underline decoration-foreground/30 underline-offset-2">
           {item.title}
