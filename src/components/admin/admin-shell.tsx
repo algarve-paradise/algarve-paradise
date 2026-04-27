@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { FilePlus2, LayoutDashboard, Settings } from "lucide-react";
+import { Database, FilePlus2, LayoutDashboard, Settings } from "lucide-react";
 
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { Container } from "@/components/layout/container";
@@ -37,6 +37,13 @@ export function AdminShell({ title, description, userLabel, children }: AdminShe
             >
               <LayoutDashboard className="size-4" />
               Painel
+            </Link>
+            <Link
+              href={`${siteRoutes.admin}/fontes`}
+              className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
+            >
+              <Database className="size-4" />
+              Fontes
             </Link>
             <Link
               href={`${siteRoutes.admin}/configuracoes`}

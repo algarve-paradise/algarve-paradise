@@ -119,7 +119,10 @@ async function collectFromSource(source: IngestSourceRow, dryRun = false): Promi
   if (source.type === "html") {
     return collectFromSingleHtml(source, dryRun);
   }
-  // Other types (ical/api) handled by their dedicated pipelines.
+  if (source.type === "api") {
+    return collectFromJsonApi(source, dryRun);
+  }
+  // ical handled by events pipeline.
   if (!dryRun) await markSourceFetched(source.id, `Tipo de fonte nao suportado neste pipeline: ${source.type}`);
   return [];
 }
@@ -201,6 +204,58 @@ async function collectFromSingleHtml(source: IngestSourceRow, dryRun = false): P
   if (dryRun) return isPlausibleItem(item) ? [item] as unknown as IngestItemRow[] : [];
 
   const inserted = isPlausibleItem(item) ? await insertNewIngestItems(source, [item]) : [];
+  await markSourceFetched(source.id, null);
+  return inserted;
+}
+
+async function collectFromJsonApi(
+  source: IngestSourceRow,
+  dryRun = false
+): Promise<IngestItemRow[]> {
+  const fetched = await politeFetch(source.url, { ifModifiedSince: source.last_fetched_at });
+
+  if (fetched.notModified) {
+    if (!dryRun) await markSourceFetched(source.id, null);
+    return [];
+  }
+  if (!fetched.ok) {
+    throw new Error(`HTTP ${fetched.status} ao obter API ${source.url}`);
+  }
+
+  let payload: unknown;
+  try {
+    payload = JSON.parse(fetched.body);
+  } catch {
+    throw new Error(`API ${source.url} devolveu resposta nao-JSON.`);
+  }
+
+  // Accept both a top-level array or { items: [...] } / { data: [...] }
+  const candidates = Array.isArray(payload)
+    ? payload
+    : Array.isArray((payload as Record<string, unknown>)?.items)
+      ? ((payload as Record<string, unknown>).items as unknown[])
+      : Array.isArray((payload as Record<string, unknown>)?.data)
+        ? ((payload as Record<string, unknown>).data as unknown[])
+        : [];
+
+  const items: RawIngestedItem[] = candidates
+    .filter(
+      (e): e is Record<string, unknown> =>
+        typeof e === "object" && e !== null && typeof (e as Record<string, unknown>).url === "string"
+    )
+    .slice(0, env.INGEST_MAX_ITEMS_PER_SOURCE)
+    .map((e) => ({
+      url: String(e.url),
+      title: String(e.title ?? e.headline ?? ""),
+      summary: e.summary != null ? String(e.summary) : (e.description != null ? String(e.description) : null),
+      publishedAt: e.published_at ? new Date(String(e.published_at)) : null,
+      payload: { source: "api", raw: e },
+    }))
+    .filter(isPlausibleItem);
+
+  if (dryRun) return items as unknown as IngestItemRow[];
+
+  const inserted = await insertNewIngestItems(source, items);
   await markSourceFetched(source.id, null);
   return inserted;
 }

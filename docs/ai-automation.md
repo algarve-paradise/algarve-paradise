@@ -9,15 +9,15 @@ sao publicados automaticamente ao fim de uma janela configuravel.
 ```
 ingest_sources (registry, content_kind = 'news' | 'events')
        │
-       ├─── RSS / sitemap / HTML ──► news pipeline ──► news_posts (draft)
+       ├─── RSS / sitemap / HTML / API JSON ─► news pipeline ──► news_posts (draft)
        │
-       └─── iCal              ─────► events pipeline ─► events (draft)
-                                              │
-                                  ┌───────────┴───────────┐
-                                  ▼                       ▼
-                          Aprovar manual          Auto-publish (cron)
-                          no painel admin         apos AUTO_PUBLISH_AFTER_HOURS
-                                                  se confidence >= MIN
+       └─── iCal              ──────────────► events pipeline ─► events (draft)
+                                                       │
+                                           ┌───────────┴───────────┐
+                                           ▼                       ▼
+                                   Aprovar manual          Auto-publish (cron)
+                                   no painel admin         apos AUTO_PUBLISH_AFTER_HOURS
+                                                           se confidence >= MIN
 ```
 
 Cada draft AI tambem chama o provider de imagens (Pexels por defeito) para
@@ -32,7 +32,19 @@ sem capa e o revisor escolhe.
 | `sitemap` | sitemap.xml + extracao HTML por pagina | Sites sem RSS |
 | `html` | Extracao de pagina unica | Pagina especifica monitorizada |
 | `ical` | iCalendar / .ics | Agendas municipais (Faro, Lagos, Portimao) |
-| `api` | (placeholder, nao implementado) | Endpoints publicos JSON |
+| `api` | JSON array `[{url,title,summary?,published_at?}]` | Endpoints publicos (Visit Algarve, parceiros) |
+
+## Gestao de fontes no painel admin
+
+A pagina `/admin/fontes` permite ao administrador:
+
+- **Listar** todas as fontes com score de qualidade, contadores e ultimo erro
+- **Adicionar** novas fontes (qualquer tipo suportado) sem tocar no codigo
+- **Editar** nome, URL, tipo, regiao, categoria padrao e intervalo
+- **Pausar / Activar** fontes individualmente
+- **Eliminar** fontes que deixaram de ser relevantes
+- **Ver performance por categoria**: taxa de publicacao das noticias geradas
+  pela IA agrupada por categoria editorial
 
 ## Variaveis de ambiente
 
@@ -44,7 +56,7 @@ sem capa e o revisor escolhe.
 | `GEMINI_API_KEY` | — | Obrigatoria se provider = gemini |
 | `ANTHROPIC_MODEL` | `claude-haiku-4-5-20251001` | Modelo Claude |
 | `OPENAI_MODEL` | `gpt-4o-mini` | Modelo OpenAI |
-| `GEMINI_MODEL` | `gemini-2.0-flash` | Modelo Gemini |
+| `GEMINI_MODEL` | `gemini-2.5-flash` | Modelo Gemini |
 | `CRON_SECRET` | — | Obrigatoria. `openssl rand -hex 32` |
 | `AUTO_PUBLISH_AFTER_HOURS` | `6` | Janela de revisao humana (overridable no admin) |
 | `AUTO_PUBLISH_MIN_CONFIDENCE` | `0.75` | 0 = publica tudo apos a janela (overridable no admin) |
@@ -62,6 +74,7 @@ A pagina `/admin/configuracoes` permite trocar:
   configuradas no Vercel).
 - A janela de auto-publicacao em horas.
 - A confianca minima para auto-publicar.
+- Ligar / desligar toda a automacao por IA.
 
 Os valores ficam guardados na tabela `app_settings` e tem prioridade
 sobre as env vars. Reverter um valor para o default e tao simples como
@@ -80,6 +93,8 @@ psql "$DATABASE_URL" -f supabase/migrations/0004_app_settings.sql
 
 ### 2. Cadastrar fontes de eventos
 
+Via painel admin em `/admin/fontes` (recomendado) ou directamente por SQL:
+
 ```sql
 insert into public.ingest_sources
   (name, url, type, region, default_category, content_kind, enabled)
@@ -92,13 +107,15 @@ values
 
 `vercel.json` ja inclui:
 
-- `0 8 * * *`  — `/api/cron/ingest`     (noticias, 1x/dia, 08:00 UTC)
-- `0 9 * * *`  — `/api/cron/events`     (eventos, 1x/dia, 09:00 UTC)
-- `0 10 * * *` — `/api/cron/auto-publish` (1x/dia, 10:00 UTC)
+- `0 8 * * *`  — `/api/cron/ingest`       (noticias, 1x/dia, 08:00 UTC)
+- `0 9 * * *`  — `/api/cron/events`       (eventos, 1x/dia, 09:00 UTC)
+- `0 16 * * *` — `/api/cron/auto-publish` (1x/dia, 16:00 UTC)
 
 > **Nota (Vercel Hobby):** O plano Hobby limita cron jobs a uma execucao por
-> dia. Os horarios acima respeitam esse limite. Para execucoes mais frequentes
-> (ex: ingest de hora em hora), faca upgrade para o plano Pro.
+> dia. Os horarios acima garantem que o auto-publish (16:00) corre DEPOIS da
+> janela de revisao padrao de 6h (ingest 08:00 + 6h = deadline 14:00).
+> Para execucoes mais frequentes (ex: ingest de hora em hora), faca upgrade
+> para o plano Pro.
 
 ### 4. Smoke tests
 
@@ -107,9 +124,12 @@ values
 curl -H "x-cron-secret: $CRON_SECRET" "https://your-site.com/api/cron/ingest?dry=1"
 curl -H "x-cron-secret: $CRON_SECRET" "https://your-site.com/api/cron/events?dry=1"
 
-# Run completo
+# Run completo (substitui your-site.com pelo dominio real)
 curl -H "x-cron-secret: $CRON_SECRET" "https://your-site.com/api/cron/ingest?region=algarve"
 curl -H "x-cron-secret: $CRON_SECRET" "https://your-site.com/api/cron/events?region=algarve"
+
+# Forcar auto-publish imediato (util para testes)
+curl -H "x-cron-secret: $CRON_SECRET" -X POST "https://your-site.com/api/cron/auto-publish"
 ```
 
 ## Score de qualidade por fonte
@@ -131,6 +151,14 @@ quality_score = (published * 1.0 + rewritten * 0.3) / (rewritten + rejected + fa
 melhores fontes serem processadas primeiro a cada run. Fontes novas
 (sem historico) recebem score 0.5 e disputam pela ordem `last_fetched_at`.
 
+## Score de qualidade por categoria
+
+A pagina `/admin/fontes` exibe tambem a performance da IA por categoria
+editorial (Algarve, Municipios, Economia, Turismo, Seguranca, Eventos).
+Para cada categoria: total de drafts IA gerados, quantos foram publicados
+e a taxa de publicacao resultante. Nao requer tabela extra — e calculado
+em tempo real sobre `news_posts`.
+
 ## Fluxo de revisao humana
 
 1. IA gera rascunho (`news_posts` ou `events`) com `ai_review_deadline = now() + AUTO_PUBLISH_AFTER_HOURS`.
@@ -141,7 +169,7 @@ melhores fontes serem processadas primeiro a cada run. Fontes novas
    - **Rejeitar** → apaga rascunho, marca `ingest_item` rejeitado, bumpa `total_rejected`.
    - **Editar** → abre o editor padrao.
 3. Se ninguem agir ate `ai_review_deadline` e `confidence >= AUTO_PUBLISH_MIN_CONFIDENCE`,
-   o cron `auto-publish` publica e bumpa `total_published`.
+   o cron `auto-publish` (16:00 UTC) publica e bumpa `total_published`.
 
 ## Direitos autorais
 
@@ -171,7 +199,7 @@ Heuristica do prompt:
   cena visual segura.
 
 O admin pode sempre adicionar/remover/substituir manualmente a capa em
-`/admin/noticias/[id]` (ja existia) ou `/admin/eventos/[id]` (novo).
+`/admin/noticias/[id]` (ja existia) ou `/admin/eventos/[id]`.
 
 ## Custos estimados
 
@@ -181,6 +209,7 @@ Por noticia (~500 in + ~600 out tokens) ou evento (~300 in + ~250 out):
 |---|---|---|---|
 | Claude Haiku 4.5 | ~$0,001 | ~$0,0005 | ~$1,1 |
 | GPT-4o-mini | ~$0,001 | ~$0,0005 | ~$1,1 |
+| Gemini 2.5 Flash | ~$0,0002 | ~$0,0001 | ~$0,22 |
 
 Limites em `INGEST_MAX_ITEMS_PER_SOURCE` × `INGEST_MAX_SOURCES_PER_RUN`
 × runs/dia controlam o gasto maximo diario.
@@ -200,6 +229,8 @@ O cron ja processa todas as regioes; passe `?region=alentejo` para limitar.
 
 - [ ] Substituir parser HTML por `cheerio` + `@mozilla/readability` quando
       surgir uma fonte sem RSS que exija extracao mais robusta.
-- [ ] Endpoint API para fontes (`type = 'api'`) para integracoes oficiais
-      (ex: Visit Algarve).
-- [ ] Score por categoria, alem de por fonte.
+- [x] Endpoint API para fontes (`type = 'api'`) para integracoes oficiais
+      (ex: Visit Algarve). Implementado: aceita array JSON ou `{items:[]}` / `{data:[]}`.
+- [x] Score por categoria, alem de por fonte. Implementado na pagina `/admin/fontes`
+      como taxa de publicacao por categoria editorial.
+- [x] Gestao de fontes no painel admin — CRUD completo em `/admin/fontes`.
