@@ -17,6 +17,7 @@ export type AutoPublishReport = {
   finishedAt: string;
   news: TablePublishReport;
   events: TablePublishReport;
+  featuredRotated: boolean;
 };
 
 type TablePublishReport = {
@@ -33,12 +34,41 @@ export async function runAutoPublish(): Promise<AutoPublishReport> {
   const news = await publishExpiredDrafts("news_posts", settings.autoPublishMinConfidence);
   const events = await publishExpiredDrafts("events", settings.autoPublishMinConfidence);
 
+  // Rotate the featured article whenever new news was published in this run.
+  const featuredRotated = news.published > 0 ? await rotateFeaturedNews() : false;
+
   return {
     startedAt: startedAt.toISOString(),
     finishedAt: new Date().toISOString(),
     news,
     events,
+    featuredRotated,
   };
+}
+
+/**
+ * Promotes the most recently published article with the highest confidence
+ * to featured, and clears the flag on every other news post.
+ * Called automatically after each auto-publish cycle that produced new articles.
+ */
+async function rotateFeaturedNews(): Promise<boolean> {
+  const supabase = createSupabaseAdminClient();
+
+  const { data: candidate, error } = await supabase
+    .from("news_posts")
+    .select("id")
+    .eq("status", "published")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("ai_confidence", { ascending: false, nullsFirst: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !candidate) return false;
+
+  await supabase.from("news_posts").update({ featured: false }).eq("featured", true);
+  await supabase.from("news_posts").update({ featured: true }).eq("id", candidate.id);
+
+  return true;
 }
 
 async function publishExpiredDrafts(
