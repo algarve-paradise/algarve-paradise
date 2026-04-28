@@ -12,18 +12,36 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 type EventEditorFormProps = {
-  eventId: string;
-  initialValues: EventFormValues;
+  mode: "create" | "edit";
+  eventId?: string;
+  initialValues?: Partial<EventFormValues>;
 };
 
-export function EventEditorForm({ eventId, initialValues }: EventEditorFormProps) {
+const defaultValues: EventFormValues = {
+  title: "",
+  slug: "",
+  description: "",
+  location: "",
+  startsAt: "",
+  endsAt: "",
+  sourceName: "",
+  sourceUrl: "",
+  coverImageUrl: "",
+  coverImagePath: "",
+  status: "draft",
+};
+
+export function EventEditorForm({ mode, eventId, initialValues }: EventEditorFormProps) {
   const router = useRouter();
-  const [values, setValues] = useState<EventFormValues>(initialValues);
+  const [values, setValues] = useState<EventFormValues>({
+    ...defaultValues,
+    ...initialValues,
+  });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
-  const [slugTouched, setSlugTouched] = useState(Boolean(initialValues.slug));
+  const [slugTouched, setSlugTouched] = useState(Boolean(initialValues?.slug));
 
   function updateValue<Key extends keyof EventFormValues>(key: Key, value: EventFormValues[Key]) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -32,6 +50,7 @@ export function EventEditorForm({ eventId, initialValues }: EventEditorFormProps
   async function handleImageUpload(file: File) {
     setIsUploading(true);
     setError(null);
+
     const formData = new FormData();
     formData.append("file", file);
     const response = await fetch("/api/admin/upload", { method: "POST", body: formData });
@@ -42,6 +61,7 @@ export function EventEditorForm({ eventId, initialValues }: EventEditorFormProps
       setError(body?.error ?? "Nao foi possivel enviar a imagem.");
       return;
     }
+
     const body = (await response.json()) as { url: string; path: string };
     setValues((current) => ({
       ...current,
@@ -61,18 +81,34 @@ export function EventEditorForm({ eventId, initialValues }: EventEditorFormProps
 
     startTransition(async () => {
       const payload = normalizeEventFormValues(values);
-      const response = await fetch(`/api/admin/events/${eventId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      const response = await fetch(
+        mode === "create" ? "/api/admin/events" : `/api/admin/events/${eventId}`,
+        {
+          method: mode === "create" ? "POST" : "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+      const data = (await response.json().catch(() => null)) as
+        | { error?: string; id?: string }
+        | null;
 
       if (!response.ok) {
         setError(data?.error ?? "Nao foi possivel guardar o evento.");
         return;
       }
-      setSuccess("Evento atualizado com sucesso.");
+
+      const nextId = data?.id ?? eventId;
+      setSuccess(mode === "create" ? "Evento criado com sucesso." : "Evento atualizado com sucesso.");
+
+      if (mode === "create") {
+        setValues(defaultValues);
+        setSlugTouched(false);
+        router.replace("/admin");
+      } else if (nextId) {
+        router.replace(`/admin/eventos/${nextId}`);
+      }
+
       router.refresh();
     });
   }
@@ -211,7 +247,7 @@ export function EventEditorForm({ eventId, initialValues }: EventEditorFormProps
                   {values.coverImageUrl ? "Substituir imagem" : "Selecionar imagem (opcional)"}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  JPG, PNG ou WebP. Eventos sem capa funcionam normalmente — o card mostra um
+                  JPG, PNG ou WebP. Eventos sem capa funcionam normalmente; o card mostra um
                   placeholder.
                 </p>
               </div>
@@ -261,7 +297,7 @@ export function EventEditorForm({ eventId, initialValues }: EventEditorFormProps
       <div className="flex flex-wrap items-center gap-3 border-t border-border pt-6">
         <Button type="submit" className="rounded-none" disabled={isPending || isUploading}>
           {isPending ? <LoaderCircle className="size-4 animate-spin" /> : <Save className="size-4" />}
-          Guardar alteracoes
+          {mode === "create" ? "Criar evento" : "Guardar alteracoes"}
         </Button>
       </div>
     </form>

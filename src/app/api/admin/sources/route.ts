@@ -11,7 +11,7 @@ const sourceSchema = z.object({
   region: z.string().min(2).max(60).default("algarve"),
   content_kind: z.enum(["news", "events"]).default("news"),
   default_category: z
-    .enum(["Algarve", "Municipios", "Economia", "Turismo", "Seguranca", "Eventos"])
+    .enum(["Algarve", "Municipios", "Economia", "Turismo", "Seguranca", "Eventos", "Reportagem"])
     .default("Algarve"),
   enabled: z.boolean().default(true),
   rate_limit_seconds: z.number().int().min(0).max(86400).default(300),

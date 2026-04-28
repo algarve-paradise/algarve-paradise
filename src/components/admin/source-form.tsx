@@ -13,7 +13,14 @@ type SourceFormValues = {
   type: "rss" | "sitemap" | "html" | "ical" | "api";
   region: string;
   content_kind: "news" | "events";
-  default_category: "Algarve" | "Municipios" | "Economia" | "Turismo" | "Seguranca" | "Eventos";
+  default_category:
+    | "Algarve"
+    | "Municipios"
+    | "Economia"
+    | "Turismo"
+    | "Seguranca"
+    | "Eventos"
+    | "Reportagem";
   enabled: boolean;
   rate_limit_seconds: number;
 };
@@ -52,6 +59,7 @@ const categoryOptions: SourceFormValues["default_category"][] = [
   "Turismo",
   "Seguranca",
   "Eventos",
+  "Reportagem",
 ];
 
 const defaultValues: SourceFormValues = {

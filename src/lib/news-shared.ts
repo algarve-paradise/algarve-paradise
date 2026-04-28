@@ -7,6 +7,7 @@ export const newsCategories: NewsCategory[] = [
   "Turismo",
   "Seguranca",
   "Eventos",
+  "Reportagem",
 ];
 
 export function slugifyNewsTitle(value: string) {

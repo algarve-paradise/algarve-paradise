@@ -7,7 +7,7 @@ import { AutoPublishCountdown } from "@/components/admin/auto-publish-countdown"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth";
 import { getAdminNewsList, getAdminSummary, getAiDraftQueue } from "@/lib/news";
-import { getAiEventDraftQueue } from "@/lib/events";
+import { getAdminEventsList, getAiEventDraftQueue } from "@/lib/events";
 
 const ITEMS_PER_PAGE = 8;
 const AI_QUEUE_PER_PAGE = 5;
@@ -90,9 +90,10 @@ function PaginationBar({
 
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardPageProps) {
   const user = await requireUser();
-  const [params, items, summary, aiQueue, aiEventQueue] = await Promise.all([
+  const [params, items, events, summary, aiQueue, aiEventQueue] = await Promise.all([
     searchParams,
     getAdminNewsList(),
+    getAdminEventsList(),
     getAdminSummary(),
     getAiDraftQueue(),
     getAiEventDraftQueue(),
@@ -146,12 +147,13 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       description="Area preparada para gerir noticias manualmente e supervisionar a automacao por IA."
       userLabel={user.email ?? "utilizador autenticado"}
     >
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
         {[
           { label: "Total de noticias", value: summary.total, icon: SquarePen },
+          { label: "Reportagens", value: items.filter((item) => item.category === "Reportagem").length, icon: Radio },
+          { label: "Eventos", value: events.length, icon: CalendarDays },
           { label: "Publicadas", value: summary.published, icon: Sparkles },
           { label: "Destaques", value: summary.featured, icon: PenSquare },
-          { label: "Em foco", value: summary.live, icon: Radio },
           { label: "Pendentes da IA", value: summary.aiPending + aiEventQueue.length, icon: Bot },
         ].map((item) => (
           <Card key={item.label} className="rounded-none border border-border shadow-none">
@@ -327,6 +329,78 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
           </CardContent>
         </Card>
       ) : null}
+
+      <Card className="mt-8 rounded-none border border-border shadow-none">
+        <CardHeader className="border-b border-border">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <CardTitle>Eventos cadastrados</CardTitle>
+            <Link
+              href="/admin/eventos/novo"
+              className="inline-flex h-9 w-fit items-center gap-2 border border-border px-3 text-xs font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-muted"
+            >
+              <CalendarDays className="size-4" />
+              Novo evento
+            </Link>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          {events.length ? (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[780px] border-collapse text-left">
+                <thead>
+                  <tr className="border-b border-border text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                    <th className="py-4">Evento</th>
+                    <th className="py-4">Data</th>
+                    <th className="py-4">Local</th>
+                    <th className="py-4">Estado</th>
+                    <th className="py-4">Acoes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {events.slice(0, ITEMS_PER_PAGE).map((event) => (
+                    <tr key={event.id} className="border-b border-border/70 align-top">
+                      <td className="py-4 pr-6">
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-medium">{event.title}</span>
+                            {event.aiGenerated ? (
+                              <span className="inline-flex items-center gap-1 border border-border bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em]">
+                                <Bot className="size-3" /> IA
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="max-w-md text-sm text-muted-foreground">
+                            {event.description}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 pr-6 text-sm">{event.date}</td>
+                      <td className="py-4 pr-6 text-sm">{event.location}</td>
+                      <td className="py-4 pr-6 text-sm capitalize">
+                        {event.status === "published" ? "Publicado" : "Rascunho"}
+                      </td>
+                      <td className="py-4">
+                        <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em]">
+                          <Link href={`/admin/eventos/${event.id}`} className="hover:underline">
+                            Editar
+                          </Link>
+                          <Link href={event.href} className="hover:underline">
+                            Ver no site
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="py-8 text-sm text-muted-foreground">
+              Nenhum evento cadastrado ainda. Use o cadastro manual para alimentar a agenda.
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Card className="mt-8 rounded-none border border-border shadow-none">
         <CardHeader className="border-b border-border">

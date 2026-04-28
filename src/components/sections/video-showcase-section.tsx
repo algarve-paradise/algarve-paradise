@@ -4,7 +4,7 @@ import { Container } from "@/components/layout/container";
 import { VideoCard } from "@/components/cards/video-card";
 import { Reveal } from "@/components/shared/reveal";
 import { videoItems as fallbackVideos } from "@/data/videos";
-import { getPublishedNews } from "@/lib/news";
+import { getPublishedReports } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 import type { NewsItem } from "@/types/content";
 import type { VideoItem } from "@/types/content";
@@ -24,7 +24,7 @@ function newsToVideoItem(news: NewsItem): VideoItem {
 }
 
 export async function VideoShowcaseSection() {
-  const newsItems = await getPublishedNews();
+  const newsItems = await getPublishedReports();
   const videos = newsItems.length > 0
     ? newsItems.slice(0, 5).map(newsToVideoItem)
     : fallbackVideos;

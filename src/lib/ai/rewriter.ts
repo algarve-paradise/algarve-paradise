@@ -51,7 +51,7 @@ REGRAS OBRIGATORIAS:
 2. Mantem-te 100% fiel aos factos: nomes, datas, locais, numeros.
 3. Se algum facto nao estiver claro no original, NAO inventes — escreve apenas o que e seguro.
 4. Atribui sempre a fonte no final do conteudo, no formato: "Com informacao de [nome da fonte]."
-5. Usa categoria APENAS de uma destas: Algarve, Municipios, Economia, Turismo, Seguranca, Eventos.
+5. Usa categoria APENAS de uma destas: Algarve, Municipios, Economia, Turismo, Seguranca, Eventos, Reportagem.
 6. O resumo (excerpt) tem que ser uma unica frase, ate 220 caracteres.
 7. O corpo (content) deve ter entre 3 e 5 paragrafos curtos, separados por linha em branco.
 8. NAO uses markdown, apenas texto puro com paragrafos separados por \\n\\n.
@@ -157,4 +157,3 @@ export async function rewriteArticle(input: RewriterInput): Promise<RewrittenArt
     imageQuery: parsed.data.imageQuery,
   };
 }
-

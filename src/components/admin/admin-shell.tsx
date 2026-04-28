@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Database, FilePlus2, LayoutDashboard, Settings } from "lucide-react";
+import { CalendarPlus, Clapperboard, Database, FilePlus2, LayoutDashboard, Settings } from "lucide-react";
 
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { Container } from "@/components/layout/container";
@@ -58,6 +58,20 @@ export function AdminShell({ title, description, userLabel, children }: AdminShe
             >
               <FilePlus2 className="size-4" />
               Nova noticia
+            </Link>
+            <Link
+              href={`${siteRoutes.admin}/eventos/novo`}
+              className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
+            >
+              <CalendarPlus className="size-4" />
+              Novo evento
+            </Link>
+            <Link
+              href={`${siteRoutes.admin}/reportagens/nova`}
+              className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
+            >
+              <Clapperboard className="size-4" />
+              Nova reportagem
             </Link>
             <SignOutButton />
           </div>

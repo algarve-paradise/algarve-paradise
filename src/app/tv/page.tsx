@@ -6,7 +6,7 @@ import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { videoItems as fallbackVideos } from "@/data/videos";
-import { getPublishedNews } from "@/lib/news";
+import { getPublishedReports } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 import type { NewsItem, VideoItem } from "@/types/content";
 
@@ -30,7 +30,7 @@ function newsToVideoItem(news: NewsItem): VideoItem {
 }
 
 export default async function TvPage() {
-  const newsItems = await getPublishedNews();
+  const newsItems = await getPublishedReports();
   const videos =
     newsItems.length > 0 ? newsItems.slice(0, 9).map(newsToVideoItem) : fallbackVideos;
 

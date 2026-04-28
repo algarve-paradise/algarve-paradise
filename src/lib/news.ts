@@ -65,6 +65,7 @@ export const getPublishedNews = cache(async () => {
     .from("news_posts")
     .select("*")
     .eq("status", "published")
+    .neq("category", "Reportagem")
     .order("featured", { ascending: false })
     .order("published_at", { ascending: false, nullsFirst: false });
 
@@ -153,6 +154,24 @@ export const getPublishedEventNews = cache(async () => {
 
   if (error) {
     console.error("Failed to load event news", error);
+    return [] as NewsItem[];
+  }
+
+  return (data as NewsRecord[]).map(mapNewsRecordToItem);
+});
+
+export const getPublishedReports = cache(async () => {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("news_posts")
+    .select("*")
+    .eq("status", "published")
+    .eq("category", "Reportagem")
+    .order("featured", { ascending: false })
+    .order("published_at", { ascending: false, nullsFirst: false });
+
+  if (error) {
+    console.error("Failed to load reports", error);
     return [] as NewsItem[];
   }
 

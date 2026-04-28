@@ -13,7 +13,7 @@ const patchSchema = z.object({
   region: z.string().min(2).max(60).optional(),
   content_kind: z.enum(["news", "events"]).optional(),
   default_category: z
-    .enum(["Algarve", "Municipios", "Economia", "Turismo", "Seguranca", "Eventos"])
+    .enum(["Algarve", "Municipios", "Economia", "Turismo", "Seguranca", "Eventos", "Reportagem"])
     .optional(),
   enabled: z.boolean().optional(),
   rate_limit_seconds: z.number().int().min(0).max(86400).optional(),

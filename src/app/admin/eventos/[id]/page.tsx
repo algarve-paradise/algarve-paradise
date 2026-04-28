@@ -37,6 +37,7 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
       <Card className="rounded-none border border-border shadow-none">
         <CardContent className="pt-6">
           <EventEditorForm
+            mode="edit"
             eventId={id}
             initialValues={{
               title: item.title,
