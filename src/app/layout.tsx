@@ -44,10 +44,10 @@ export default function RootLayout({
       className={`${manrope.variable} ${playfair.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="font-sans min-h-full flex flex-col bg-background text-foreground">
-        <SmoothScroll />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <SmoothScroll />
       </body>
     </html>
   );
