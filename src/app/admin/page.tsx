@@ -140,6 +140,39 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     { key: "published", label: "Publicadas", count: summary.published },
     { key: "draft", label: "Rascunhos", count: items.length - summary.published },
   ] as const;
+  const eventNewsItems = items.filter((item) => item.category === "Eventos");
+  const dashboardEventRows = [
+    ...events.map((event) => ({
+      id: event.id ?? event.slug,
+      title: event.title,
+      description: event.description,
+      date: event.date,
+      sortDate: event.startsAt ?? "",
+      location: event.location,
+      status: event.status ?? "draft",
+      href: event.href,
+      editHref: `/admin/eventos/${event.id}`,
+      aiGenerated: event.aiGenerated,
+      sourceLabel: "Evento",
+    })),
+    ...eventNewsItems.map((item) => ({
+      id: item.id ?? item.slug,
+      title: item.title,
+      description: item.excerpt,
+      date: new Date(item.date).toLocaleDateString("pt-PT"),
+      sortDate: item.date,
+      location: item.region ?? "Algarve",
+      status: item.status ?? "draft",
+      href: item.href,
+      editHref: `/admin/noticias/${item.id}`,
+      aiGenerated: item.aiGenerated,
+      sourceLabel: "Noticia",
+    })),
+  ].sort((a, b) => {
+    const dateA = a.sortDate ? new Date(a.sortDate).getTime() : 0;
+    const dateB = b.sortDate ? new Date(b.sortDate).getTime() : 0;
+    return dateB - dateA;
+  });
 
   return (
     <AdminShell
@@ -151,7 +184,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
         {[
           { label: "Total de noticias", value: summary.total, icon: SquarePen },
           { label: "Reportagens", value: items.filter((item) => item.category === "Reportagem").length, icon: Radio },
-          { label: "Eventos", value: events.length, icon: CalendarDays },
+          { label: "Eventos", value: dashboardEventRows.length, icon: CalendarDays },
           { label: "Publicadas", value: summary.published, icon: Sparkles },
           { label: "Destaques", value: summary.featured, icon: PenSquare },
           { label: "Pendentes da IA", value: summary.aiPending + aiEventQueue.length, icon: Bot },
@@ -344,7 +377,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
           </div>
         </CardHeader>
         <CardContent className="pt-0">
-          {events.length ? (
+          {dashboardEventRows.length ? (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[780px] border-collapse text-left">
                 <thead>
@@ -357,12 +390,15 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                   </tr>
                 </thead>
                 <tbody>
-                  {events.slice(0, ITEMS_PER_PAGE).map((event) => (
+                  {dashboardEventRows.slice(0, ITEMS_PER_PAGE).map((event) => (
                     <tr key={event.id} className="border-b border-border/70 align-top">
                       <td className="py-4 pr-6">
                         <div className="space-y-1">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="font-medium">{event.title}</span>
+                            <span className="inline-flex items-center gap-1 border border-border bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em]">
+                              {event.sourceLabel}
+                            </span>
                             {event.aiGenerated ? (
                               <span className="inline-flex items-center gap-1 border border-border bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em]">
                                 <Bot className="size-3" /> IA
@@ -381,7 +417,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                       </td>
                       <td className="py-4">
                         <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em]">
-                          <Link href={`/admin/eventos/${event.id}`} className="hover:underline">
+                          <Link href={event.editHref} className="hover:underline">
                             Editar
                           </Link>
                           <Link href={event.href} className="hover:underline">
