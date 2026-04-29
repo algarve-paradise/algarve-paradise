@@ -1,8 +1,5 @@
-import Link from "next/link";
-
-import { Container } from "@/components/layout/container";
 import { NewsCard } from "@/components/cards/news-card";
-import { Reveal } from "@/components/shared/reveal";
+import { SectionShell } from "@/components/shared/section-shell";
 import { getPublishedNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 
@@ -10,59 +7,44 @@ export async function NewsHighlightsSection() {
   const newsItems = await getPublishedNews();
   const featured = newsItems.filter((item) => item.featured);
   const featuredLead = featured[0] ?? newsItems[0];
-  const featuredSecondary = featured.length > 1 ? featured.slice(1) : newsItems.slice(1, 4);
-  const secondary = newsItems.filter((item) => !item.featured).slice(0, 3);
+  const sideItems = (featured.length > 1 ? featured.slice(1) : newsItems.slice(1, 5)).slice(0, 4);
+  const secondary = newsItems
+    .filter((item) => !item.featured && item.slug !== featuredLead?.slug)
+    .slice(0, 3);
 
-  if (!newsItems.length) {
+  if (!newsItems.length || !featuredLead) {
     return null;
   }
 
   return (
-    <Reveal as="section" className="py-10 sm:py-14">
-      <Container>
-        {/* Section header */}
-        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
-          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-            Destaques
-          </h2>
-          <Link
-            href={siteRoutes.news}
-            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Ver todas →
-          </Link>
+    <SectionShell
+      eyebrow="Destaques"
+      title={
+        <>
+          Notícias que estão a moldar o <em className="not-italic text-[var(--dt-color-accent)]">Algarve</em> agora
+        </>
+      }
+      description="Uma curadoria editorial dos temas mais relevantes da semana, com cobertura regional e leitura clara."
+      cta={{ label: "Ver todas", href: siteRoutes.news }}
+      withDivider={false}
+    >
+      <div data-reveal-grid className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+        <NewsCard item={featuredLead} featured />
+
+        <div data-reveal-grid className="flex flex-col gap-2">
+          {sideItems.map((item) => (
+            <NewsCard key={item.slug} item={item} variant="row" />
+          ))}
         </div>
+      </div>
 
-        {/* Main grid */}
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          {/* Featured - large article */}
-          <div>
-            <NewsCard item={featuredLead} featured />
-          </div>
-
-          {/* Sidebar - stacked articles */}
-          <div className="border-l border-border pl-8 hidden lg:block">
-            <div className="space-y-0">
-              {featuredSecondary.map((item) => (
-                <NewsCard key={item.slug} item={item} />
-              ))}
-            </div>
-          </div>
-          {/* Mobile fallback for sidebar */}
-          <div className="lg:hidden space-y-0">
-            {featuredSecondary.map((item) => (
-              <NewsCard key={item.slug} item={item} />
-            ))}
-          </div>
-        </div>
-
-        {/* Secondary row */}
-        <div className="grid gap-8 md:grid-cols-3 mt-8 pt-8 border-t border-border">
+      {secondary.length > 0 ? (
+        <div data-reveal-grid className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {secondary.map((item) => (
             <NewsCard key={item.slug} item={item} />
           ))}
         </div>
-      </Container>
-    </Reveal>
+      ) : null}
+    </SectionShell>
   );
 }

@@ -1,5 +1,8 @@
+import { ArrowRight, Sparkles } from "lucide-react";
+
 import { ButtonLink } from "@/components/ui/button-link";
 import { Badge } from "@/components/ui/badge";
+import { TiltCard } from "@/components/shared/tilt-card";
 import type { CtaLink, Stat } from "@/types/content";
 import { cn } from "@/lib/utils";
 
@@ -23,50 +26,85 @@ export function PageIntro({
   className,
 }: PageIntroProps) {
   return (
-    <section className={cn("space-y-8 py-10 sm:py-14", className)}>
-      <div className="max-w-3xl space-y-5">
-        <Badge
-          variant="outline"
-          className="rounded-full border-[color:var(--color-brand-200)] bg-white px-3 py-1 uppercase tracking-[0.24em] text-[var(--color-brand-700)]"
-        >
-          {eyebrow}
-        </Badge>
-        <div className="space-y-4">
-          <h1 className="font-heading text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl">
-            {title}
-          </h1>
-          <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-            {description}
-          </p>
+    <section className={cn("relative py-6 sm:py-8", className)}>
+      <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-[0_24px_70px_-34px_rgba(10,10,10,0.3)] sm:rounded-[2.5rem] sm:p-10 lg:p-12">
+        <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" />
+        <div className="pointer-events-none absolute inset-x-0 -top-48 h-96 opacity-35">
+          <div className="mx-auto size-[520px] rounded-full bg-aurora" />
         </div>
-        <div className="flex flex-wrap gap-3">
-          {primaryCta ? (
-            <ButtonLink href={primaryCta.href} variant={primaryCta.variant ?? "default"}>
-              {primaryCta.label}
-            </ButtonLink>
-          ) : null}
-          {secondaryCta ? (
-            <ButtonLink href={secondaryCta.href} variant={secondaryCta.variant ?? "outline"}>
-              {secondaryCta.label}
-            </ButtonLink>
-          ) : null}
-        </div>
-      </div>
-      {stats?.length ? (
-        <div className="grid gap-4 sm:grid-cols-3">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-[1.75rem] border border-white/10 bg-white p-5 shadow-[0_16px_40px_rgba(7,32,67,0.08)]"
-            >
-              <div className="font-heading text-2xl font-semibold text-[var(--color-brand-800)]">
-                {stat.value}
-              </div>
-              <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
+
+        <div className="relative grid gap-8 lg:grid-cols-[1fr_0.78fr] lg:items-end">
+          <div className="max-w-3xl space-y-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge
+                variant="outline"
+                className="rounded-full border-transparent bg-[var(--dt-color-accent-soft)] px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-[var(--dt-color-accent)]"
+              >
+                <Sparkles className="mr-1 size-3" />
+                {eyebrow}
+              </Badge>
+              <span className="pill bg-white/70 backdrop-blur-md">Portal regional</span>
             </div>
-          ))}
+
+            <div className="space-y-4">
+              <h1 className="font-heading text-[2.35rem] leading-[1.03] font-semibold text-balance sm:text-5xl lg:text-[3.45rem]">
+                {title}
+              </h1>
+              <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground sm:text-lg">
+                {description}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {primaryCta ? (
+                <ButtonLink href={primaryCta.href} variant={primaryCta.variant ?? "default"}>
+                  {primaryCta.label}
+                  <ArrowRight className="size-4" />
+                </ButtonLink>
+              ) : null}
+              {secondaryCta ? (
+                <ButtonLink href={secondaryCta.href} variant={secondaryCta.variant ?? "outline"}>
+                  {secondaryCta.label}
+                </ButtonLink>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="relative min-h-44 overflow-hidden rounded-[1.75rem] bg-[#0A0A0A] p-5 text-white sm:p-6">
+            <div className="absolute inset-0 bg-grid-dark opacity-45" />
+            <div className="absolute -right-16 -top-16 size-52 rounded-full bg-[var(--dt-color-accent)]/35 blur-3xl" />
+            <div className="relative flex h-full flex-col justify-between gap-8">
+              <div className="surface-acrylic-dark inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+                <span className="relative inline-flex size-1.5 rounded-full bg-[var(--dt-color-accent)]">
+                  <span className="absolute inset-0 rounded-full bg-[var(--dt-color-accent)] animate-pulse-dot" />
+                </span>
+                Em atualização
+              </div>
+              <p className="max-w-sm font-heading text-2xl leading-tight">
+                Informação, agenda e comunidade com presença editorial forte.
+              </p>
+            </div>
+          </div>
         </div>
-      ) : null}
+
+        {stats?.length ? (
+          <div className="relative mt-8 grid gap-4 border-t border-foreground/8 pt-6 sm:grid-cols-3">
+            {stats.map((stat) => (
+              <TiltCard
+                key={stat.label}
+                intensity={3}
+                traceRadius={22}
+                className="rounded-[1.4rem] bg-white/78 p-5 backdrop-blur-md"
+              >
+                <div className="font-heading text-2xl font-semibold text-[var(--color-brand-800)]">
+                  {stat.value}
+                </div>
+                <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
+              </TiltCard>
+            ))}
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }

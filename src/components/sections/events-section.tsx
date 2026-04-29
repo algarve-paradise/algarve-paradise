@@ -1,15 +1,13 @@
-import Link from "next/link";
 import { CalendarDays } from "lucide-react";
+import Link from "next/link";
 
-import { Container } from "@/components/layout/container";
 import { EventCard } from "@/components/cards/event-card";
-import { Reveal } from "@/components/shared/reveal";
+import { SectionShell } from "@/components/shared/section-shell";
 import { events as fallbackEvents } from "@/data/events";
 import { getPublishedEvents } from "@/lib/events";
 import { getPublishedEventNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
-import type { EventItem } from "@/types/content";
-import type { NewsItem } from "@/types/content";
+import type { EventItem, NewsItem } from "@/types/content";
 
 function newsItemToEvent(news: NewsItem): EventItem {
   return {
@@ -58,69 +56,49 @@ export async function EventsSection() {
 
   const displayEvents = allEvents.length > 0 ? allEvents : fallbackEvents;
   const [firstEvent, ...otherEvents] = displayEvents;
+  if (!firstEvent) return null;
 
   return (
-    <Reveal as="section" className="py-10 sm:py-14 border-t border-border">
-      <Container>
-        <div className="flex items-end justify-between border-b-2 border-foreground pb-3 mb-8">
-          <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-            Agenda &amp; Eventos
-          </h2>
-          <Link
-            href={siteRoutes.events}
-            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Ver agenda →
-          </Link>
-        </div>
+    <SectionShell
+      eyebrow="Agenda regional"
+      title={
+        <>
+          Eventos que <em className="not-italic text-[var(--dt-color-accent)]">acontecem</em> no Algarve
+        </>
+      }
+      description="Concertos, feiras, encontros e cultura — tudo o que vai animar a região nas próximas semanas."
+      cta={{ label: "Ver agenda", href: siteRoutes.events }}
+      withDivider={false}
+    >
+      <div data-reveal-grid className="grid gap-6 lg:grid-cols-[0.55fr_0.45fr]">
+        <EventCard item={firstEvent} variant="featured" />
 
-        <div className="grid gap-8 lg:grid-cols-[0.45fr_0.55fr]">
-          {/* Quick list (left) */}
-          <div>
-            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
+        <div data-reveal-grid className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <span className="pill pill-soft">
               <CalendarDays className="size-3" />
               Próximos
-            </div>
-            <div className="space-y-0">
-              {displayEvents.map((item) => (
-                <Link
-                  key={item.slug}
-                  href={item.href}
-                  className="flex items-start justify-between gap-4 border-b border-border py-4 hover:bg-muted/30 transition-colors px-1"
-                >
-                  <div>
-                    <div className="font-heading text-base font-medium text-foreground">{item.title}</div>
-                    <div className="mt-0.5 text-xs text-muted-foreground">{item.location}</div>
-                  </div>
-                  <div className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
-                    {item.date}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            </span>
+            <Link
+              href={siteRoutes.events}
+              className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground link-tech"
+            >
+              Calendário
+            </Link>
           </div>
-
-          {/* Cards (right) */}
-          <div className="border-l border-border pl-8 hidden lg:block">
-            <div className="grid gap-6 md:grid-cols-2">
-              <EventCard item={firstEvent} />
-              <div className="space-y-0">
-                {otherEvents.slice(0, 3).map((item) => (
-                  <EventCard key={item.slug} item={item} />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="lg:hidden">
-            <div className="grid gap-6 sm:grid-cols-2">
-              <EventCard item={firstEvent} />
-              {otherEvents.slice(0, 3).map((item) => (
-                <EventCard key={item.slug} item={item} />
-              ))}
-            </div>
-          </div>
+          {otherEvents.slice(0, 5).map((item) => (
+            <EventCard key={item.slug} item={item} variant="row" />
+          ))}
         </div>
-      </Container>
-    </Reveal>
+      </div>
+
+      {otherEvents.length > 5 ? (
+        <div data-reveal-grid className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {otherEvents.slice(5, 8).map((item) => (
+            <EventCard key={item.slug} item={item} />
+          ))}
+        </div>
+      ) : null}
+    </SectionShell>
   );
 }

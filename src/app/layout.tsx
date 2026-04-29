@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import "@/styles/globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { SmoothScroll } from "@/components/shared/smooth-scroll";
 import { siteConfig } from "@/lib/site";
 
 const manrope = Manrope({
@@ -43,6 +44,7 @@ export default function RootLayout({
       className={`${manrope.variable} ${playfair.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="font-sans min-h-full flex flex-col bg-background text-foreground">
+        <SmoothScroll />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

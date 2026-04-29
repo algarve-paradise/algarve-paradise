@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 type FormState = "idle" | "loading" | "success" | "error";
+
+const fieldClass =
+  "w-full rounded-2xl border border-foreground/10 bg-[var(--dt-color-bg)] px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-all duration-200 focus:outline-none focus:border-foreground focus:bg-white focus:ring-4 focus:ring-foreground/5 disabled:opacity-50";
 
 export function CommunityForm() {
   const [state, setState] = useState<FormState>("idle");
@@ -44,75 +47,67 @@ export function CommunityForm() {
   }
 
   return (
-    <div id="participar">
-      <h3 className="font-heading text-xl font-medium text-foreground mb-2">
-        Partilhar com a comunidade
-      </h3>
-      <p className="text-sm leading-6 text-muted-foreground mb-6">
-        A sua opinião, sugestão ou testemunho é bem-vindo. As mensagens são revistas antes de serem publicadas.
-      </p>
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <label className="grid gap-1.5 text-sm">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            Nome *
-          </span>
-          <input
-            type="text"
-            name="nome"
-            placeholder="O seu nome"
-            className="border border-border bg-transparent px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-foreground"
-            required
-            disabled={state === "loading" || state === "success"}
-          />
-        </label>
-        <label className="grid gap-1.5 text-sm">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            Município
-          </span>
-          <input
-            type="text"
-            name="municipio"
-            placeholder="Ex: Faro, Lagos, Albufeira…"
-            className="border border-border bg-transparent px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-foreground"
-            disabled={state === "loading" || state === "success"}
-          />
-        </label>
-        <label className="grid gap-1.5 text-sm">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            Mensagem *
-          </span>
-          <textarea
-            name="mensagem"
-            placeholder="Partilhe a sua opinião, sugestão ou mensagem para a região."
-            className="min-h-32 border border-border bg-transparent px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-foreground resize-none"
-            required
-            disabled={state === "loading" || state === "success"}
-          />
-        </label>
+    <form id="participar" className="space-y-3" onSubmit={handleSubmit}>
+      <label className="grid gap-1.5 text-sm">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+          Nome *
+        </span>
+        <input
+          type="text"
+          name="nome"
+          placeholder="O seu nome"
+          className={fieldClass}
+          required
+          disabled={state === "loading" || state === "success"}
+        />
+      </label>
+      <label className="grid gap-1.5 text-sm">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+          Município
+        </span>
+        <input
+          type="text"
+          name="municipio"
+          placeholder="Ex: Faro, Lagos, Albufeira…"
+          className={fieldClass}
+          disabled={state === "loading" || state === "success"}
+        />
+      </label>
+      <label className="grid gap-1.5 text-sm">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+          Mensagem *
+        </span>
+        <textarea
+          name="mensagem"
+          placeholder="Partilhe a sua opinião, sugestão ou mensagem para a região."
+          className={`${fieldClass} min-h-28 resize-none`}
+          required
+          disabled={state === "loading" || state === "success"}
+        />
+      </label>
 
-        {state === "success" ? (
-          <p className="border border-border px-3 py-2.5 text-xs text-foreground bg-muted/40">
-            Mensagem recebida. Obrigado pela sua participação — será publicada após revisão editorial.
-          </p>
-        ) : null}
+      {state === "success" ? (
+        <p className="rounded-2xl border border-[var(--dt-color-mint)] bg-[var(--dt-color-mint)]/40 px-4 py-3 text-xs text-foreground">
+          Mensagem recebida. Obrigado pela sua participação — será publicada após revisão editorial.
+        </p>
+      ) : null}
 
-        {state === "error" ? (
-          <p className="border border-red-200 px-3 py-2.5 text-xs text-red-600 bg-red-50">
-            {errorMsg}
-          </p>
-        ) : null}
+      {state === "error" ? (
+        <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-600">
+          {errorMsg}
+        </p>
+      ) : null}
 
-        {state !== "success" ? (
-          <button
-            type="submit"
-            disabled={state === "loading"}
-            className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-muted-foreground transition-colors disabled:opacity-50"
-          >
-            {state === "loading" ? "A enviar…" : "Enviar"}
-            <MessageSquare className="size-3" />
-          </button>
-        ) : null}
-      </form>
-    </div>
+      {state !== "success" ? (
+        <button
+          type="submit"
+          disabled={state === "loading"}
+          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-[12px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_18px_40px_-14px_rgba(255,91,46,0.65)] disabled:opacity-60"
+        >
+          {state === "loading" ? "A enviar…" : "Enviar mensagem"}
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+        </button>
+      ) : null}
+    </form>
   );
 }
