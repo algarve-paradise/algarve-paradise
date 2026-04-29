@@ -140,6 +140,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     { key: "published", label: "Publicadas", count: summary.published },
     { key: "draft", label: "Rascunhos", count: items.length - summary.published },
   ] as const;
+  const dashboardReportRows = items.filter((item) => item.category === "Reportagem");
   const eventNewsItems = items.filter((item) => item.category === "Eventos");
   const dashboardEventRows = [
     ...events.map((event) => ({
@@ -183,7 +184,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
         {[
           { label: "Total de noticias", value: summary.total, icon: SquarePen },
-          { label: "Reportagens", value: items.filter((item) => item.category === "Reportagem").length, icon: Radio },
+          { label: "Reportagens", value: dashboardReportRows.length, icon: Radio },
           { label: "Eventos", value: dashboardEventRows.length, icon: CalendarDays },
           { label: "Publicadas", value: summary.published, icon: Sparkles },
           { label: "Destaques", value: summary.featured, icon: PenSquare },
