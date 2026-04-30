@@ -60,11 +60,15 @@ export function SmoothScroll() {
       if (isCancelled) return;
 
       ctx = gsap.context(() => {
+        // WeakSet avoids mutating the DOM with data-revealed attributes,
+        // which would cause React hydration mismatches.
+        const animated = new WeakSet<HTMLElement>();
+
         const setupReveals = () => {
           // Simple fade-up reveals
           gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
-            if (el.dataset.revealed === "true") return;
-            el.dataset.revealed = "true";
+            if (animated.has(el)) return;
+            animated.add(el);
             gsap.fromTo(
               el,
               { y: 40, opacity: 0 },
@@ -84,8 +88,8 @@ export function SmoothScroll() {
 
           // Stagger children reveal
           gsap.utils.toArray<HTMLElement>("[data-reveal-children]").forEach((el) => {
-            if (el.dataset.revealed === "true") return;
-            el.dataset.revealed = "true";
+            if (animated.has(el)) return;
+            animated.add(el);
             const children = el.querySelectorAll<HTMLElement>("[data-reveal-child]");
             if (!children.length) return;
             gsap.fromTo(
@@ -108,8 +112,8 @@ export function SmoothScroll() {
 
           // Clip reveal (element appears as if being constructed from bottom)
           gsap.utils.toArray<HTMLElement>("[data-reveal-clip]").forEach((el) => {
-            if (el.dataset.revealed === "true") return;
-            el.dataset.revealed = "true";
+            if (animated.has(el)) return;
+            animated.add(el);
             gsap.fromTo(
               el,
               {
@@ -134,8 +138,8 @@ export function SmoothScroll() {
 
           // Line draw (horizontal scaleX)
           gsap.utils.toArray<HTMLElement>("[data-reveal-line]").forEach((el) => {
-            if (el.dataset.revealed === "true") return;
-            el.dataset.revealed = "true";
+            if (animated.has(el)) return;
+            animated.add(el);
             gsap.fromTo(
               el,
               { scaleX: 0 },
@@ -154,8 +158,8 @@ export function SmoothScroll() {
 
           // Scale-in (image / banner)
           gsap.utils.toArray<HTMLElement>("[data-reveal-scale]").forEach((el) => {
-            if (el.dataset.revealed === "true") return;
-            el.dataset.revealed = "true";
+            if (animated.has(el)) return;
+            animated.add(el);
             gsap.fromTo(
               el,
               { scale: 0.94, opacity: 0 },
@@ -175,8 +179,8 @@ export function SmoothScroll() {
 
           // Grid sweep - children appear with diagonal stagger
           gsap.utils.toArray<HTMLElement>("[data-reveal-grid]").forEach((el) => {
-            if (el.dataset.revealed === "true") return;
-            el.dataset.revealed = "true";
+            if (animated.has(el)) return;
+            animated.add(el);
             const children = Array.from(el.children) as HTMLElement[];
             if (!children.length) return;
             gsap.fromTo(
