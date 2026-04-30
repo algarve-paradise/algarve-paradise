@@ -4,7 +4,7 @@ import type { NavItem } from "@/types/content";
 export const navigationMain: NavItem[] = [
   { label: "Home", href: siteRoutes.home },
   { label: "Sobre", href: siteRoutes.about },
-  { label: "Noticias", href: siteRoutes.news },
+  { label: "Notícias", href: siteRoutes.news },
   { label: "Eventos", href: siteRoutes.events },
   { label: "Comunidade", href: siteRoutes.community },
   { label: "Contactos", href: siteRoutes.contact },
@@ -12,7 +12,7 @@ export const navigationMain: NavItem[] = [
 
 export const navigationFooter: NavItem[] = [
   { label: "Sobre", href: siteRoutes.about },
-  { label: "Noticias", href: siteRoutes.news },
+  { label: "Notícias", href: siteRoutes.news },
   { label: "Eventos", href: siteRoutes.events },
   { label: "Comunidade", href: siteRoutes.community },
   { label: "Contactos", href: siteRoutes.contact },

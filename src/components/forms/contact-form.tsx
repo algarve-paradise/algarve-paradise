@@ -17,7 +17,7 @@ type ContactFormProps = {
 
 export function ContactForm({
   title = "Entrar em contacto",
-  description = "Formulario preparado para integracao futura com email, CRM ou automacao.",
+  description = "Formulário preparado para integração futura com email, CRM ou automação.",
 }: ContactFormProps) {
   const [submitted, setSubmitted] = useState(false);
 

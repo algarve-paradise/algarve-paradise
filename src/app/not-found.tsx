@@ -8,7 +8,7 @@ export default function NotFound() {
     <Container className="py-10">
       <PageIntro
         eyebrow="404"
-        title="Pagina nao encontrada"
+        title="Página não encontrada"
         description="A rota pedida nao existe nesta estrutura base. Volte para a Home ou entre em contacto com a equipa."
       />
       <div className="flex flex-wrap gap-3">

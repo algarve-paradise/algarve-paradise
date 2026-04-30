@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { TiltCard } from "@/components/shared/tilt-card";
+import { formatNewsCategory } from "@/lib/news-shared";
 import { cn } from "@/lib/utils";
 import type { NewsItem } from "@/types/content";
 
@@ -52,7 +53,7 @@ export function NewsCard({ item, featured = false, anchorId, variant = "default"
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
         <div className="absolute left-3 top-3 flex flex-wrap gap-2">
-          <span className="pill pill-glass text-foreground">{item.category}</span>
+          <span className="pill pill-glass text-foreground">{formatNewsCategory(item.category)}</span>
           {item.featured ? <span className="pill pill-accent">Destaque</span> : null}
         </div>
 
@@ -133,7 +134,7 @@ function NewsRowCard({ item, anchorId }: { item: NewsItem; anchorId?: string }) 
       </div>
       <div className="min-w-0 flex-1 space-y-1.5">
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          <span>{item.category}</span>
+          <span>{formatNewsCategory(item.category)}</span>
           <span className="size-1 rounded-full bg-foreground/30" />
           <span>{new Date(item.date).toLocaleDateString("pt-PT")}</span>
         </div>

@@ -5,6 +5,7 @@ import { NewsCommentForm } from "@/components/forms/news-comment-form";
 import { ArticleDetail } from "@/components/shared/article-detail";
 import { getApprovedNewsComments } from "@/lib/comments";
 import { getPublishedNewsBySlug, getPublishedNewsOrThrow } from "@/lib/news";
+import { formatNewsCategory } from "@/lib/news-shared";
 import { siteRoutes } from "@/lib/site";
 
 type NewsArticlePageProps = {
@@ -39,7 +40,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
   return (
     <>
       <ArticleDetail
-        category={item.category}
+        category={formatNewsCategory(item.category)}
         title={item.title}
         excerpt={item.excerpt}
         date={item.date}

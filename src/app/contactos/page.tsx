@@ -10,7 +10,7 @@ import { siteRoutes } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contactos",
-  description: "Pagina de contactos institucionais da Algarve Paradise Media.",
+  description: "Página de contactos institucionais da Algarve Paradise Media.",
 };
 
 const icons = {

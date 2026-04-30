@@ -12,7 +12,7 @@ import { siteRoutes } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Sobre",
   description:
-    "Contexto institucional da Algarve Paradise Media, missao, visao e equipa fundadora.",
+    "Contexto institucional da Algarve Paradise Media, missão, visão e equipa fundadora.",
 };
 
 export default function AboutPage() {
@@ -21,7 +21,7 @@ export default function AboutPage() {
       eyebrow={aboutStory.eyebrow}
       title={aboutStory.title}
       description={aboutStory.description}
-      primaryCta={{ label: "Ver noticias", href: siteRoutes.news }}
+      primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
       secondaryCta={{ label: "Contactos", href: siteRoutes.contact }}
       stats={editorialStats}
     >
@@ -32,14 +32,14 @@ export default function AboutPage() {
               <Landmark className="size-5 text-white" />
             </div>
             <div className="space-y-3">
-              <h2 className="font-heading text-3xl">Historia do projeto</h2>
+              <h2 className="font-heading text-3xl">História do projeto</h2>
               <p className="text-sm leading-7 text-white/74">
-                A Algarve Paradise Media nasce com o objetivo de dar voz a regiao do Algarve,
-                criando uma ponte entre a comunidade, as instituicoes e a informacao relevante.
+                A Algarve Paradise Media nasce com o objetivo de dar voz à região do Algarve,
+                criando uma ponte entre a comunidade, as instituições e a informação relevante.
               </p>
               <p className="text-sm leading-7 text-white/74">
-                O projeto responde a necessidade de modernizar a comunicacao regional com um
-                formato mais acessivel, dinamico e proximo das pessoas, sem perder rigor
+                O projeto responde à necessidade de modernizar a comunicação regional com um
+                formato mais acessível, dinâmico e próximo das pessoas, sem perder rigor
                 institucional.
               </p>
             </div>
@@ -53,7 +53,7 @@ export default function AboutPage() {
                 <div className="inline-flex size-11 items-center justify-center rounded-2xl bg-[var(--color-brand-50)] text-[var(--color-brand-700)]">
                   <Signal className="size-5" />
                 </div>
-                <h3 className="font-heading text-xl text-foreground">Comunicacao regional</h3>
+                <h3 className="font-heading text-xl text-foreground">Comunicação regional</h3>
                 <p className="text-sm leading-6 text-muted-foreground">
                   Estrutura digital desenhada para notícias, informação útil e agenda do território.
                 </p>
@@ -64,7 +64,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="font-heading text-xl text-foreground">Proximidade humana</h3>
                 <p className="text-sm leading-6 text-muted-foreground">
-                  A comunidade participa, acompanha e encontra um espaco de representacao.
+                  A comunidade participa, acompanha e encontra um espaço de representação.
                 </p>
               </div>
               <div className="space-y-3">
@@ -83,9 +83,9 @@ export default function AboutPage() {
 
       <section className="space-y-6 py-4">
         <SectionHeading
-          eyebrow="Missao, visao e valores"
-          title="Fundacao institucional preparada para uma comunicacao regional moderna"
-          description="Os blocos abaixo definem o enquadramento editorial e institucional da associacao."
+          eyebrow="Missão, visão e valores"
+          title="Fundação institucional preparada para uma comunicação regional moderna"
+          description="Os blocos abaixo definem o enquadramento editorial e institucional da associação."
         />
         <div className="grid gap-5 md:grid-cols-3">
           {missionVisionValues.map((value) => (
@@ -114,7 +114,7 @@ export default function AboutPage() {
         <SectionHeading
           eyebrow="Fundadores"
           title="Equipa fundadora com enquadramento profissional e institucional"
-          description="Os retratos e descricoes estao preparados para receber fotografia real e informacao final."
+          description="Os retratos e descrições estão preparados para receber fotografia real e informação final."
         />
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {founders.map((item) => (

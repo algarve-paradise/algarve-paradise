@@ -9,22 +9,22 @@ export const aboutStory = {
 
 export const missionVisionValues: FeatureCard[] = [
   {
-    tag: "Missao",
+    tag: "Missão",
     title: "Informar, conectar e valorizar o Algarve",
     description:
-      "A comunicacao deve ser acessivel, relevante e util para residentes, visitantes e entidades locais.",
+      "A comunicação deve ser acessível, relevante e útil para residentes, visitantes e entidades locais.",
     bullets: ["Linguagem clara", "Enfoque regional", "Utilidade publica"],
   },
   {
-    tag: "Visao",
-    title: "Ser uma referencia regional na comunicacao digital",
+    tag: "Visão",
+    title: "Ser uma referência regional na comunicação digital",
     description:
-      "O projeto pretende consolidar uma presenca editorial e institucional que una pessoas e iniciativas locais.",
+      "O projeto pretende consolidar uma presença editorial e institucional que una pessoas e iniciativas locais.",
     bullets: ["Presenca digital forte", "Relacao com entidades", "Crescimento sustentado"],
   },
   {
     tag: "Valores",
-    title: "Transparencia, proximidade, credibilidade e inovacao",
+    title: "Transparência, proximidade, credibilidade e inovação",
     description:
       "A identidade do site deve refletir rigor editorial sem perder calor humano e proximidade regional.",
     bullets: ["Transparencia", "Proximidade", "Credibilidade"],
@@ -34,23 +34,23 @@ export const missionVisionValues: FeatureCard[] = [
 export const founders: FounderItem[] = [
   {
     name: "Joao Silva",
-    role: "Fundador e responsavel pela area de comunicacao",
+    role: "Fundador e responsável pela área de comunicação",
     description:
-      "Coordena a orientacao editorial e a ligacao do projeto com a comunidade e parceiros locais.",
+      "Coordena a orientação editorial e a ligação do projeto com a comunidade e parceiros locais.",
     imageLabel: "Retrato profissional de fundador em contexto media",
   },
   {
     name: "Maria Fernandes",
-    role: "Coordenadora de conteudos e relacoes institucionais",
+    role: "Coordenadora de conteúdos e relações institucionais",
     description:
-      "Garante coerencia institucional, relacoes com entidades e acompanhamento da agenda regional.",
+      "Garante coerência institucional, relações com entidades e acompanhamento da agenda regional.",
     imageLabel: "Retrato profissional de coordenadora institucional",
   },
   {
     name: "Carlos Almeida",
-    role: "Responsavel tecnico e desenvolvimento digital",
+    role: "Responsável técnico e desenvolvimento digital",
     description:
-      "Assegura a base tecnica da plataforma e a sua evolucao para novos formatos e canais.",
+      "Assegura a base técnica da plataforma e a sua evolução para novos formatos e canais.",
     imageLabel: "Retrato profissional de responsavel tecnico",
   },
 ];

@@ -28,9 +28,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
             Acesso editorial
           </p>
-          <h1 className="font-heading text-5xl leading-none sm:text-6xl">Painel de noticias</h1>
+          <h1 className="font-heading text-5xl leading-none sm:text-6xl">Painel de notícias</h1>
           <p className="max-w-xl text-sm leading-7 text-muted-foreground">
-            Esta area foi preparada para a redacao criar, editar e publicar noticias no portal,
+            Esta área foi preparada para a redação criar, editar e publicar notícias no portal,
             com suporte a autenticacao, base de dados e imagens centralizadas no Supabase.
           </p>
         </section>

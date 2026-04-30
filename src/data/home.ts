@@ -20,18 +20,18 @@ export const homeHero: HeroBlock = {
 
 export const homePillars: FeatureCard[] = [
   {
-    tag: "Informacao",
-    title: "Noticias e reportagens com leitura imediata",
+    tag: "Informação",
+    title: "Notícias com leitura imediata",
     description:
       "A Home destaca atualidade regional com hierarquia forte, linguagem clara e ritmo de portal noticioso.",
-    bullets: ["Destaques no topo", "Cobertura regional", "Leitura rapida em mobile"],
+    bullets: ["Destaques no topo", "Cobertura regional", "Leitura rápida em mobile"],
   },
   {
     tag: "Comunidade",
-    title: "Participacao simples e visivel",
+    title: "Participação simples e visível",
     description:
-      "A comunidade tem espaco proprio para mensagens, sugestoes e proximidade com o projeto.",
-    bullets: ["Formulario curto", "Tom acessivel", "Ligacao aos municipios"],
+      "A comunidade tem espaço próprio para mensagens, sugestões e proximidade com o projeto.",
+    bullets: ["Formulário curto", "Tom acessível", "Ligação aos municípios"],
   },
   {
     tag: "Apoio",
@@ -43,8 +43,8 @@ export const homePillars: FeatureCard[] = [
 ];
 
 export const homeEditorialLabels = [
-  "Noticias",
-  "Reportagens",
+  "Notícias",
+  "Informação útil",
   "Agenda regional",
   "Comunidade",
   "Parcerias",

@@ -8,28 +8,28 @@ export const events: EventItem[] = [
     date: "12 Abril 2026",
     location: "Lagos",
     description:
-      "Programa cultural com musica, arte urbana e atividades abertas a residentes e visitantes.",
+      "Programa cultural com música, arte urbana e atividades abertas a residentes e visitantes.",
     href: `${siteRoutes.events}#festival-cultural-lagos`,
-    imageLabel: "Palco ao ar livre com publico e bandeiras regionais",
+    imageLabel: "Palco ao ar livre com público e bandeiras regionais",
   },
   {
     slug: "feira-gastronomica-faro",
-    title: "Feira Gastronomica de Faro",
+    title: "Feira Gastronómica de Faro",
     date: "18 Abril 2026",
     location: "Faro",
     description:
-      "Encontro de sabores algarvios com chefs locais, produtores e atividades para familias.",
+      "Encontro de sabores algarvios com chefs locais, produtores e atividades para famílias.",
     href: `${siteRoutes.events}#feira-gastronomica-faro`,
-    imageLabel: "Bancas gastronomicas com pratos regionais e visitantes",
+    imageLabel: "Bancas gastronómicas com pratos regionais e visitantes",
   },
   {
     slug: "encontro-empresarial-portimao",
-    title: "Encontro Empresarial de Portimao",
+    title: "Encontro Empresarial de Portimão",
     date: "24 Abril 2026",
-    location: "Portimao",
+    location: "Portimão",
     description:
-      "Sessao dedicada a economia regional, inovacao e cooperacao entre entidades do Algarve.",
+      "Sessão dedicada à economia regional, inovação e cooperação entre entidades do Algarve.",
     href: `${siteRoutes.events}#encontro-empresarial-portimao`,
-    imageLabel: "Auditorio com painel institucional e publico",
+    imageLabel: "Auditório com painel institucional e público",
   },
 ];

@@ -8,12 +8,12 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { editorialStats } from "@/data/site";
 import { getPublishedNews } from "@/lib/news";
-import { newsCategories } from "@/lib/news-shared";
+import { formatNewsCategory, newsCategories } from "@/lib/news-shared";
 import { siteRoutes } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Noticias",
-  description: "Portal de noticias regionais da Algarve Paradise Media.",
+  title: "Notícias",
+  description: "Portal de notícias regionais da Algarve Paradise Media.",
 };
 
 type NewsPageProps = {
@@ -81,10 +81,10 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
                 Em foco
               </div>
               <div className="space-y-3">
-                <h2 className="font-heading text-3xl">Edicao regional do momento</h2>
+                <h2 className="font-heading text-3xl">Edição regional do momento</h2>
                 <p className="text-sm leading-7 text-white/74">
-                  A pagina de noticias passa a consumir conteudo real do painel editorial e esta
-                  pronta para receber automacao nas proximas fases.
+                  A página de notícias consome conteúdo real do painel editorial e está pronta
+                  para receber automação nas próximas fases.
                 </p>
               </div>
               <div className="grid gap-3">
@@ -103,7 +103,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
                   ))
                 ) : (
                   <div className="rounded-[1.5rem] border border-white/10 bg-white/7 px-4 py-4 text-sm text-white/72">
-                    Sem noticias em foco neste momento.
+                    Sem notícias em foco neste momento.
                   </div>
                 )}
               </div>
@@ -113,8 +113,8 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
       ) : (
         <Card className="rounded-none border border-border shadow-none">
           <CardContent className="pt-6 text-sm leading-7 text-muted-foreground">
-            Ainda nao existem noticias publicadas. Assim que criar a primeira no painel administrativo,
-            ela passara a aparecer automaticamente aqui.
+            Ainda não existem notícias publicadas. Assim que criar a primeira no painel administrativo,
+            ela passará a aparecer automaticamente aqui.
           </CardContent>
         </Card>
       )}
@@ -171,7 +171,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
                   : "border-[color:var(--color-brand-200)] bg-white text-[var(--color-brand-700)] hover:border-[var(--dt-color-accent)]"
               }`}
             >
-              {category}
+              {formatNewsCategory(category)}
             </Link>
           ))}
           {(activeCategory || query) ? (
@@ -189,9 +189,9 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
 
       <section className="space-y-6 py-10">
         <SectionHeading
-          eyebrow="Edicao atual"
-          title="Destaques e noticias recentes"
-          description="Estrutura modular pronta para futura paginacao, filtros reais e rotas individuais."
+          eyebrow="Edição atual"
+          title="Destaques e notícias recentes"
+          description="Estrutura modular pronta para futura paginação, filtros reais e rotas individuais."
         />
         {newsItems.length ? (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
