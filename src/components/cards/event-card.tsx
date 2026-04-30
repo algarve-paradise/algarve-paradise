@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, MapPin } from "lucide-react";
 
+import { SafeImage } from "@/components/shared/safe-image";
 import { TiltCard } from "@/components/shared/tilt-card";
 import { cn } from "@/lib/utils";
 import type { EventItem } from "@/types/content";
@@ -39,15 +39,13 @@ export function EventCard({ item, anchorId, variant = "default" }: EventCardProp
           isFeatured ? "aspect-[16/11]" : "aspect-[4/3]",
         )}
       >
-        {item.imageUrl ? (
-          <Image
-            src={item.imageUrl}
-            alt={item.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover/tilt:scale-105"
-          />
-        ) : null}
+        <SafeImage
+          src={item.imageUrl}
+          alt={item.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover/tilt:scale-105"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
         <div className="absolute left-3 top-3">

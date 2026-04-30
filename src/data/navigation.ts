@@ -7,6 +7,7 @@ export const navigationMain: NavItem[] = [
   { label: "Notícias", href: siteRoutes.news },
   { label: "Eventos", href: siteRoutes.events },
   { label: "Comunidade", href: siteRoutes.community },
+  { label: "Apoie", href: siteRoutes.support, cta: true },
   { label: "Contactos", href: siteRoutes.contact },
 ];
 
@@ -15,5 +16,6 @@ export const navigationFooter: NavItem[] = [
   { label: "Notícias", href: siteRoutes.news },
   { label: "Eventos", href: siteRoutes.events },
   { label: "Comunidade", href: siteRoutes.community },
+  { label: "Apoie", href: siteRoutes.support },
   { label: "Contactos", href: siteRoutes.contact },
 ];

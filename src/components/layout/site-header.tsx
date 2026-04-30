@@ -102,10 +102,10 @@ export function SiteHeader() {
             </div>
 
             <Link
-              href={siteRoutes.contact}
+              href={siteRoutes.support}
               className="group relative inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[12px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_10px_30px_-10px_rgba(29,111,209,0.55)]"
             >
-              Contactos
+              Apoiar
               <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
 

@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, Play, Sparkles, TrendingUp } from "lucide-react";
 import gsap from "gsap";
 
+import { SafeImage } from "@/components/shared/safe-image";
 import type { NewsItem, Stat } from "@/types/content";
 
 type HomeHeroBannerProps = {
@@ -211,16 +211,14 @@ function FeaturedBanner({ featured }: { featured: NewsItem | null }) {
       data-hero-image
       className="group relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] bg-[#0A0A0A] text-white min-h-[420px] lg:min-h-[560px] flex flex-col justify-end p-7 sm:p-10"
     >
-      {featured.imageUrl ? (
-        <Image
-          src={featured.imageUrl}
-          alt={featured.title}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="absolute inset-0 h-full w-full object-cover scale-100 transition-transform duration-[1400ms] ease-out group-hover:scale-110"
-        />
-      ) : null}
+      <SafeImage
+        src={featured.imageUrl}
+        alt={featured.title}
+        fill
+        priority
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        className="absolute inset-0 h-full w-full object-cover scale-100 transition-transform duration-[1400ms] ease-out group-hover:scale-110"
+      />
 
       {/* Overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />

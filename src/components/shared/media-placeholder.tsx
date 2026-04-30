@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { SafeImage } from "@/components/shared/safe-image";
 import { cn } from "@/lib/utils";
 
 type MediaPlaceholderProps = {
@@ -25,15 +24,13 @@ export function MediaPlaceholder({
         className
       )}
     >
-      {imageUrl ? (
-        <Image
-          src={imageUrl}
-          alt={title || label}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ) : null}
+      <SafeImage
+        src={imageUrl}
+        alt={title || label}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div className={cn("absolute inset-0", imageUrl ? "bg-gradient-to-t from-black/70 via-black/15 to-transparent" : "")} />
       {/* Subtle diagonal lines pattern for newspaper feel */}
       <div className="absolute inset-0 opacity-[0.04]" style={{

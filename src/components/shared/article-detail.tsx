@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -18,6 +17,7 @@ import {
 import gsap from "gsap";
 
 import { Container } from "@/components/layout/container";
+import { SafeImage } from "@/components/shared/safe-image";
 
 export type ArticleDetailProps = {
   category: string;
@@ -166,18 +166,14 @@ export function ArticleDetail({
               data-detail-image
               className="group relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] bg-muted aspect-[16/11] sm:aspect-[16/10]"
             >
-              {imageUrl ? (
-                <Image
-                  src={imageUrl}
-                  alt={title}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-grid opacity-50" />
-              )}
+              <SafeImage
+                src={imageUrl}
+                alt={title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
               <div className="absolute left-5 top-5">

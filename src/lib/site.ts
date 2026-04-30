@@ -23,5 +23,6 @@ export const siteRoutes = {
   admin: "/admin",
   events: "/eventos",
   community: "/comunidade",
+  support: "/apoie",
   contact: "/contactos",
 } as const;
