@@ -3,9 +3,9 @@ import { siteRoutes } from "@/lib/site";
 
 export const communityIntro = {
   eyebrow: "Participação",
-  title: "A sua voz também faz parte do Algarve",
+  title: "A sua participação",
   description:
-    "Este espaço aproxima residentes, associações e iniciativas locais através de mensagens, sugestões e participação cívica direta com a redação.",
+    "Este projeto também é feito pela comunidade. Se tiver uma sugestão, notícia ou evento, pode partilhar connosco.",
   primaryCta: { label: "Enviar mensagem", href: `${siteRoutes.community}#participar` },
 };
 

@@ -59,6 +59,35 @@ function mapNewsRecordToItem(record: NewsRecord): NewsItem {
   };
 }
 
+export const getHomepageNews = cache(async () => {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("news_posts")
+    .select("*")
+    .eq("status", "published")
+    .neq("category", "Reportagem")
+    .order("featured", { ascending: false })
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .limit(30);
+
+  if (error) {
+    console.error("Failed to load homepage news", error);
+    return [] as NewsItem[];
+  }
+
+  const records = data as NewsRecord[];
+  records.sort((a, b) => {
+    const aScore = (a.featured ? 2 : 0) + (a.cover_image_url ? 1 : 0);
+    const bScore = (b.featured ? 2 : 0) + (b.cover_image_url ? 1 : 0);
+    if (aScore !== bScore) return bScore - aScore;
+    const dateA = new Date(a.published_at ?? a.created_at).getTime();
+    const dateB = new Date(b.published_at ?? b.created_at).getTime();
+    return dateB - dateA;
+  });
+
+  return records.map(mapNewsRecordToItem);
+});
+
 export const getPublishedNews = cache(async () => {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase

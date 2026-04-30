@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { HomeHeroBanner } from "@/components/sections/home-hero-banner";
 import { homeHero } from "@/data/home";
-import { getPublishedNews } from "@/lib/news";
+import { getHomepageNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 
 export async function HomeHeroSection() {
-  const newsItems = await getPublishedNews();
+  const newsItems = await getHomepageNews();
   const featuredNews = newsItems.find((i) => i.featured) ?? newsItems[0] ?? null;
   const tickerItems = newsItems.slice(0, 6);
 

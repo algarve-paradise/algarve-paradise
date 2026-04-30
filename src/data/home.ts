@@ -3,19 +3,19 @@ import { siteRoutes } from "@/lib/site";
 import { editorialStats } from "@/data/site";
 
 export const homeHero: HeroBlock = {
-  eyebrow: "Media regional do Algarve",
-  title: "A voz do Algarve, em direto para si",
+  eyebrow: "Portal de informação regional",
+  title: "Tudo o que acontece no Algarve, num só lugar",
   description:
-    "Informacao, eventos e comunidade reunidos numa so plataforma, com uma linguagem editorial moderna e proximidade real ao territorio algarvio.",
-  primaryCta: { label: "Ver noticias", href: siteRoutes.news },
+    "Notícias, eventos e informações atualizadas para quem quer acompanhar de perto tudo o que acontece na região.",
+  primaryCta: { label: "Ver notícias", href: siteRoutes.news },
   secondaryCta: {
-    label: "Fazer parte da comunidade",
-    href: siteRoutes.community,
+    label: "Explorar conteúdos",
+    href: siteRoutes.events,
     variant: "outline",
   },
   stats: editorialStats,
   highlight:
-    "Cobertura regional, agenda do territorio e participacao da comunidade com presenca institucional clara.",
+    "Informação atualizada diariamente, foco exclusivo no Algarve e acesso simples em qualquer dispositivo.",
 };
 
 export const homePillars: FeatureCard[] = [
@@ -51,10 +51,10 @@ export const homeEditorialLabels = [
 ];
 
 export const homeClosing = {
-  eyebrow: "Missao regional",
-  title: "Uma plataforma criada para aproximar o Algarve da sua propria voz",
+  eyebrow: "Missão regional",
+  title: "Um projeto feito para o Algarve",
   description:
-    "A Algarve Paradise Media junta informacao, participacao e credibilidade institucional para reforcar a ligacao entre pessoas, iniciativas e entidades da regiao.",
+    "O Algarve TV Paradise nasce com o objetivo de dar mais visibilidade à região, aproximar pessoas e valorizar tudo o que acontece localmente.",
   primaryCta: { label: "Entrar em contacto", href: siteRoutes.contact },
   secondaryCta: { label: "Participar na comunidade", href: siteRoutes.community, variant: "outline" },
 };

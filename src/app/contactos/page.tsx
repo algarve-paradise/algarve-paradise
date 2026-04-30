@@ -23,10 +23,10 @@ export default function ContactPage() {
   return (
     <PageShell
       eyebrow="Contactos"
-      title="Fale com a redacao, a equipa institucional ou a area de apoio"
-      description="A pagina de contactos fica pronta para integracao futura, mantendo ja os canais principais e um formulario funcional em frontend."
+      title="Entre em contacto"
+      description="Para sugestões, envio de conteúdos ou parcerias, entre em contacto connosco através dos canais disponíveis."
       primaryCta={{ label: "Apoiar o projeto", href: siteRoutes.support }}
-      secondaryCta={{ label: "Sobre a associacao", href: siteRoutes.about }}
+      secondaryCta={{ label: "Sobre o projeto", href: siteRoutes.about }}
     >
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="grid gap-4">

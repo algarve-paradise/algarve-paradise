@@ -4,7 +4,7 @@ import Link from "next/link";
 import { EventCard } from "@/components/cards/event-card";
 import { SectionShell } from "@/components/shared/section-shell";
 import { events as fallbackEvents } from "@/data/events";
-import { getPublishedEvents } from "@/lib/events";
+import { getHomepageEvents } from "@/lib/events";
 import { getPublishedEventNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 import type { EventItem, NewsItem } from "@/types/content";
@@ -33,7 +33,7 @@ function newsItemToEvent(news: NewsItem): EventItem {
 
 export async function EventsSection() {
   const [dbEvents, eventNews] = await Promise.all([
-    getPublishedEvents(),
+    getHomepageEvents(),
     getPublishedEventNews(),
   ]);
 
@@ -63,10 +63,10 @@ export async function EventsSection() {
       eyebrow="Agenda regional"
       title={
         <>
-          Eventos que <em className="not-italic text-[var(--dt-color-accent)]">acontecem</em> no Algarve
+          O que está a <em className="not-italic text-[var(--dt-color-accent)]">acontecer</em> no Algarve
         </>
       }
-      description="Concertos, feiras, encontros e cultura — tudo o que vai animar a região nas próximas semanas."
+      description="Descubra eventos culturais, desportivos e iniciativas locais em toda a região."
       cta={{ label: "Ver agenda", href: siteRoutes.events }}
       withDivider={false}
     >

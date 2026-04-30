@@ -66,8 +66,8 @@ export default async function EventsPage() {
   return (
     <PageShell
       eyebrow="Eventos"
-      title="Agenda regional do Algarve"
-      description="Cultura, gastronomia, desporto, instituições e muito mais — os eventos que movem a região, reunidos num só lugar."
+      title="Eventos no Algarve"
+      description="Explore eventos culturais, desportivos e iniciativas locais que acontecem em toda a região."
       primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
       secondaryCta={{ label: "Comunidade", href: siteRoutes.community }}
     >

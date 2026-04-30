@@ -24,11 +24,11 @@ export default async function NewsPage() {
 
   return (
     <PageShell
-      eyebrow="Noticias"
-      title="Portal editorial pensado para acompanhar a atualidade regional"
-      description="A pagina organiza destaques, categorias e listagem noticiosa com uma hierarquia clara, preparada para receber conteudos finais."
-      primaryCta={{ label: "Ver videos", href: siteRoutes.tv }}
-      secondaryCta={{ label: "Eventos", href: siteRoutes.events }}
+      eyebrow="Notícias"
+      title="Notícias do Algarve"
+      description="Acompanhe as principais notícias da região, organizadas de forma clara para facilitar o acesso à informação."
+      primaryCta={{ label: "Ver eventos", href: siteRoutes.events }}
+      secondaryCta={{ label: "Comunidade", href: siteRoutes.community }}
       stats={editorialStats}
     >
       {lead ? (

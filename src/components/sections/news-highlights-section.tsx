@@ -1,16 +1,15 @@
 import { NewsCard } from "@/components/cards/news-card";
 import { SectionShell } from "@/components/shared/section-shell";
-import { getPublishedNews } from "@/lib/news";
+import { getHomepageNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 
 export async function NewsHighlightsSection() {
-  const newsItems = await getPublishedNews();
+  const newsItems = await getHomepageNews();
   const featured = newsItems.filter((item) => item.featured);
   const featuredLead = featured[0] ?? newsItems[0];
   const sideItems = (featured.length > 1 ? featured.slice(1) : newsItems.slice(1, 5)).slice(0, 4);
-  const secondary = newsItems
-    .filter((item) => !item.featured && item.slug !== featuredLead?.slug)
-    .slice(0, 3);
+  const usedSlugs = new Set([featuredLead?.slug, ...sideItems.map((i) => i.slug)].filter(Boolean));
+  const secondary = newsItems.filter((item) => !usedSlugs.has(item.slug)).slice(0, 3);
 
   if (!newsItems.length || !featuredLead) {
     return null;
@@ -21,10 +20,10 @@ export async function NewsHighlightsSection() {
       eyebrow="Destaques"
       title={
         <>
-          Notícias que estão a moldar o <em className="not-italic text-[var(--dt-color-accent)]">Algarve</em> agora
+          Últimas notícias do <em className="not-italic text-[var(--dt-color-accent)]">Algarve</em>
         </>
       }
-      description="Uma curadoria editorial dos temas mais relevantes da semana, com cobertura regional e leitura clara."
+      description="Acompanhe as principais novidades da região de forma rápida, clara e acessível."
       cta={{ label: "Ver todas", href: siteRoutes.news }}
       withDivider={false}
     >

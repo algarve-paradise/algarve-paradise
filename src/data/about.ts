@@ -2,9 +2,9 @@ import type { FeatureCard, FounderItem } from "@/types/content";
 
 export const aboutStory = {
   eyebrow: "Sobre o projeto",
-  title: "Uma plataforma regional para informar, conectar e valorizar o Algarve",
+  title: "Uma plataforma criada para dar voz ao Algarve",
   description:
-    "A Algarve Paradise Media nasce para aproximar comunidade, instituicoes e informacao relevante com uma presenca digital moderna, clara e credivel.",
+    "O Algarve TV Paradise é uma plataforma digital criada para dar voz à região do Algarve. Num contexto onde a informação local é muitas vezes limitada ou dispersa, este projeto surge para reunir, organizar e divulgar conteúdos relevantes de forma simples e acessível.",
 };
 
 export const missionVisionValues: FeatureCard[] = [

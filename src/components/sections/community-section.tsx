@@ -12,13 +12,13 @@ export async function CommunitySection() {
 
   return (
     <SectionShell
-      eyebrow="Vozes da Comunidade"
+      eyebrow="Comunidade"
       title={
         <>
-          A região <em className="not-italic text-[var(--dt-color-accent)]">fala</em>, nós ouvimos
+          Partilhe <em className="not-italic text-[var(--dt-color-accent)]">connosco</em>
         </>
       }
-      description="Mensagens reais de quem vive o Algarve — cidadãos, autarcas e visitantes que partilham a sua perspetiva."
+      description="Tem uma notícia, evento ou sugestão? A sua participação ajuda a tornar este projeto mais completo."
       withDivider={false}
     >
       <div className="grid gap-8 lg:grid-cols-[0.58fr_0.42fr] lg:gap-12">

@@ -118,7 +118,11 @@ export function HomeHeroBanner({
             {titleWords.map((word, idx) => (
               <span key={idx} className="inline-block overflow-hidden align-bottom mr-[0.22em]">
                 <span data-hero-word className="inline-block">
-                  {idx === 1 ? <em className="not-italic text-[var(--dt-color-accent)]">{word}</em> : word}
+                  {word.replace(/[^a-zA-ZÀ-ÿ]/g, "") === "Algarve" ? (
+                    <em className="not-italic text-[var(--dt-color-accent)]">{word}</em>
+                  ) : (
+                    word
+                  )}
                 </span>
               </span>
             ))}

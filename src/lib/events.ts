@@ -61,6 +61,18 @@ function mapEventRecordToItem(record: EventRecord): EventItem {
   };
 }
 
+export const getHomepageEvents = cache(async () => {
+  const events = await getPublishedEvents();
+  return [...events].sort((a, b) => {
+    const aHasImage = a.imageUrl ? 1 : 0;
+    const bHasImage = b.imageUrl ? 1 : 0;
+    if (aHasImage !== bHasImage) return bHasImage - aHasImage;
+    const dateA = a.startsAt ? new Date(a.startsAt).getTime() : 0;
+    const dateB = b.startsAt ? new Date(b.startsAt).getTime() : 0;
+    return dateA - dateB;
+  });
+});
+
 export const getPublishedEvents = cache(async () => {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
