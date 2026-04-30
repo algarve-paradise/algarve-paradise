@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Radio } from "lucide-react";
+import { Radio, Search, X } from "lucide-react";
 
 import { NewsCard } from "@/components/cards/news-card";
 import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { ButtonLink } from "@/components/ui/button-link";
 import { editorialStats } from "@/data/site";
 import { getPublishedNews } from "@/lib/news";
 import { newsCategories } from "@/lib/news-shared";
@@ -17,8 +16,49 @@ export const metadata: Metadata = {
   description: "Portal de noticias regionais da Algarve Paradise Media.",
 };
 
-export default async function NewsPage() {
-  const newsItems = await getPublishedNews();
+type NewsPageProps = {
+  searchParams: Promise<{
+    categoria?: string;
+    q?: string;
+  }>;
+};
+
+function buildNewsHref(category?: string, query?: string) {
+  const params = new URLSearchParams();
+  if (category) params.set("categoria", category);
+  if (query) params.set("q", query);
+  const qs = params.toString();
+  return qs ? `${siteRoutes.news}?${qs}` : siteRoutes.news;
+}
+
+export default async function NewsPage({ searchParams }: NewsPageProps) {
+  const params = await searchParams;
+  const allNewsItems = await getPublishedNews();
+  const visibleCategories = newsCategories.filter((category) => category !== "Reportagem");
+  const activeCategory = visibleCategories.includes(params.categoria as (typeof visibleCategories)[number])
+    ? params.categoria
+    : undefined;
+  const query = (params.q ?? "").trim();
+  const normalizedQuery = query.toLocaleLowerCase("pt-PT");
+
+  const newsItems = allNewsItems.filter((item) => {
+    const matchesCategory = !activeCategory || item.category === activeCategory;
+    const searchable = [
+      item.title,
+      item.excerpt,
+      item.content,
+      item.category,
+      item.region,
+      item.sourceName,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLocaleLowerCase("pt-PT");
+    const matchesSearch = !normalizedQuery || searchable.includes(normalizedQuery);
+
+    return matchesCategory && matchesSearch;
+  });
+
   const [lead, ...rest] = newsItems;
   const liveItems = newsItems.filter((item) => item.live);
 
@@ -67,10 +107,6 @@ export default async function NewsPage() {
                   </div>
                 )}
               </div>
-              <ButtonLink href={siteRoutes.tv} variant="secondary" className="w-fit rounded-full">
-                Ver reportagens
-                <ArrowRight className="size-4" />
-              </ButtonLink>
             </CardContent>
           </Card>
         </section>
@@ -86,18 +122,65 @@ export default async function NewsPage() {
       <section className="space-y-6">
         <SectionHeading
           eyebrow="Categorias"
-          title="Leitura rapida por areas editoriais"
-          description="Os filtros estao representados visualmente nesta fase, sem logica dinamica adicional."
+          title="Encontre notícias por tema ou palavra-chave"
+          description="Use os filtros para consultar rapidamente as áreas editoriais e pesquisar conteúdos publicados."
         />
+        <form action={siteRoutes.news} className="grid gap-3 rounded-[1.4rem] border border-foreground/10 bg-white p-4 shadow-[0_16px_40px_rgba(7,32,67,0.06)] sm:grid-cols-[1fr_auto]">
+          {activeCategory ? (
+            <input type="hidden" name="categoria" value={activeCategory} />
+          ) : null}
+          <label className="relative block">
+            <span className="sr-only">Pesquisar notícias</span>
+            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="search"
+              name="q"
+              defaultValue={query}
+              placeholder="Pesquisar por tema, local ou palavra-chave"
+              className="h-12 w-full rounded-full border border-foreground/10 bg-[var(--dt-color-bg)] pl-11 pr-4 text-sm text-foreground outline-none transition focus:border-[var(--dt-color-accent)] focus:bg-white focus:ring-4 focus:ring-[var(--dt-color-accent)]/10"
+            />
+          </label>
+          <button
+            type="submit"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-semibold text-background transition hover:bg-[var(--dt-color-accent)]"
+          >
+            <Search className="size-4" />
+            Pesquisar
+          </button>
+        </form>
         <div className="flex flex-wrap gap-3">
-          {newsCategories.map((category) => (
-            <span
+          <Link
+            href={buildNewsHref(undefined, query)}
+            className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition ${
+              !activeCategory
+                ? "border-[var(--dt-color-accent)] bg-[var(--dt-color-accent)] text-white"
+                : "border-[color:var(--color-brand-200)] bg-white text-[var(--color-brand-700)] hover:border-[var(--dt-color-accent)]"
+            }`}
+          >
+            Todas
+          </Link>
+          {visibleCategories.map((category) => (
+            <Link
               key={category}
-              className="rounded-full border border-[color:var(--color-brand-200)] bg-white px-4 py-2 text-sm font-medium text-[var(--color-brand-700)]"
+              href={buildNewsHref(category, query)}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition ${
+                activeCategory === category
+                  ? "border-[var(--dt-color-accent)] bg-[var(--dt-color-accent)] text-white"
+                  : "border-[color:var(--color-brand-200)] bg-white text-[var(--color-brand-700)] hover:border-[var(--dt-color-accent)]"
+              }`}
             >
               {category}
-            </span>
+            </Link>
           ))}
+          {(activeCategory || query) ? (
+            <Link
+              href={siteRoutes.news}
+              className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-[var(--dt-color-accent)] hover:text-foreground"
+            >
+              <X className="size-4" />
+              Limpar
+            </Link>
+          ) : null}
         </div>
       </section>
 
@@ -107,13 +190,20 @@ export default async function NewsPage() {
           title="Destaques e noticias recentes"
           description="Estrutura modular pronta para futura paginacao, filtros reais e rotas individuais."
         />
-        {rest.length ? (
+        {newsItems.length ? (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {rest.map((item) => (
               <NewsCard key={item.slug} item={item} featured={item.featured} anchorId={item.slug} />
             ))}
           </div>
-        ) : null}
+        ) : (
+          <Card className="rounded-[1.2rem] border border-foreground/10 bg-white shadow-none">
+            <CardContent className="pt-6 text-sm leading-7 text-muted-foreground">
+              Nenhuma notícia encontrada para os filtros atuais. Experimente outra categoria ou
+              limpe a pesquisa.
+            </CardContent>
+          </Card>
+        )}
       </section>
     </PageShell>
   );

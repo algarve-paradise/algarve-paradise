@@ -25,7 +25,7 @@ export default function ContactPage() {
       eyebrow="Contactos"
       title="Entre em contacto"
       description="Para sugestões, envio de conteúdos ou parcerias, entre em contacto connosco através dos canais disponíveis."
-      primaryCta={{ label: "Apoiar o projeto", href: siteRoutes.support }}
+      primaryCta={{ label: "Partilhar sugestão", href: siteRoutes.community }}
       secondaryCta={{ label: "Sobre o projeto", href: siteRoutes.about }}
     >
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">

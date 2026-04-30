@@ -49,16 +49,16 @@
 }
 
 :root {
-  /* === DESIGN TOKENS — TECH / EDITORIAL === */
-  --dt-color-bg: #F4F4F1;
+  /* === DESIGN TOKENS — ALGARVE TV PARADISE === */
+  --dt-color-bg: #F5F8FC;
   --dt-color-surface: #FFFFFF;
-  --dt-color-text: #0A0A0A;
-  --dt-color-brand: #0A0A0A;
-  --dt-color-accent: #FF5B2E;
-  --dt-color-accent-soft: #FFE4DA;
+  --dt-color-text: #071E3A;
+  --dt-color-brand: #0B3D75;
+  --dt-color-accent: #1D6FD1;
+  --dt-color-accent-soft: #D8E9FF;
   --dt-color-mint: #C7F0CD;
-  --dt-color-sky: #D9E8FF;
-  --dt-color-violet: #E5DCFB;
+  --dt-color-sky: #DDEEFF;
+  --dt-color-violet: #E5ECFB;
 
   --background: var(--dt-color-bg);
   --foreground: var(--dt-color-text);
@@ -68,52 +68,52 @@
   --popover-foreground: var(--dt-color-text);
   --primary: var(--dt-color-brand);
   --primary-foreground: #ffffff;
-  --secondary: #ECECE7;
+  --secondary: #E7EEF7;
   --secondary-foreground: var(--dt-color-text);
-  --muted: #ECECE7;
-  --muted-foreground: #5A5A56;
+  --muted: #E7EEF7;
+  --muted-foreground: #4B6078;
   --accent: var(--dt-color-accent);
   --accent-foreground: #ffffff;
   --destructive: #E5484D;
-  --border: rgba(10, 10, 10, 0.08);
-  --input: rgba(10, 10, 10, 0.12);
+  --border: rgba(7, 30, 58, 0.1);
+  --input: rgba(7, 30, 58, 0.14);
   --ring: var(--dt-color-accent);
   --chart-1: var(--dt-color-accent);
-  --chart-2: #1F1F1F;
-  --chart-3: #5A5A56;
-  --chart-4: #8E8E88;
-  --chart-5: #C7C7C2;
+  --chart-2: #0B3D75;
+  --chart-3: #4B6078;
+  --chart-4: #7FA7D8;
+  --chart-5: #C7D9EE;
   --radius: 1.25rem;
   --sidebar: var(--dt-color-bg);
   --sidebar-foreground: var(--dt-color-text);
   --sidebar-primary: var(--dt-color-brand);
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #ECECE7;
+  --sidebar-accent: #E7EEF7;
   --sidebar-accent-foreground: var(--dt-color-text);
-  --sidebar-border: rgba(10, 10, 10, 0.08);
+  --sidebar-border: rgba(7, 30, 58, 0.1);
   --sidebar-ring: var(--dt-color-accent);
-  --color-brand-50: #F7F7F4;
-  --color-brand-100: #ECECE7;
-  --color-brand-200: rgba(10, 10, 10, 0.08);
+  --color-brand-50: #EDF6FF;
+  --color-brand-100: #D8E9FF;
+  --color-brand-200: rgba(29, 111, 209, 0.18);
   --color-brand-700: var(--dt-color-brand);
   --color-brand-800: var(--dt-color-text);
   --color-signal: var(--dt-color-accent);
-  --color-signal-hover: #FF7A50;
+  --color-signal-hover: #3B86DD;
   --color-signal-soft: var(--dt-color-accent-soft);
   --color-signal-foreground: #ffffff;
 
   /* Tech gradients */
   --gradient-mesh:
-    radial-gradient(at 18% 12%, rgba(255, 91, 46, 0.18) 0px, transparent 55%),
+    radial-gradient(at 18% 12%, rgba(29, 111, 209, 0.2) 0px, transparent 55%),
     radial-gradient(at 82% 22%, rgba(199, 240, 205, 0.55) 0px, transparent 50%),
     radial-gradient(at 88% 88%, rgba(217, 232, 255, 0.6) 0px, transparent 50%),
     radial-gradient(at 12% 92%, rgba(229, 220, 251, 0.45) 0px, transparent 52%);
   --gradient-aurora:
-    conic-gradient(from 220deg at 50% 50%, #FF5B2E, #C7F0CD, #D9E8FF, #E5DCFB, #FF5B2E);
+    conic-gradient(from 220deg at 50% 50%, #1D6FD1, #C7F0CD, #DDEEFF, #E5ECFB, #1D6FD1);
   --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 100%);
   --shadow-soft: 0 1px 2px rgba(10, 10, 10, 0.04), 0 8px 30px rgba(10, 10, 10, 0.06);
   --shadow-pop: 0 24px 70px -20px rgba(10, 10, 10, 0.18), 0 4px 12px rgba(10, 10, 10, 0.04);
-  --shadow-glow: 0 0 0 1px rgba(255, 91, 46, 0.15), 0 20px 60px -16px rgba(255, 91, 46, 0.35);
+  --shadow-glow: 0 0 0 1px rgba(29, 111, 209, 0.15), 0 20px 60px -16px rgba(29, 111, 209, 0.35);
 }
 
 .dark {
@@ -180,14 +180,14 @@
   body {
     @apply bg-background text-foreground;
     background-image:
-      radial-gradient(at 2% 0%, rgba(255, 91, 46, 0.05) 0px, transparent 50%),
+      radial-gradient(at 2% 0%, rgba(29, 111, 209, 0.06) 0px, transparent 50%),
       radial-gradient(at 98% 100%, rgba(217, 232, 255, 0.4) 0px, transparent 50%);
     background-attachment: fixed;
     background-size: 100% 100%;
   }
 
   ::selection {
-    background: rgba(255, 91, 46, 0.25);
+    background: rgba(29, 111, 209, 0.25);
     color: var(--foreground);
   }
 
@@ -247,7 +247,7 @@
     inset: -1px;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 91, 46, 0.6), rgba(217, 232, 255, 0.6) 50%, rgba(199, 240, 205, 0.6));
+    background: linear-gradient(135deg, rgba(29, 111, 209, 0.6), rgba(217, 232, 255, 0.6) 50%, rgba(199, 240, 205, 0.6));
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -262,7 +262,7 @@
     inset: -1px;
     border-radius: inherit;
     background:
-      radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 91, 46, 0.15), transparent 38%),
+      radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(29, 111, 209, 0.16), transparent 38%),
       linear-gradient(135deg, rgba(255, 255, 255, 0.55), transparent 48%);
     opacity: 0;
     transition: opacity 320ms ease;
@@ -412,7 +412,7 @@
     stroke-dasharray: 0.16 0.84;
     stroke-dashoffset: 0.86;
     transition: opacity 220ms ease;
-    filter: drop-shadow(0 0 8px rgba(255, 91, 46, 0.42));
+    filter: drop-shadow(0 0 8px rgba(29, 111, 209, 0.42));
   }
   .tech-card:hover .card-trace-rect,
   .group\/tilt:hover .card-trace-rect,

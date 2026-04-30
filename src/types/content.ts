@@ -69,18 +69,6 @@ export type NewsItem = {
   aiReviewDeadline?: string | null;
 };
 
-export type VideoItem = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  duration: string;
-  category: string;
-  href: string;
-  imageLabel: string;
-  imageUrl?: string | null;
-  featured?: boolean;
-};
-
 export type EventItem = {
   id?: string;
   slug: string;
@@ -104,12 +92,6 @@ export type EventItem = {
   aiReviewDeadline?: string | null;
 };
 
-export type PartnerItem = {
-  name: string;
-  hint: string;
-  tier: string;
-};
-
 export type ContactLink = {
   label: string;
   value: string;
@@ -127,12 +109,6 @@ export type CommunityMessage = {
   name: string;
   municipality: string;
   message: string;
-};
-
-export type SupportCard = {
-  title: string;
-  description: string;
-  cta: CtaLink;
 };
 
 export type ContactFormField = {

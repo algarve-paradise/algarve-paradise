@@ -26,8 +26,8 @@ export async function HomeHeroSection() {
           highlight={homeHero.highlight}
           stats={homeHero.stats}
           featured={featuredNews}
-          primaryCta={{ label: "Explorar notícias", href: siteRoutes.news }}
-          secondaryCta={{ label: "Comunidade", href: siteRoutes.community }}
+          primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
+          secondaryCta={{ label: "Explorar conteúdos", href: siteRoutes.events }}
         />
 
         {tickerItems.length > 0 ? (

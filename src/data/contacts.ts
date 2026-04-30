@@ -10,7 +10,7 @@ export const contactLinks: ContactLink[] = [
   {
     label: "Telefone",
     value: siteConfig.phone,
-    href: "tel:+351289000000",
+    href: "tel:+351964431933",
   },
   {
     label: "Localizacao",

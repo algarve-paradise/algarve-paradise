@@ -149,7 +149,7 @@ export function HomeHeroBanner({
           <div className="flex flex-wrap items-center gap-3" data-hero-rise>
             <Link
               href={primaryCta.href}
-              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-[13px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_18px_40px_-14px_rgba(255,91,46,0.65)]"
+              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-[13px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_18px_40px_-14px_rgba(29,111,209,0.55)]"
             >
               {primaryCta.label}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Menu, Radio, X } from "lucide-react";
+import { ArrowUpRight, Menu, Newspaper, X } from "lucide-react";
 
 import { navigationMain } from "@/data/navigation";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
@@ -97,15 +97,15 @@ export function SiteHeader() {
               <span className="relative inline-flex size-1.5 rounded-full bg-[var(--dt-color-accent)]">
                 <span className="absolute inset-0 rounded-full bg-[var(--dt-color-accent)] animate-pulse-dot" />
               </span>
-              <Radio className="size-3" />
-              <span>Em direto</span>
+              <Newspaper className="size-3" />
+              <span>Atualizado</span>
             </div>
 
             <Link
-              href={siteRoutes.support}
-              className="group relative inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[12px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_10px_30px_-10px_rgba(255,91,46,0.6)]"
+              href={siteRoutes.contact}
+              className="group relative inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[12px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_10px_30px_-10px_rgba(29,111,209,0.55)]"
             >
-              Apoiar
+              Contactos
               <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
 
