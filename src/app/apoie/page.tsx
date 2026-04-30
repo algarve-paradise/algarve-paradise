@@ -128,7 +128,11 @@ export default function SupportPage() {
                 <Mail className="size-4" />
                 Enviar email
               </ButtonLink>
-              <ButtonLink href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} variant="outline">
+              <ButtonLink
+                href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+                variant="outline"
+                className="border-white bg-white text-slate-950 hover:bg-[var(--dt-color-accent-soft)] hover:text-slate-950"
+              >
                 <Phone className="size-4" />
                 Telefonar
               </ButtonLink>
