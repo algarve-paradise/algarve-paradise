@@ -102,7 +102,7 @@ export function CommunityForm() {
         <button
           type="submit"
           disabled={state === "loading"}
-          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-[12px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_18px_40px_-14px_rgba(255,91,46,0.65)] disabled:opacity-60"
+          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-[12px] font-semibold text-background transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:shadow-[0_18px_40px_-14px_rgba(29,111,209,0.55)] disabled:opacity-60"
         >
           {state === "loading" ? "A enviar…" : "Enviar mensagem"}
           <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />

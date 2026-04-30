@@ -55,7 +55,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="font-heading text-xl text-foreground">Comunicacao regional</h3>
                 <p className="text-sm leading-6 text-muted-foreground">
-                  Estrutura digital desenhada para noticias, videos e agenda do territorio.
+                  Estrutura digital desenhada para notícias, informação útil e agenda do território.
                 </p>
               </div>
               <div className="space-y-3">
