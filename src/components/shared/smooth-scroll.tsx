@@ -6,7 +6,9 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function SmoothScroll() {
   const pathname = usePathname();
@@ -179,7 +181,9 @@ export function SmoothScroll() {
           gsap.utils.toArray<HTMLElement>("[data-reveal-grid]").forEach((el) => {
             if (animated.has(el)) return;
             animated.add(el);
-            const children = Array.from(el.children) as HTMLElement[];
+            const children = Array.from(el.children).filter(
+              (c) => !c.classList.contains("tech-card"),
+            ) as HTMLElement[];
             if (!children.length) return;
             gsap.fromTo(
               children,
@@ -216,12 +220,27 @@ export function SmoothScroll() {
       });
     };
 
+    let idleHandle: number | undefined;
+
     const queueRevealAnimations = () => {
-      revealFrame = window.requestAnimationFrame(() => {
-        revealFrameAfterPaint = window.requestAnimationFrame(() => {
-          revealTimer = window.setTimeout(setupRevealAnimations, 0);
+      // requestIdleCallback fires when the browser is truly idle — after React
+      // has finished hydrating all components and the main thread is free.
+      // This prevents GSAP from setting inline styles during React's hydration
+      // comparison, which would cause a hydration mismatch error.
+      if (typeof requestIdleCallback !== "undefined") {
+        idleHandle = window.requestIdleCallback(
+          () => { if (!isCancelled) setupRevealAnimations(); },
+          { timeout: 2000 },
+        );
+      } else {
+        revealFrame = window.requestAnimationFrame(() => {
+          revealFrameAfterPaint = window.requestAnimationFrame(() => {
+            revealTimer = window.setTimeout(() => {
+              if (!isCancelled) setupRevealAnimations();
+            }, 300);
+          });
         });
-      });
+      }
     };
 
     if (!prefersReducedMotion) {
@@ -237,6 +256,9 @@ export function SmoothScroll() {
 
     return () => {
       isCancelled = true;
+      if (idleHandle !== undefined && typeof cancelIdleCallback !== "undefined") {
+        window.cancelIdleCallback(idleHandle);
+      }
       if (revealTimer) {
         window.clearTimeout(revealTimer);
       }

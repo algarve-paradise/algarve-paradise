@@ -71,6 +71,7 @@ export function TiltCard<T extends ElementType = "div">({
   return (
     <Component
       className={cn("tech-card group/tilt", className)}
+      suppressHydrationWarning
       style={{
         ...(style as CSSProperties | undefined),
         transform: "var(--tilt, perspective(1000px) translate3d(0, 0, 0) rotateX(0) rotateY(0) scale(1))",
