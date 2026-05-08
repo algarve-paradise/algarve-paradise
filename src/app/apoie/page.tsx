@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Building2, HandHeart, Landmark, Mail, Megaphone, ReceiptText } from "lucide-react";
+import { ArrowRight, Building2, CheckCircle2, HandHeart, Heart, Landmark, Mail, Megaphone, ReceiptText, Shield, Zap } from "lucide-react";
+import Link from "next/link";
 
 import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { ButtonLink } from "@/components/ui/button-link";
 import { siteConfig, siteRoutes } from "@/lib/site";
+
+const HOW_IT_WORKS = [
+  { icon: Heart, step: "01", title: "Escolha o valor", desc: "€5, €10, €25, €50 ou outro valor à sua escolha." },
+  { icon: Shield, step: "02", title: "Pague com segurança", desc: "Cartão, PayPal ou MB Way — rápido e encriptado." },
+  { icon: CheckCircle2, step: "03", title: "Receba confirmação", desc: "Recibo enviado por email com referência da transação." },
+];
 
 export const metadata: Metadata = {
   title: "Apoie",
@@ -77,6 +84,56 @@ export default function SupportPage() {
       primaryCta={{ label: "Falar sobre patrocínio", href: `mailto:${siteConfig.email}` }}
       secondaryCta={{ label: "Enviar sugestão", href: siteRoutes.community }}
     >
+      {/* Donation CTA hero */}
+      <section className="overflow-hidden rounded-[2rem] bg-[#04162f] p-8 text-white shadow-[0_24px_60px_rgba(4,22,47,0.28)] sm:p-10 lg:p-12">
+        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+              <Zap className="size-3 text-[var(--dt-color-accent)]" />
+              Donativo online
+            </div>
+            <div className="space-y-3">
+              <h2 className="font-heading text-4xl leading-tight sm:text-5xl">
+                Faça um donativo<br />
+                <span className="text-[var(--dt-color-accent)]">agora</span>
+              </h2>
+              <p className="max-w-md text-[15px] leading-7 text-white/70">
+                Em menos de um minuto pode contribuir para manter o Algarve TV Paradise
+                gratuito, independente e focado na região.
+              </p>
+            </div>
+            {/* Steps */}
+            <div className="grid gap-4 sm:grid-cols-3">
+              {HOW_IT_WORKS.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.step} className="space-y-2 rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[10px] text-white/40">{item.step}</span>
+                      <Icon className="size-4 text-[var(--dt-color-accent)]" />
+                    </div>
+                    <p className="font-heading text-base text-white">{item.title}</p>
+                    <p className="text-[12px] leading-5 text-white/60">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="shrink-0">
+            <Link
+              href="/apoie/doar"
+              className="group inline-flex items-center gap-3 rounded-[1.4rem] bg-white px-8 py-5 font-heading text-2xl text-[#04162f] shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-300 hover:shadow-[0_16px_48px_rgba(255,255,255,0.25)] hover:scale-[1.02]"
+            >
+              Fazer donativo
+              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <p className="mt-3 text-center text-[12px] text-white/40">
+              A partir de €1 · Seguro · Sem subscrição
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="grid gap-5 lg:grid-cols-3">
         {supportWays.map((item) => {
           const Icon = item.icon;
