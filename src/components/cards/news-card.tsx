@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { SafeImage } from "@/components/shared/safe-image";
 import { TiltCard } from "@/components/shared/tilt-card";
 import { formatNewsCategory } from "@/lib/news-shared";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import type { NewsItem } from "@/types/content";
 
 type NewsCardProps = {
@@ -62,7 +62,7 @@ export function NewsCard({ item, featured = false, anchorId, variant = "default"
 
       <div className={cn("relative space-y-3 px-2 pt-5 pb-3 sm:pb-4", featured && "sm:px-4 sm:pt-6")}>
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          <span>{new Date(item.date).toLocaleDateString("pt-PT")}</span>
+          <span>{formatDate(item.date)}</span>
           {item.region ? (
             <>
               <span className="size-1 rounded-full bg-foreground/30" />
@@ -130,7 +130,7 @@ function NewsRowCard({ item, anchorId }: { item: NewsItem; anchorId?: string }) 
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
           <span>{formatNewsCategory(item.category)}</span>
           <span className="size-1 rounded-full bg-foreground/30" />
-          <span>{new Date(item.date).toLocaleDateString("pt-PT")}</span>
+          <span>{formatDate(item.date)}</span>
         </div>
         <h3 className="font-heading text-[15px] leading-snug font-medium text-foreground line-clamp-2">
           {item.title}

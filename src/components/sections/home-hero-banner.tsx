@@ -6,6 +6,7 @@ import { ArrowRight, Play, Sparkles, TrendingUp } from "lucide-react";
 import gsap from "gsap";
 
 import { SafeImage } from "@/components/shared/safe-image";
+import { formatDateShort } from "@/lib/utils";
 import type { NewsItem, Stat } from "@/types/content";
 
 type HomeHeroBannerProps = {
@@ -245,10 +246,7 @@ function FeaturedBanner({ featured }: { featured: NewsItem | null }) {
       {/* Decorative chip */}
       <div className="absolute bottom-5 right-5 z-10 hidden sm:block">
         <div className="surface-acrylic-dark rounded-2xl px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/80">
-          {new Date(featured.date).toLocaleDateString("pt-PT", {
-            day: "2-digit",
-            month: "short",
-          })}
+          {formatDateShort(featured.date)}
         </div>
       </div>
 

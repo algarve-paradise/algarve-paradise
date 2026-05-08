@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Globe, Mail, MapPin, Phone, Video } from "lucide-react";
+import { Globe, Mail, MapPin, Video } from "lucide-react";
 import Link from "next/link";
 
 import { ContactForm } from "@/components/forms/contact-form";
+import { ChatBot } from "@/components/shared/chat-bot";
 import { PageShell } from "@/components/shared/page-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { contactLinks, socialLinks } from "@/data/contacts";
@@ -15,7 +16,6 @@ export const metadata: Metadata = {
 
 const icons = {
   Email: Mail,
-  Telefone: Phone,
   Localizacao: MapPin,
 };
 
@@ -87,6 +87,7 @@ export default function ContactPage() {
         </div>
         <ContactForm />
       </section>
+      <ChatBot />
     </PageShell>
   );
 }

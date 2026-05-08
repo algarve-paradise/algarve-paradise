@@ -5,7 +5,7 @@ import { CalendarDays, MapPin } from "lucide-react";
 
 import { SafeImage } from "@/components/shared/safe-image";
 import { TiltCard } from "@/components/shared/tilt-card";
-import { cn } from "@/lib/utils";
+import { cn, formatMonthShort } from "@/lib/utils";
 import type { EventItem } from "@/types/content";
 
 type EventCardProps = {
@@ -92,7 +92,7 @@ function DateBadge({ startsAt }: { startsAt: string | null }) {
   return (
     <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl bg-foreground text-background size-16 transition-colors duration-300 group-hover:bg-[var(--dt-color-accent)]">
       <span className="text-[10px] uppercase tracking-[0.18em] opacity-70">
-        {d.toLocaleDateString("pt-PT", { month: "short" })}
+        {formatMonthShort(d)}
       </span>
       <span className="font-heading text-xl leading-none">{d.getDate()}</span>
     </div>

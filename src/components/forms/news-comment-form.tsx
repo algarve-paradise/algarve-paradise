@@ -4,6 +4,7 @@ import { useState } from "react";
 import { MessageCircle, Send } from "lucide-react";
 
 import type { NewsComment } from "@/lib/comments";
+import { formatDateLong } from "@/lib/utils";
 
 type FormState = "idle" | "loading" | "error";
 
@@ -112,11 +113,7 @@ export function NewsCommentForm({ slug, initialComments }: NewsCommentFormProps)
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="font-heading text-lg text-foreground">{item.name}</h3>
                 <time className="text-xs text-muted-foreground">
-                  {new Date(item.created_at).toLocaleDateString("pt-PT", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+                  {formatDateLong(item.created_at)}
                 </time>
               </div>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.comment}</p>

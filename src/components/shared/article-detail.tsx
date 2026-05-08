@@ -18,6 +18,7 @@ import gsap from "gsap";
 
 import { Container } from "@/components/layout/container";
 import { SafeImage } from "@/components/shared/safe-image";
+import { formatDateLong } from "@/lib/utils";
 
 export type ArticleDetailProps = {
   category: string;
@@ -96,11 +97,7 @@ export function ArticleDetail({
   const metaList = meta ?? [
     {
       label: "Publicado",
-      value: new Date(date).toLocaleDateString("pt-PT", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }),
+      value: formatDateLong(date),
       icon: "calendar" as const,
     },
     {

@@ -8,11 +8,6 @@ export const contactLinks: ContactLink[] = [
     href: `mailto:${siteConfig.email}`,
   },
   {
-    label: "Telefone",
-    value: siteConfig.phone,
-    href: "tel:+351964431933",
-  },
-  {
     label: "Localizacao",
     value: siteConfig.location,
     href: "#",

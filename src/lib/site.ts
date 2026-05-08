@@ -6,7 +6,7 @@ export const siteConfig = {
   url: "https://algarvetvparadise.com",
   email: "Media@algarvetvparadise.com",
   phone: "+351 964 431 933",
-  location: "Parque Empresarial Nexense, Sítio Igreja, Loja RC, Rua Fernando Vicente de Brito",
+  location: "Algarve, Portugal",
   tagline: "Tudo o que acontece no Algarve, num só lugar.",
   social: {
     instagram: "https://instagram.com/algarveparadisemedia",

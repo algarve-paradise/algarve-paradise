@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, CalendarDays, MapPin } from "lucide-react";
 
@@ -24,18 +24,25 @@ function startOfMonday(date: Date): number {
 }
 
 export function EventsCalendar({ events }: Props) {
-  const today = new Date();
-  const [cursor, setCursor] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1)
-  );
-  const [selectedDay, setSelectedDay] = useState<number | null>(today.getDate());
+  const [today, setToday] = useState<Date | null>(null);
+  const [cursor, setCursor] = useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  });
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+
+  useEffect(() => {
+    const now = new Date();
+    setToday(now);
+    setSelectedDay(now.getDate());
+  }, []);
 
   const year = cursor.getFullYear();
   const month = cursor.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstOffset = startOfMonday(new Date(year, month, 1));
 
-  const isCurrentMonth =
+  const isCurrentMonth = today !== null &&
     year === today.getFullYear() && month === today.getMonth();
 
   // Group events by calendar day for the current month view
@@ -130,7 +137,7 @@ export function EventsCalendar({ events }: Props) {
         {/* Day cells */}
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
           const hasEvents = eventsByDay.has(day);
-          const isToday = isCurrentMonth && day === today.getDate();
+          const isToday = isCurrentMonth && today !== null && day === today.getDate();
           const isSelected = day === selectedDay;
           const count = eventsByDay.get(day)?.length ?? 0;
 
