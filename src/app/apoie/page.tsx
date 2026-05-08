@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Building2, HandHeart, Landmark, Mail, Megaphone, Phone, ReceiptText } from "lucide-react";
+import { Building2, HandHeart, Landmark, Mail, Megaphone, ReceiptText } from "lucide-react";
 
 import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -42,11 +42,6 @@ const donationChannels = [
     label: "Transferência bancária",
     value: "IBAN disponível mediante contacto",
     icon: Landmark,
-  },
-  {
-    label: "MB Way",
-    value: siteConfig.phone,
-    icon: Phone,
   },
   {
     label: "Pedido de fatura / recibo",
@@ -127,14 +122,6 @@ export default function SupportPage() {
               <ButtonLink href={`mailto:${siteConfig.email}`} variant="secondary">
                 <Mail className="size-4" />
                 Enviar email
-              </ButtonLink>
-              <ButtonLink
-                href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-                variant="outline"
-                className="border-white bg-white text-slate-950 hover:bg-[var(--dt-color-accent-soft)] hover:text-slate-950"
-              >
-                <Phone className="size-4" />
-                Telefonar
               </ButtonLink>
             </div>
           </CardContent>
