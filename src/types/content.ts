@@ -123,3 +123,19 @@ export type SocialLink = {
   href: string;
   handle: string;
 };
+
+export type CronicaStatus = "draft" | "published";
+
+export type CronicaItem = {
+  id: string;
+  title: string;
+  content: string;
+  authorName: string;
+  authorRole?: string | null;
+  authorAvatarUrl?: string | null;
+  weekLabel: string;
+  status: CronicaStatus;
+  publishedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};

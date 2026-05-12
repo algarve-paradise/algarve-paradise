@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { HomeHeroBanner } from "@/components/sections/home-hero-banner";
+import { WeatherWidget } from "@/components/weather-widget";
 import { homeHero } from "@/data/home";
 import { getHomepageNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
@@ -19,6 +21,11 @@ export async function HomeHeroSection() {
       </div>
 
       <Container>
+        <div className="mb-4 flex justify-end">
+          <Suspense fallback={null}>
+            <WeatherWidget />
+          </Suspense>
+        </div>
         <HomeHeroBanner
           eyebrow={homeHero.eyebrow}
           title={homeHero.title}

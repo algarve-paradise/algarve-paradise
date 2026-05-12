@@ -1,4 +1,5 @@
 import { CommunitySection } from "@/components/sections/community-section";
+import { CronicaDaSemanaSection } from "@/components/sections/cronica-da-semana-section";
 import { EventsSection } from "@/components/sections/events-section";
 import { HomeClosingSection } from "@/components/sections/home-closing-section";
 import { HomeHeroSection } from "@/components/sections/home-hero-section";
@@ -11,6 +12,7 @@ export default function HomePage() {
       <HomeHeroSection />
       <HomeIntroSection />
       <NewsHighlightsSection />
+      <CronicaDaSemanaSection />
       <EventsSection />
       <CommunitySection />
       <HomeClosingSection />

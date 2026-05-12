@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Bot, CalendarDays, ExternalLink, PenSquare, Radio, Sparkles, SquarePen } from "lucide-react";
+import { Bot, CalendarDays, ExternalLink, NotebookPen, PenSquare, Radio, Sparkles, SquarePen } from "lucide-react";
 
 import { AdminShell } from "@/components/admin/admin-shell";
 import { AiDraftActions } from "@/components/admin/ai-draft-actions";
 import { AutoPublishCountdown } from "@/components/admin/auto-publish-countdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth";
+import { getAdminCronicas } from "@/lib/cronicas";
 import { getAdminNewsList, getAdminSummary, getAiDraftQueue } from "@/lib/news";
 import { getAdminEventsList, getAiEventDraftQueue } from "@/lib/events";
 
@@ -90,13 +91,14 @@ function PaginationBar({
 
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardPageProps) {
   const user = await requireUser();
-  const [params, items, events, summary, aiQueue, aiEventQueue] = await Promise.all([
+  const [params, items, events, summary, aiQueue, aiEventQueue, cronicas] = await Promise.all([
     searchParams,
     getAdminNewsList(),
     getAdminEventsList(),
     getAdminSummary(),
     getAiDraftQueue(),
     getAiEventDraftQueue(),
+    getAdminCronicas(),
   ]);
 
   // News list pagination
@@ -181,7 +183,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       description="Area preparada para gerir noticias manualmente e supervisionar a automacao por IA."
       userLabel={user.email ?? "utilizador autenticado"}
     >
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-7">
         {[
           { label: "Total de noticias", value: summary.total, icon: SquarePen },
           { label: "Reportagens", value: dashboardReportRows.length, icon: Radio },
@@ -189,6 +191,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
           { label: "Publicadas", value: summary.published, icon: Sparkles },
           { label: "Destaques", value: summary.featured, icon: PenSquare },
           { label: "Pendentes da IA", value: summary.aiPending + aiEventQueue.length, icon: Bot },
+          { label: "Cronicas", value: cronicas.length, icon: NotebookPen },
         ].map((item) => (
           <Card key={item.label} className="rounded-none border border-border shadow-none">
             <CardContent className="flex items-center justify-between pt-6">
