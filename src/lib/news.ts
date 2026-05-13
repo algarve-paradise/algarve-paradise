@@ -165,9 +165,6 @@ export async function getAdminSummary() {
     published: items.filter((item) => item.status === "published").length,
     featured: items.filter((item) => item.featured).length,
     live: items.filter((item) => item.live).length,
-    aiPending: items.filter(
-      (item) => item.aiGenerated && item.status === "draft"
-    ).length,
   };
 }
 
@@ -207,20 +204,3 @@ export const getPublishedReports = cache(async () => {
   return (data as NewsRecord[]).map(mapNewsRecordToItem);
 });
 
-export async function getAiDraftQueue() {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("news_posts")
-    .select("*")
-    .eq("ai_generated", true)
-    .eq("status", "draft")
-    .order("ai_confidence", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Failed to load AI draft queue", error);
-    return [] as NewsItem[];
-  }
-
-  return (data as NewsRecord[]).map(mapNewsRecordToItem);
-}

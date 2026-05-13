@@ -111,19 +111,3 @@ export async function getAdminEventById(id: string) {
   return data ? mapEventRecordToItem(data as EventRecord) : null;
 }
 
-export async function getAiEventDraftQueue() {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .eq("ai_generated", true)
-    .eq("status", "draft")
-    .order("ai_confidence", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Failed to load AI event draft queue", error);
-    return [] as EventItem[];
-  }
-  return (data as EventRecord[]).map(mapEventRecordToItem);
-}
