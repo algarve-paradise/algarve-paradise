@@ -1,6 +1,6 @@
 -- =============================================================================
 -- ALGARVE TV — Manual Deploy Setup
--- Run this single file on a fresh Supabase project for the manual-only system.
+-- Idempotent: safe to run on a fresh project or after 001_news_admin.sql.
 -- When the AI automation tier is enabled later, run the ai_upgrade_setup.sql.
 -- =============================================================================
 
@@ -10,12 +10,15 @@
 create extension if not exists pgcrypto;
 
 -- ---------------------------------------------------------------------------
--- 1. Base types
+-- 1. Base types (CREATE TYPE has no IF NOT EXISTS — use a DO block)
 -- ---------------------------------------------------------------------------
-create type public.news_status as enum ('draft', 'published');
+do $$ begin
+  create type public.news_status as enum ('draft', 'published');
+exception when duplicate_object then null;
+end $$;
 
 -- ---------------------------------------------------------------------------
--- 2. Shared trigger function (used by multiple tables)
+-- 2. Shared trigger functions
 -- ---------------------------------------------------------------------------
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$
@@ -25,7 +28,6 @@ begin
 end;
 $$;
 
--- Alias used by the news/profiles triggers defined below
 create or replace function public.handle_updated_at()
 returns trigger language plpgsql as $$
 begin
@@ -52,14 +54,15 @@ create trigger profiles_set_updated_at
 
 alter table public.profiles enable row level security;
 
+drop policy if exists "Authenticated users can view profiles" on public.profiles;
 create policy "Authenticated users can view profiles"
   on public.profiles for select to authenticated using (true);
 
+drop policy if exists "Authenticated users can update own profile" on public.profiles;
 create policy "Authenticated users can update own profile"
   on public.profiles for update to authenticated
   using (auth.uid() = id) with check (auth.uid() = id);
 
--- Auto-create profile when a new user signs up
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
@@ -100,6 +103,13 @@ create table if not exists public.news_posts (
   updated_at timestamptz not null default timezone('utc', now())
 );
 
+-- Update category constraint if table already existed without 'Reportagem'
+alter table public.news_posts
+  drop constraint if exists news_posts_category_check;
+alter table public.news_posts
+  add constraint news_posts_category_check
+  check (category in ('Algarve', 'Municipios', 'Economia', 'Turismo', 'Seguranca', 'Eventos', 'Reportagem'));
+
 drop trigger if exists news_posts_set_updated_at on public.news_posts;
 create trigger news_posts_set_updated_at
   before update on public.news_posts
@@ -107,16 +117,20 @@ create trigger news_posts_set_updated_at
 
 alter table public.news_posts enable row level security;
 
+drop policy if exists "Published news is public" on public.news_posts;
 create policy "Published news is public"
   on public.news_posts for select to anon, authenticated
   using (status = 'published' or auth.role() = 'authenticated');
 
+drop policy if exists "Authenticated users can insert news" on public.news_posts;
 create policy "Authenticated users can insert news"
   on public.news_posts for insert to authenticated with check (true);
 
+drop policy if exists "Authenticated users can update news" on public.news_posts;
 create policy "Authenticated users can update news"
   on public.news_posts for update to authenticated using (true) with check (true);
 
+drop policy if exists "Authenticated users can delete news" on public.news_posts;
 create policy "Authenticated users can delete news"
   on public.news_posts for delete to authenticated using (true);
 
@@ -127,18 +141,22 @@ insert into storage.buckets (id, name, public)
 values ('news-covers', 'news-covers', true)
 on conflict (id) do nothing;
 
+drop policy if exists "Public can read news covers" on storage.objects;
 create policy "Public can read news covers"
   on storage.objects for select to public
   using (bucket_id = 'news-covers');
 
+drop policy if exists "Authenticated users can upload news covers" on storage.objects;
 create policy "Authenticated users can upload news covers"
   on storage.objects for insert to authenticated
   with check (bucket_id = 'news-covers');
 
+drop policy if exists "Authenticated users can update news covers" on storage.objects;
 create policy "Authenticated users can update news covers"
   on storage.objects for update to authenticated
   using (bucket_id = 'news-covers') with check (bucket_id = 'news-covers');
 
+drop policy if exists "Authenticated users can delete news covers" on storage.objects;
 create policy "Authenticated users can delete news covers"
   on storage.objects for delete to authenticated
   using (bucket_id = 'news-covers');
@@ -177,19 +195,24 @@ create trigger events_set_updated_at
 
 alter table public.events enable row level security;
 
+drop policy if exists "events public read published" on public.events;
 create policy "events public read published"
   on public.events for select to anon, authenticated
   using (status = 'published' and starts_at >= now() - interval '1 day');
 
+drop policy if exists "events authenticated read all" on public.events;
 create policy "events authenticated read all"
   on public.events for select to authenticated using (true);
 
+drop policy if exists "events authenticated insert" on public.events;
 create policy "events authenticated insert"
   on public.events for insert to authenticated with check (true);
 
+drop policy if exists "events authenticated update" on public.events;
 create policy "events authenticated update"
   on public.events for update to authenticated using (true) with check (true);
 
+drop policy if exists "events authenticated delete" on public.events;
 create policy "events authenticated delete"
   on public.events for delete to authenticated using (true);
 
@@ -207,10 +230,12 @@ create table if not exists public.community_messages (
 
 alter table public.community_messages enable row level security;
 
+drop policy if exists "Approved messages are public" on public.community_messages;
 create policy "Approved messages are public"
   on public.community_messages for select to anon, authenticated
   using (approved = true);
 
+drop policy if exists "Anyone can submit a message" on public.community_messages;
 create policy "Anyone can submit a message"
   on public.community_messages for insert to anon, authenticated
   with check (true);
@@ -232,10 +257,12 @@ create index if not exists news_comments_article_slug_created_idx
 
 alter table public.news_comments enable row level security;
 
+drop policy if exists "Approved news comments are public" on public.news_comments;
 create policy "Approved news comments are public"
   on public.news_comments for select to anon, authenticated
   using (approved = true);
 
+drop policy if exists "Public can create news comments" on public.news_comments;
 create policy "Public can create news comments"
   on public.news_comments for insert to anon, authenticated
   with check (
@@ -268,10 +295,12 @@ create trigger cronicas_updated_at
 
 alter table public.cronicas enable row level security;
 
+drop policy if exists "Public can read published cronicas" on public.cronicas;
 create policy "Public can read published cronicas"
   on public.cronicas for select
   using (status = 'published');
 
+drop policy if exists "Authenticated users can manage cronicas" on public.cronicas;
 create policy "Authenticated users can manage cronicas"
   on public.cronicas for all
   using (auth.role() = 'authenticated');
