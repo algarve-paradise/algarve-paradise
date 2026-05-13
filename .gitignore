@@ -38,3 +38,7 @@ next-env.d.ts
 # coverage
 coverage/
 
+# supabase migrations — run manually via SQL Editor, not tracked in repo
+supabase/migrations/*
+!supabase/migrations/manual_deploy_setup.sql
+
