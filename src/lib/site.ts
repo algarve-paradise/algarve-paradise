@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "Plataforma digital de notícias, eventos e informação dedicada ao Algarve.",
   url: "https://algarvetvparadise.com",
-  email: "Media@algarvetvparadise.com",
+  email: "media@algarvetvparadise.com",
   phone: "+351 964 431 933",
   location: "Algarve, Portugal",
   tagline: "Tudo o que acontece no Algarve, num só lugar.",

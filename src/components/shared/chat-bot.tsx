@@ -25,19 +25,19 @@ const QUICK_REPLIES: QuickReply[] = [
 const RESPONSES: Record<string, { text: string; link?: { label: string; href: string } }> = {
   sugestao: {
     text: "Tem uma sugestão de notícia ou reportagem? A nossa equipa editorial agradece! Envie-nos os detalhes por email e avaliamos a publicação.",
-    link: { label: "Enviar sugestão", href: "mailto:Media@algarvetvparadise.com?subject=Sugestão de notícia" },
+    link: { label: "Enviar sugestão", href: "mailto:media@algarvetvparadise.com?subject=Sugestão de notícia" },
   },
   parceria: {
     text: "Para parcerias comerciais, publicidade ou projetos institucionais, a nossa equipa responde em até 2 dias úteis. Aguardamos o seu contacto!",
-    link: { label: "Contactar equipa comercial", href: "mailto:Media@algarvetvparadise.com?subject=Parceria%2FPublicidade" },
+    link: { label: "Contactar equipa comercial", href: "mailto:media@algarvetvparadise.com?subject=Parceria%2FPublicidade" },
   },
   conteudo: {
     text: "Quer partilhar fotos, vídeos ou histórias da região do Algarve? Envie-nos ou explore a nossa página de comunidade!",
     link: { label: "Ir para a comunidade", href: "/comunidade" },
   },
   equipa: {
-    text: "Para falar diretamente com a nossa equipa, envie um email para Media@algarvetvparadise.com. Estamos em Algarve, Portugal.",
-    link: { label: "Enviar email", href: "mailto:Media@algarvetvparadise.com" },
+    text: "Para falar diretamente com a nossa equipa, envie um email para media@algarvetvparadise.com. Estamos em Algarve, Portugal.",
+    link: { label: "Enviar email", href: "mailto:media@algarvetvparadise.com" },
   },
 };
 
