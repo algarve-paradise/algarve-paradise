@@ -86,12 +86,11 @@ export default async function EventsPage() {
           <CardContent className="space-y-4 pt-6">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-white/60">
               <CalendarRange className="size-4 text-[var(--color-signal)]" />
-              Agenda ativa
+              {t("activeAgendaBadge")}
             </div>
-            <h2 className="font-heading text-3xl">Eventos regionais com cobertura editorial</h2>
+            <h2 className="font-heading text-3xl">{t("activeAgendaTitle")}</h2>
             <p className="text-sm leading-7 text-white/74">
-              Da cultura à gastronomia, do desporto às iniciativas institucionais — todos os eventos
-              relevantes do Algarve com informação clara e atualizada.
+              {t("activeAgendaDesc")}
             </p>
           </CardContent>
         </Card>
@@ -99,11 +98,10 @@ export default async function EventsPage() {
           <CardContent className="space-y-4 pt-6">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-[var(--color-brand-700)]">
               <MapPinned className="size-4" />
-              Cobertura territorial
+              {t("coverageBadge")}
             </div>
             <p className="text-sm leading-7 text-muted-foreground">
-              Eventos de todos os municípios do Algarve, organizados por data e local para facilitar
-              o planeamento de residentes, visitantes e parceiros institucionais.
+              {t("coverageDesc")}
             </p>
           </CardContent>
         </Card>
@@ -112,9 +110,9 @@ export default async function EventsPage() {
       <Reveal className="grid gap-10 py-2 lg:grid-cols-[1.02fr_0.98fr]">
         <div className="space-y-6">
           <SectionHeading
-            eyebrow="Agenda"
+            eyebrow={t("agendaEyebrow")}
             title={t("upcomingEvents")}
-            description="Selecção editorial dos eventos mais relevantes para residentes, visitantes e parceiros institucionais."
+            description={t("editorialSelection")}
           />
           <StaggerGroup className="grid gap-8 md:grid-cols-2">
             {events.map((item) => (
@@ -128,7 +126,7 @@ export default async function EventsPage() {
         <Card className="border border-white/10 bg-white shadow-[0_16px_40px_rgba(7,32,67,0.08)]">
           <CardContent className="pt-6">
             <div className="text-xs uppercase tracking-[0.24em] text-[var(--color-brand-700)] mb-5">
-              Calendário mensal
+              {t("monthlyCalendar")}
             </div>
             <EventsCalendar events={events} />
           </CardContent>

@@ -26,7 +26,22 @@
     "hero": {
       "breaking": "Última hora",
       "seeNews": "Ver notícias",
-      "exploreContent": "Explorar conteúdos"
+      "exploreContent": "Explorar conteúdos",
+      "eyebrow": "Portal de informação regional",
+      "title": "Tudo o que acontece no Algarve, num só lugar",
+      "description": "Notícias, eventos e informações atualizadas para quem quer acompanhar de perto tudo o que acontece na região.",
+      "highlight": "Informação atualizada diariamente, foco exclusivo no Algarve e acesso simples em qualquer dispositivo.",
+      "editionToday": "Edição de hoje",
+      "featuredBadge": "Em destaque",
+      "readMore": "Ler mais",
+      "defaultAuthor": "Redação",
+      "fallbackTitle": "O portal digital do sul do País",
+      "fallbackDesc": "Informação, eventos e comunidade reunidos numa só plataforma regional.",
+      "stats": [
+        { "value": "06", "label": "Áreas editoriais e institucionais organizadas" },
+        { "value": "03", "label": "Eixos centrais: notícias, eventos e comunidade" },
+        { "value": "24/7", "label": "Linguagem pensada para atualidade e proximidade" }
+      ]
     },
     "intro": {
       "eyebrow": "O que é",
@@ -73,7 +88,11 @@
       "contact1Title": "Contacto institucional",
       "contact1Desc": "Para parcerias, patrocínio, colaborações ou ligação com entidades regionais.",
       "contact2Title": "Comunidade",
-      "contact2Desc": "Para mensagens, sugestões e proximidade com a atualidade e os eventos do Algarve."
+      "contact2Desc": "Para mensagens, sugestões e proximidade com a atualidade e os eventos do Algarve.",
+      "title": "Um projeto feito para o Algarve",
+      "description": "O Algarve TV Paradise nasce com o objetivo de dar mais visibilidade à região, aproximar pessoas e valorizar tudo o que acontece localmente.",
+      "primaryCtaLabel": "Entrar em contacto",
+      "secondaryCtaLabel": "Participar na comunidade"
     }
   },
   "pages": {
@@ -87,7 +106,18 @@
       "noResults": "Nenhuma notícia encontrada.",
       "readMore": "Ler artigo completo",
       "seeEvents": "Ver eventos",
-      "seeCommunity": "Comunidade"
+      "seeCommunity": "Comunidade",
+      "inFocusBadge": "Em foco",
+      "inFocusHeading": "Edição regional do momento",
+      "inFocusDesc": "A página de notícias consome conteúdo real do painel editorial e está pronta para receber automação nas próximas fases.",
+      "noFocusNews": "Sem notícias em foco neste momento.",
+      "emptyPublished": "Ainda não existem notícias publicadas. Assim que criar a primeira no painel administrativo, ela passará a aparecer automaticamente aqui.",
+      "categoriesEyebrow": "Categorias",
+      "categoriesTitle": "Encontre notícias por tema ou palavra-chave",
+      "categoriesDesc": "Use os filtros para consultar rapidamente as áreas editoriais e pesquisar conteúdos publicados.",
+      "currentEditionEyebrow": "Edição atual",
+      "currentEditionTitle": "Destaques e notícias recentes",
+      "currentEditionDesc": "Estrutura modular pronta para futura paginação, filtros reais e rotas individuais."
     },
     "events": {
       "title": "Eventos",
@@ -97,19 +127,49 @@
       "noEvents": "Sem eventos disponíveis.",
       "seeMore": "Ver mais",
       "seeNews": "Ver notícias",
-      "seeCommunity": "Comunidade"
+      "seeCommunity": "Comunidade",
+      "activeAgendaBadge": "Agenda ativa",
+      "activeAgendaTitle": "Eventos regionais com cobertura editorial",
+      "activeAgendaDesc": "Da cultura à gastronomia, do desporto às iniciativas institucionais — todos os eventos relevantes do Algarve com informação clara e atualizada.",
+      "coverageBadge": "Cobertura territorial",
+      "coverageDesc": "Eventos de todos os municípios do Algarve, organizados por data e local para facilitar o planeamento de residentes, visitantes e parceiros institucionais.",
+      "agendaEyebrow": "Agenda",
+      "editorialSelection": "Selecção editorial dos eventos mais relevantes para residentes, visitantes e parceiros institucionais.",
+      "monthlyCalendar": "Calendário mensal"
     },
     "community": {
       "title": "Comunidade",
       "description": "Partilhe a sua voz com a comunidade do Algarve.",
       "seeNews": "Ver notícias",
-      "contacts": "Contactos"
+      "contacts": "Contactos",
+      "card1Title": "A comunidade constrói o portal",
+      "card1Desc": "A participação da comunidade é parte integrante do projeto. Esta secção acolhe mensagens, sugestões e testemunhos dos residentes e visitantes do Algarve.",
+      "card2Title": "Participação direta",
+      "card2Desc": "Envie a sua mensagem e faça parte da conversa regional. As contribuições são revistas pela redação antes de serem publicadas.",
+      "voicesEyebrow": "Vozes da comunidade",
+      "voicesTitle": "O que diz a região",
+      "voicesDesc": "Opiniões, sugestões e testemunhos partilhados por residentes e visitantes do Algarve."
     },
     "about": {
       "title": "Sobre",
       "description": "Contexto institucional da Algarve Paradise Media.",
       "seeNews": "Ver notícias",
-      "contacts": "Contactos"
+      "contacts": "Contactos",
+      "historyTitle": "História do projeto",
+      "historyP1": "A Algarve Paradise Media nasce com o objetivo de dar voz à região do Algarve, criando uma ponte entre a comunidade, as instituições e a informação relevante.",
+      "historyP2": "O projeto responde à necessidade de modernizar a comunicação regional com um formato mais acessível, dinâmico e próximo das pessoas, sem perder rigor institucional.",
+      "pillar1Title": "Comunicação regional",
+      "pillar1Desc": "Estrutura digital desenhada para notícias, informação útil e agenda do território.",
+      "pillar2Title": "Proximidade humana",
+      "pillar2Desc": "A comunidade participa, acompanha e encontra um espaço de representação.",
+      "pillar3Title": "Credibilidade institucional",
+      "pillar3Desc": "O tom e a estrutura visual foram pensados para dialogar com entidades locais.",
+      "mvvEyebrow": "Missão, visão e valores",
+      "mvvTitle": "Fundação institucional preparada para uma comunicação regional moderna",
+      "mvvDesc": "Os blocos abaixo definem o enquadramento editorial e institucional da associação.",
+      "foundersEyebrow": "Fundadores",
+      "foundersTitle": "Equipa fundadora com enquadramento profissional e institucional",
+      "foundersDesc": "Os retratos e descrições estão preparados para receber fotografia real e informação final."
     },
     "contact": {
       "title": "Contactos",
@@ -117,11 +177,118 @@
       "eyebrow": "Contactos",
       "heading": "Entre em contacto",
       "share": "Partilhar sugestão",
-      "about": "Sobre o projeto"
+      "about": "Sobre o projeto",
+      "socialChannels": "Redes e canais"
     },
     "support": {
       "talkSponsorship": "Falar sobre patrocínio",
-      "sendSuggestion": "Enviar sugestão"
+      "sendSuggestion": "Enviar sugestão",
+      "title": "Apoie",
+      "heading": "Ajude a fortalecer a informação regional do Algarve",
+      "description": "O Algarve TV Paradise cresce com o apoio da comunidade, empresas e instituições que acreditam numa plataforma útil, simples e focada na região.",
+      "donateBadge": "Donativo online",
+      "donateHeading": "Faça um donativo",
+      "donateAccent": "agora",
+      "donateDesc": "Em menos de um minuto pode contribuir para manter o Algarve TV Paradise gratuito, independente e focado na região.",
+      "donateCta": "Fazer donativo",
+      "donateSubtext": "A partir de €1 · Seguro · Sem subscrição",
+      "steps": [
+        { "title": "Escolha o valor", "desc": "€5, €10, €25, €50 ou outro valor à sua escolha." },
+        { "title": "Pague com segurança", "desc": "Cartão, PayPal ou MB Way — rápido e encriptado." },
+        { "title": "Receba confirmação", "desc": "Recibo enviado por email com referência da transação." }
+      ],
+      "ways": [
+        {
+          "title": "Doação pontual",
+          "description": "Contribuição direta para apoiar a manutenção da plataforma, produção editorial e cobertura regional.",
+          "details": ["Ideal para leitores e comunidade", "Apoio simples e direto", "Ajuda a manter o acesso aberto"]
+        },
+        {
+          "title": "Patrocínio editorial",
+          "description": "Presença institucional em áreas estratégicas do site, com enquadramento claro e alinhado à identidade regional.",
+          "details": ["Destaque para marcas locais", "Associação a conteúdos regionais", "Visibilidade junto da comunidade"]
+        },
+        {
+          "title": "Parceria institucional",
+          "description": "Colaboração com entidades, municípios, associações e empresas que querem valorizar o Algarve.",
+          "details": ["Projetos especiais", "Cobertura de iniciativas", "Relação contínua com a plataforma"]
+        }
+      ],
+      "howToDonateTitle": "Como doar",
+      "howToDonateDesc": "Para donativos, patrocínios ou apoio recorrente, entre em contacto com a equipa. Confirmamos o melhor meio de pagamento e enviamos os dados necessários.",
+      "sendEmail": "Enviar email",
+      "channelBankLabel": "Transferência bancária",
+      "channelBankValue": "IBAN disponível mediante contacto",
+      "channelReceiptLabel": "Pedido de fatura / recibo",
+      "sponsorEyebrow": "Patrocínio",
+      "sponsorTitle": "Modelos de apoio para marcas e instituições",
+      "sponsorDesc": "A presença de patrocinadores deve ser clara, credível e útil para quem acompanha o Algarve.",
+      "tiers": [
+        {
+          "name": "Apoiante Local",
+          "description": "Para pequenos negócios e profissionais que querem apoiar a informação regional.",
+          "benefits": ["Menção em página de apoio", "Contacto direto com a equipa", "Presença associada à comunidade"]
+        },
+        {
+          "name": "Parceiro Regional",
+          "description": "Para empresas e entidades com presença regular no Algarve.",
+          "benefits": ["Destaque institucional", "Possibilidade de campanhas temáticas", "Relatórios simples de presença"]
+        },
+        {
+          "name": "Patrocinador Principal",
+          "description": "Para investidores e marcas que querem ligação forte ao crescimento da plataforma.",
+          "benefits": ["Presença prioritária", "Projetos editoriais especiais", "Planeamento de ativação com a equipa"]
+        }
+      ],
+      "contactEyebrow": "Contacto direto",
+      "contactTitle": "Envie o seu pedido de patrocínio",
+      "contactDesc": "Preencha o formulário e a nossa equipa responderá em até 48 horas úteis."
+    },
+    "donate": {
+      "metaTitle": "Fazer Donativo · Apoie",
+      "metaDescription": "Contribua para a informação regional do Algarve de forma simples e segura.",
+      "back": "Voltar ao apoio",
+      "secure": "Pagamento seguro",
+      "badge": "Donativo",
+      "heading": "Apoie o jornalismo",
+      "headingAccent": "regional",
+      "description": "O seu donativo ajuda a manter a plataforma ativa, gratuita e independente. Cada contribuição faz a diferença para a cobertura do Algarve.",
+      "impactLabel": "Impacto do seu donativo",
+      "impactHeading": "O que o seu apoio permite",
+      "impactItems": [
+        { "value": "€5", "label": "Cobre 1 dia de custos de servidor" },
+        { "value": "€10", "label": "Financia uma notícia local completa" },
+        { "value": "€25", "label": "Apoia uma semana de cobertura editorial" },
+        { "value": "€50", "label": "Patrocina uma reportagem regional" }
+      ],
+      "trust": [
+        { "label": "Pagamentos seguros", "sub": "Dados encriptados via SSL" },
+        { "label": "Recibo automático", "sub": "Enviado para o seu email" },
+        { "label": "Plataforma aberta", "sub": "Acesso gratuito para todos" }
+      ],
+      "demoNotice": "Modo demonstração: Este fluxo ilustra como seria a integração com Stripe, PayPal ou MB Way. Nenhum dado financeiro é transmitido nem cobrado.",
+      "preferOther": "Prefere outro método?",
+      "contactEmail": "Contacte-nos por email"
+    },
+    "success": {
+      "metaTitle": "Donativo Confirmado · Apoie",
+      "metaDescription": "O seu donativo foi recebido com sucesso. Obrigado pelo apoio ao Algarve TV Paradise.",
+      "methodStripe": "Cartão de crédito/débito",
+      "methodPaypal": "PayPal",
+      "methodMbway": "MB Way",
+      "badge": "Obrigado pelo apoio",
+      "heading": "Donativo confirmado!",
+      "description": "O seu contributo ajuda a manter o Algarve TV Paradise ativo, gratuito e independente para toda a comunidade.",
+      "labelAmount": "Valor doado",
+      "labelMethod": "Método",
+      "labelRef": "Referência da transação",
+      "demoNotice": "Modo demo: Nenhum valor foi cobrado. Este recibo é apenas ilustrativo.",
+      "receiptSent": "Recibo enviado para",
+      "downloadReceipt": "Descarregar comprovativo (demo)",
+      "goHome": "Ir para o início",
+      "otherSupport": "Outras formas de apoio",
+      "shareMessage": "Partilhe com quem gosta do Algarve e ajude-nos a crescer.",
+      "seeLatestNews": "Ver as últimas notícias"
     },
     "privacy": {
       "title": "Política de Privacidade",
@@ -144,6 +311,68 @@
       "submitting": "A enviar...",
       "success": "Mensagem enviada! Aguarda revisão editorial.",
       "errorConn": "Erro de ligação. Tente novamente."
+    },
+    "donation": {
+      "step1Title": "Escolha o valor",
+      "step2Title": "Método de pagamento",
+      "step3StripeTitle": "Dados do cartão",
+      "step3PaypalTitle": "Conta PayPal",
+      "step3MbwayTitle": "Número MB Way",
+      "otherAmount": "Outro valor",
+      "totalToProcess": "Total a processar:",
+      "methodCardLabel": "Cartão",
+      "methodCardSub": "Visa · Mastercard · Amex",
+      "methodPaypalLabel": "PayPal",
+      "methodPaypalSub": "Conta PayPal",
+      "methodMbwayLabel": "MB Way",
+      "methodMbwaySub": "Telemóvel PT",
+      "sslBadge": "Encriptação SSL · Ambiente demo",
+      "paypalDesc": "Introduza o email associado à sua conta PayPal para continuar com o pagamento de forma segura.",
+      "mbwayDesc": "Receberá uma notificação push na aplicação MB Way para confirmar o pagamento.",
+      "confirmBtn": "Confirmar donativo",
+      "selectAmountBtn": "Selecione um valor para continuar",
+      "demoNotice": "Ambiente demonstrativo — nenhum pagamento real será processado",
+      "processingStep1": "A verificar os dados...",
+      "processingStep2": "A processar o pagamento...",
+      "processingStep3": "A confirmar a transação...",
+      "processingStep4": "Concluído!",
+      "processingConfirmed": "Donativo confirmado!",
+      "processingAmountPrefix": "Donativo de",
+      "processingDemo": "ambiente demonstrativo"
+    },
+    "sponsorship": {
+      "tier1Label": "Apoiante Local",
+      "tier2Label": "Parceiro Regional",
+      "tier3Label": "Patrocinador Principal",
+      "tier4Label": "Outro / Personalizado",
+      "nameLabel": "Nome",
+      "emailLabel": "Email",
+      "companyLabel": "Empresa / Entidade",
+      "phoneLabel": "Telefone",
+      "tierLabel": "Tipo de patrocínio",
+      "messageLabel": "Mensagem / Proposta",
+      "namePlaceholder": "O seu nome completo",
+      "emailPlaceholder": "email@empresa.pt",
+      "companyPlaceholder": "Nome da empresa (opcional)",
+      "phonePlaceholder": "+351 9XX XXX XXX",
+      "messagePlaceholder": "Descreva brevemente o que procura e como pensa que podemos colaborar...",
+      "submit": "Enviar pedido de patrocínio",
+      "submitting": "A enviar...",
+      "successTitle": "Pedido recebido!",
+      "successDesc": "A nossa equipa analisará o seu pedido e entrará em contacto em breve pelo email indicado.",
+      "errorMsg": "Ocorreu um erro ao enviar o pedido. Por favor tente novamente ou contacte-nos diretamente por email."
+    },
+    "contact": {
+      "title": "Entrar em contacto",
+      "description": "Formulário preparado para integração futura com email, CRM ou automação.",
+      "nameLabel": "Nome",
+      "namePlaceholder": "O seu nome",
+      "emailLabel": "Email",
+      "emailPlaceholder": "nome@exemplo.pt",
+      "messageLabel": "Mensagem",
+      "messagePlaceholder": "Partilhe o motivo do seu contacto.",
+      "submit": "Enviar mensagem",
+      "successMsg": "Pedido registado em modo demonstração. A entrega final pode ligar este formulário a email ou CRM."
     }
   },
   "cookies": {

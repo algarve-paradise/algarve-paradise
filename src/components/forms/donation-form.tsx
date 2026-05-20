@@ -4,24 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, CreditCard, Lock, Shield, Smartphone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 const PRESET_AMOUNTS = [5, 10, 25, 50];
+const STEP_DURATIONS = [800, 1000, 700, 400];
 
 type Method = "stripe" | "paypal" | "mbway";
-
-const METHODS: { id: Method; label: string; sub: string }[] = [
-  { id: "stripe", label: "Cartão", sub: "Visa · Mastercard · Amex" },
-  { id: "paypal", label: "PayPal", sub: "Conta PayPal" },
-  { id: "mbway", label: "MB Way", sub: "Telemóvel PT" },
-];
-
-const PROCESSING_STEPS = [
-  { label: "A verificar os dados...", duration: 800 },
-  { label: "A processar o pagamento...", duration: 1000 },
-  { label: "A confirmar a transação...", duration: 700 },
-  { label: "Concluído!", duration: 400 },
-];
 
 function fmtCard(v: string) {
   return v.replace(/\D/g, "").slice(0, 16).replace(/(\d{4})(?=\d)/g, "$1 ");
@@ -76,26 +65,34 @@ function StepNumber({ n }: { n: number }) {
 }
 
 function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => void }) {
+  const t = useTranslations("forms.donation");
   const [currentStep, setCurrentStep] = useState(0);
   const [done, setDone] = useState(false);
 
+  const stepLabels = [
+    t("processingStep1"),
+    t("processingStep2"),
+    t("processingStep3"),
+    t("processingStep4"),
+  ];
+
   useState(() => {
     let elapsed = 0;
-    PROCESSING_STEPS.forEach((step, i) => {
+    STEP_DURATIONS.forEach((duration, i) => {
       setTimeout(() => {
         setCurrentStep(i);
-        if (i === PROCESSING_STEPS.length - 1) {
+        if (i === STEP_DURATIONS.length - 1) {
           setTimeout(() => {
             setDone(true);
             setTimeout(onDone, 500);
-          }, step.duration);
+          }, duration);
         }
       }, elapsed);
-      elapsed += step.duration;
+      elapsed += duration;
     });
   });
 
-  const progress = done ? 1 : currentStep / (PROCESSING_STEPS.length - 1);
+  const progress = done ? 1 : currentStep / (STEP_DURATIONS.length - 1);
   const circumference = 2 * Math.PI * 34;
 
   return (
@@ -105,7 +102,6 @@ function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => v
       className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-[2rem] bg-white"
     >
       <div className="w-full max-w-xs space-y-8 px-6 text-center">
-        {/* Animated SVG ring */}
         <div className="flex justify-center">
           <div className="relative">
             <svg className="size-20 -rotate-90" viewBox="0 0 80 80">
@@ -138,7 +134,7 @@ function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => v
                     animate={{ opacity: 1 }}
                     className="font-mono text-sm font-semibold text-[var(--dt-color-accent)]"
                   >
-                    {currentStep + 1}/{PROCESSING_STEPS.length}
+                    {currentStep + 1}/{STEP_DURATIONS.length}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -146,7 +142,6 @@ function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => v
           </div>
         </div>
 
-        {/* Step label */}
         <AnimatePresence mode="wait">
           <motion.p
             key={done ? "done" : currentStep}
@@ -156,13 +151,12 @@ function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => v
             transition={{ duration: 0.22 }}
             className="font-heading text-xl text-foreground"
           >
-            {done ? "Donativo confirmado!" : PROCESSING_STEPS[currentStep].label}
+            {done ? t("processingConfirmed") : stepLabels[currentStep]}
           </motion.p>
         </AnimatePresence>
 
-        {/* Progress dots */}
         <div className="flex justify-center gap-2">
-          {PROCESSING_STEPS.map((_, i) => (
+          {STEP_DURATIONS.map((_, i) => (
             <motion.span
               key={i}
               animate={{
@@ -178,9 +172,9 @@ function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => v
         </div>
 
         <p className="text-[12px] text-muted-foreground">
-          Donativo de{" "}
+          {t("processingAmountPrefix")}{" "}
           <span className="font-semibold text-foreground">€{amount.toFixed(2)}</span>
-          {" "}— ambiente demonstrativo
+          {" "}— {t("processingDemo")}
         </p>
       </div>
     </motion.div>
@@ -188,7 +182,14 @@ function ProcessingOverlay({ amount, onDone }: { amount: number; onDone: () => v
 }
 
 export function DonationForm() {
+  const t = useTranslations("forms.donation");
   const router = useRouter();
+
+  const METHODS: { id: Method; label: string; sub: string }[] = [
+    { id: "stripe", label: t("methodCardLabel"), sub: t("methodCardSub") },
+    { id: "paypal", label: t("methodPaypalLabel"), sub: t("methodPaypalSub") },
+    { id: "mbway", label: t("methodMbwayLabel"), sub: t("methodMbwaySub") },
+  ];
 
   const [amount, setAmount] = useState<number | null>(10);
   const [custom, setCustom] = useState("");
@@ -226,7 +227,7 @@ export function DonationForm() {
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <StepNumber n={1} />
-            <h2 className="font-heading text-2xl text-foreground">Escolha o valor</h2>
+            <h2 className="font-heading text-2xl text-foreground">{t("step1Title")}</h2>
           </div>
 
           <div className="grid grid-cols-4 gap-3">
@@ -255,7 +256,7 @@ export function DonationForm() {
               type="number"
               min="1"
               step="1"
-              placeholder="Outro valor"
+              placeholder={t("otherAmount")}
               value={custom}
               onChange={(e) => { setCustom(e.target.value); setAmount(null); }}
               className="h-14 w-full rounded-[1.2rem] border border-foreground/10 bg-white pl-9 pr-4 font-heading text-xl text-foreground outline-none transition focus:border-[var(--dt-color-accent)] focus:ring-4 focus:ring-[var(--dt-color-accent)]/10 placeholder:text-muted-foreground/60"
@@ -271,7 +272,7 @@ export function DonationForm() {
                 className="flex items-center gap-2 rounded-[1rem] border border-[var(--dt-color-accent)]/20 bg-[var(--dt-color-accent-soft)] px-4 py-3"
               >
                 <span className="text-sm font-medium text-[var(--dt-color-accent)]">
-                  Total a processar:
+                  {t("totalToProcess")}
                 </span>
                 <span className="font-heading text-xl font-semibold text-[var(--dt-color-accent)]">
                   €{finalAmount.toFixed(2)}
@@ -285,7 +286,7 @@ export function DonationForm() {
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <StepNumber n={2} />
-            <h2 className="font-heading text-2xl text-foreground">Método de pagamento</h2>
+            <h2 className="font-heading text-2xl text-foreground">{t("step2Title")}</h2>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
@@ -321,9 +322,9 @@ export function DonationForm() {
           <div className="flex items-center gap-3">
             <StepNumber n={3} />
             <h2 className="font-heading text-2xl text-foreground">
-              {method === "stripe" && "Dados do cartão"}
-              {method === "paypal" && "Conta PayPal"}
-              {method === "mbway" && "Número MB Way"}
+              {method === "stripe" && t("step3StripeTitle")}
+              {method === "paypal" && t("step3PaypalTitle")}
+              {method === "mbway" && t("step3MbwayTitle")}
             </h2>
           </div>
 
@@ -339,7 +340,7 @@ export function DonationForm() {
               >
                 <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                   <CreditCard className="size-3.5" />
-                  Encriptação SSL · Ambiente demo
+                  {t("sslBadge")}
                 </div>
                 <input className={fieldCls} placeholder="Nome no cartão" value={cardName}
                   onChange={(e) => setCardName(e.target.value)} autoComplete="cc-name" />
@@ -364,7 +365,7 @@ export function DonationForm() {
               >
                 <PayPalLogo />
                 <p className="text-sm leading-6 text-muted-foreground">
-                  Introduza o email associado à sua conta PayPal para continuar com o pagamento de forma segura.
+                  {t("paypalDesc")}
                 </p>
                 <input className={fieldCls} type="email" placeholder="email@exemplo.com"
                   value={ppEmail} onChange={(e) => setPpEmail(e.target.value)} autoComplete="email" />
@@ -381,7 +382,7 @@ export function DonationForm() {
                   <Smartphone className="ml-1 size-4 text-[#009640]" />
                 </div>
                 <p className="text-sm leading-6 text-muted-foreground">
-                  Receberá uma notificação push na aplicação MB Way para confirmar o pagamento.
+                  {t("mbwayDesc")}
                 </p>
                 <div className="relative">
                   <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground">
@@ -412,8 +413,8 @@ export function DonationForm() {
             <span className="flex items-center justify-center gap-2">
               <Lock className="size-4" />
               {isValid
-                ? `Confirmar donativo · €${finalAmount.toFixed(2)}`
-                : "Selecione um valor para continuar"}
+                ? `${t("confirmBtn")} · €${finalAmount.toFixed(2)}`
+                : t("selectAmountBtn")}
               {isValid && !processing && (
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               )}
@@ -422,7 +423,7 @@ export function DonationForm() {
 
           <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
             <Shield className="size-3 shrink-0" />
-            Ambiente demonstrativo — nenhum pagamento real será processado
+            {t("demoNotice")}
           </p>
         </div>
       </form>

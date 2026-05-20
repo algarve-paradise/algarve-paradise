@@ -89,13 +89,12 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             <CardContent className="space-y-5 pt-6">
               <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-white/60">
                 <Radio className="size-4 text-[var(--color-signal)]" />
-                Em foco
+                {t("inFocusBadge")}
               </div>
               <div className="space-y-3">
-                <h2 className="font-heading text-3xl">Edição regional do momento</h2>
+                <h2 className="font-heading text-3xl">{t("inFocusHeading")}</h2>
                 <p className="text-sm leading-7 text-white/74">
-                  A página de notícias consome conteúdo real do painel editorial e está pronta
-                  para receber automação nas próximas fases.
+                  {t("inFocusDesc")}
                 </p>
               </div>
               <div className="grid gap-3">
@@ -114,7 +113,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
                   ))
                 ) : (
                   <div className="rounded-[1.5rem] border border-white/10 bg-white/7 px-4 py-4 text-sm text-white/72">
-                    Sem notícias em foco neste momento.
+                    {t("noFocusNews")}
                   </div>
                 )}
               </div>
@@ -131,9 +130,9 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
 
       <section id="filtros" className="scroll-mt-28 space-y-6">
         <SectionHeading
-          eyebrow="Categorias"
-          title="Encontre notícias por tema ou palavra-chave"
-          description="Use os filtros para consultar rapidamente as áreas editoriais e pesquisar conteúdos publicados."
+          eyebrow={t("categoriesEyebrow")}
+          title={t("categoriesTitle")}
+          description={t("categoriesDesc")}
         />
         <form action={`${siteRoutes.news}#filtros`} className="grid gap-3 rounded-[1.4rem] border border-foreground/10 bg-white p-4 shadow-[0_16px_40px_rgba(7,32,67,0.06)] sm:grid-cols-[1fr_auto]">
           {activeCategory ? (
@@ -199,9 +198,9 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
 
       <section className="space-y-6 py-10">
         <SectionHeading
-          eyebrow="Edição atual"
-          title="Destaques e notícias recentes"
-          description="Estrutura modular pronta para futura paginação, filtros reais e rotas individuais."
+          eyebrow={t("currentEditionEyebrow")}
+          title={t("currentEditionTitle")}
+          description={t("currentEditionDesc")}
         />
         {newsItems.length ? (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

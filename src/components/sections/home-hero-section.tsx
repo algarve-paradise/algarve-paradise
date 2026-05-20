@@ -5,15 +5,17 @@ import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { HomeHeroBanner } from "@/components/sections/home-hero-banner";
 import { WeatherWidget } from "@/components/weather-widget";
-import { homeHero } from "@/data/home";
 import { getHomepageNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
+import type { Stat } from "@/types/content";
 
 export async function HomeHeroSection() {
   const t = await getTranslations("home.hero");
   const newsItems = await getHomepageNews();
   const featuredNews = newsItems.find((i) => i.featured) ?? newsItems[0] ?? null;
   const tickerItems = newsItems.slice(0, 6);
+
+  const stats = t.raw("stats") as Stat[];
 
   return (
     <section className="relative overflow-hidden pt-6 pb-12 sm:pt-10 sm:pb-20">
@@ -29,11 +31,11 @@ export async function HomeHeroSection() {
           </Suspense>
         </div>
         <HomeHeroBanner
-          eyebrow={homeHero.eyebrow}
-          title={homeHero.title}
-          description={homeHero.description}
-          highlight={homeHero.highlight}
-          stats={homeHero.stats}
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          highlight={t("highlight")}
+          stats={stats}
           featured={featuredNews}
           primaryCta={{ label: t("seeNews"), href: siteRoutes.news }}
           secondaryCta={{ label: t("exploreContent"), href: siteRoutes.events }}

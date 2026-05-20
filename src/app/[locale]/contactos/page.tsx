@@ -68,7 +68,7 @@ export default async function ContactPage() {
             <CardContent className="space-y-5 pt-6">
               <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-white/60">
                 <Globe className="size-4 text-[var(--color-signal)]" />
-                Redes e canais
+                {t("socialChannels")}
               </div>
               <div className="grid gap-3">
                 {socialLinks.map((item, index) => {

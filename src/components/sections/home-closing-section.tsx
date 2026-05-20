@@ -3,7 +3,7 @@ import { ArrowRight, Mail, MessageSquareMore, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
-import { homeClosing } from "@/data/home";
+import { siteRoutes } from "@/lib/site";
 
 export async function HomeClosingSection() {
   const t = await getTranslations("home.closing");
@@ -30,28 +30,26 @@ export async function HomeClosingSection() {
                 data-reveal-child
                 className="font-heading text-[2rem] sm:text-4xl lg:text-[2.8rem] leading-[1.05] tracking-tight"
               >
-                {homeClosing.title}
+                {t("title")}
               </h2>
               <p data-reveal-child className="max-w-md text-[15px] leading-relaxed text-white/75">
-                {homeClosing.description}
+                {t("description")}
               </p>
 
               <div data-reveal-child className="flex flex-wrap gap-3 pt-2">
                 <Link
-                  href={homeClosing.primaryCta.href}
+                  href={siteRoutes.contact}
                   className="group inline-flex items-center gap-2 rounded-full bg-white text-foreground px-5 py-3 text-[13px] font-semibold transition-all duration-300 hover:bg-[var(--dt-color-accent)] hover:text-white"
                 >
-                  {homeClosing.primaryCta.label}
+                  {t("primaryCtaLabel")}
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </Link>
-                {homeClosing.secondaryCta ? (
-                  <Link
-                    href={homeClosing.secondaryCta.href}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-[13px] font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/40"
-                  >
-                    {homeClosing.secondaryCta.label}
-                  </Link>
-                ) : null}
+                <Link
+                  href={siteRoutes.community}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-[13px] font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/40"
+                >
+                  {t("secondaryCtaLabel")}
+                </Link>
               </div>
             </div>
 

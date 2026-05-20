@@ -44,10 +44,9 @@ export default async function CommunityPage() {
             <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-white/10">
               <HeartHandshake className="size-5 text-white" />
             </div>
-            <h2 className="font-heading text-3xl">A comunidade constrói o portal</h2>
+            <h2 className="font-heading text-3xl">{t("card1Title")}</h2>
             <p className="text-sm leading-7 text-white/74">
-              A participação da comunidade é parte integrante do projeto. Esta secção acolhe
-              mensagens, sugestões e testemunhos dos residentes e visitantes do Algarve.
+              {t("card1Desc")}
             </p>
           </CardContent>
         </Card>
@@ -56,10 +55,9 @@ export default async function CommunityPage() {
             <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-[var(--color-brand-50)] text-[var(--color-brand-700)]">
               <MessageSquareShare className="size-5" />
             </div>
-            <h2 className="font-heading text-3xl text-foreground">Participação direta</h2>
+            <h2 className="font-heading text-3xl text-foreground">{t("card2Title")}</h2>
             <p className="text-sm leading-7 text-muted-foreground">
-              Envie a sua mensagem e faça parte da conversa regional. As contribuições são revistas
-              pela redação antes de serem publicadas.
+              {t("card2Desc")}
             </p>
           </CardContent>
         </Card>
@@ -68,9 +66,9 @@ export default async function CommunityPage() {
       <Reveal className="grid gap-10 py-6 sm:py-8 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="space-y-6">
           <SectionHeading
-            eyebrow="Vozes da comunidade"
-            title="O que diz a região"
-            description="Opiniões, sugestões e testemunhos partilhados por residentes e visitantes do Algarve."
+            eyebrow={t("voicesEyebrow")}
+            title={t("voicesTitle")}
+            description={t("voicesDesc")}
           />
           <div className="grid gap-4">
             {messages.map((item) => (

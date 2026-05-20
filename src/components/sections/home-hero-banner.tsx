@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, Play, Sparkles, TrendingUp } from "lucide-react";
 import gsap from "gsap";
+import { useTranslations } from "next-intl";
 
 import { SafeImage } from "@/components/shared/safe-image";
 import { formatDateShort } from "@/lib/utils";
@@ -30,6 +31,7 @@ export function HomeHeroBanner({
   primaryCta,
   secondaryCta,
 }: HomeHeroBannerProps) {
+  const t = useTranslations("home.hero");
   const bannerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -108,7 +110,7 @@ export function HomeHeroBanner({
             </span>
             <span className="pill">
               <TrendingUp className="size-3" />
-              Edição de hoje
+              {t("editionToday")}
             </span>
           </div>
 
@@ -187,6 +189,8 @@ export function HomeHeroBanner({
 }
 
 function FeaturedBanner({ featured }: { featured: NewsItem | null }) {
+  const t = useTranslations("home.hero");
+
   if (!featured) {
     return (
       <div
@@ -197,10 +201,8 @@ function FeaturedBanner({ featured }: { featured: NewsItem | null }) {
         <div className="absolute -right-24 -top-24 size-72 rounded-full bg-[var(--dt-color-accent)]/30 blur-3xl" />
         <div className="relative space-y-3">
           <span className="pill pill-soft">Algarve</span>
-          <h2 className="font-heading text-4xl tracking-tight">O portal digital do sul do País</h2>
-          <p className="text-white/70 max-w-md">
-            Informação, eventos e comunidade reunidos numa só plataforma regional.
-          </p>
+          <h2 className="font-heading text-4xl tracking-tight">{t("fallbackTitle")}</h2>
+          <p className="text-white/70 max-w-md">{t("fallbackDesc")}</p>
         </div>
       </div>
     );
@@ -232,7 +234,7 @@ function FeaturedBanner({ featured }: { featured: NewsItem | null }) {
           <span className="relative inline-flex size-1.5 rounded-full bg-[var(--dt-color-accent)]">
             <span className="absolute inset-0 rounded-full bg-[var(--dt-color-accent)] animate-pulse-dot" />
           </span>
-          Em destaque
+          {t("featuredBadge")}
         </span>
       </div>
 
@@ -262,11 +264,11 @@ function FeaturedBanner({ featured }: { featured: NewsItem | null }) {
           <div className="flex items-center gap-2">
             <span className="size-7 rounded-full bg-white/20 backdrop-blur-md ring-1 ring-white/40" />
             <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">
-              {featured.authorName ?? "Redação"}
+              {featured.authorName ?? t("defaultAuthor")}
             </span>
           </div>
           <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[12px] font-semibold text-foreground transition-transform duration-300 group-hover:translate-x-1">
-            Ler mais
+            {t("readMore")}
             <ArrowRight className="size-3.5" />
           </span>
         </div>

@@ -3,26 +3,32 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-
-const TIERS = [
-  { value: "apoiante_local", label: "Apoiante Local" },
-  { value: "parceiro_regional", label: "Parceiro Regional" },
-  { value: "patrocinador_principal", label: "Patrocinador Principal" },
-  { value: "outro", label: "Outro / Personalizado" },
-];
 
 const fieldCls =
   "h-12 w-full rounded-[1rem] border border-foreground/10 bg-[var(--dt-color-bg)] px-4 text-sm text-foreground outline-none transition focus:border-[var(--dt-color-accent)] focus:ring-4 focus:ring-[var(--dt-color-accent)]/10 placeholder:text-muted-foreground/60";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const TIER_VALUES = ["apoiante_local", "parceiro_regional", "patrocinador_principal", "outro"] as const;
+type TierValue = (typeof TIER_VALUES)[number];
+
 export function SponsorshipForm() {
+  const t = useTranslations("forms.sponsorship");
+
+  const TIERS: { value: TierValue; label: string }[] = [
+    { value: "apoiante_local", label: t("tier1Label") },
+    { value: "parceiro_regional", label: t("tier2Label") },
+    { value: "patrocinador_principal", label: t("tier3Label") },
+    { value: "outro", label: t("tier4Label") },
+  ];
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [phone, setPhone] = useState("");
-  const [tier, setTier] = useState("apoiante_local");
+  const [tier, setTier] = useState<TierValue>("apoiante_local");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
 
@@ -58,10 +64,8 @@ export function SponsorshipForm() {
           <CheckCircle2 className="size-8" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
-          <p className="font-heading text-2xl text-foreground">Pedido recebido!</p>
-          <p className="text-sm leading-6 text-muted-foreground">
-            A nossa equipa analisará o seu pedido e entrará em contacto em breve pelo email indicado.
-          </p>
+          <p className="font-heading text-2xl text-foreground">{t("successTitle")}</p>
+          <p className="text-sm leading-6 text-muted-foreground">{t("successDesc")}</p>
         </div>
       </motion.div>
     );
@@ -69,15 +73,14 @@ export function SponsorshipForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Name + Email */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <label className="text-[12px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-            Nome *
+            {t("nameLabel")} *
           </label>
           <input
             className={fieldCls}
-            placeholder="O seu nome completo"
+            placeholder={t("namePlaceholder")}
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoComplete="name"
@@ -86,12 +89,12 @@ export function SponsorshipForm() {
         </div>
         <div className="space-y-1.5">
           <label className="text-[12px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-            Email *
+            {t("emailLabel")} *
           </label>
           <input
             className={fieldCls}
             type="email"
-            placeholder="email@empresa.pt"
+            placeholder={t("emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -100,15 +103,14 @@ export function SponsorshipForm() {
         </div>
       </div>
 
-      {/* Company + Phone */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <label className="text-[12px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-            Empresa / Entidade
+            {t("companyLabel")}
           </label>
           <input
             className={fieldCls}
-            placeholder="Nome da empresa (opcional)"
+            placeholder={t("companyPlaceholder")}
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             autoComplete="organization"
@@ -116,12 +118,12 @@ export function SponsorshipForm() {
         </div>
         <div className="space-y-1.5">
           <label className="text-[12px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-            Telefone
+            {t("phoneLabel")}
           </label>
           <input
             className={fieldCls}
             type="tel"
-            placeholder="+351 9XX XXX XXX"
+            placeholder={t("phonePlaceholder")}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             autoComplete="tel"
@@ -129,38 +131,36 @@ export function SponsorshipForm() {
         </div>
       </div>
 
-      {/* Tier */}
       <div className="space-y-1.5">
         <label className="text-[12px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-          Tipo de patrocínio *
+          {t("tierLabel")} *
         </label>
         <div className="grid gap-2 sm:grid-cols-2">
-          {TIERS.map((t) => (
+          {TIERS.map((item) => (
             <button
-              key={t.value}
+              key={item.value}
               type="button"
-              onClick={() => setTier(t.value)}
+              onClick={() => setTier(item.value)}
               className={cn(
                 "rounded-[1rem] border px-4 py-3 text-left text-sm font-medium transition-all duration-150",
-                tier === t.value
+                tier === item.value
                   ? "border-[var(--dt-color-accent)] bg-[var(--dt-color-accent-soft)] text-[var(--dt-color-accent)]"
                   : "border-foreground/10 bg-[var(--dt-color-bg)] text-foreground hover:border-foreground/25"
               )}
             >
-              {t.label}
+              {item.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Message */}
       <div className="space-y-1.5">
         <label className="text-[12px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-          Mensagem / Proposta *
+          {t("messageLabel")} *
         </label>
         <textarea
           rows={4}
-          placeholder="Descreva brevemente o que procura e como pensa que podemos colaborar..."
+          placeholder={t("messagePlaceholder")}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
@@ -168,7 +168,6 @@ export function SponsorshipForm() {
         />
       </div>
 
-      {/* Error */}
       <AnimatePresence>
         {status === "error" && (
           <motion.p
@@ -177,12 +176,11 @@ export function SponsorshipForm() {
             exit={{ opacity: 0 }}
             className="rounded-[1rem] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"
           >
-            Ocorreu um erro ao enviar o pedido. Por favor tente novamente ou contacte-nos diretamente por email.
+            {t("errorMsg")}
           </motion.p>
         )}
       </AnimatePresence>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={!isValid || status === "loading"}
@@ -196,11 +194,11 @@ export function SponsorshipForm() {
         {status === "loading" ? (
           <>
             <Loader2 className="size-4 animate-spin" />
-            A enviar...
+            {t("submitting")}
           </>
         ) : (
           <>
-            Enviar pedido de patrocínio
+            {t("submit")}
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </>
         )}

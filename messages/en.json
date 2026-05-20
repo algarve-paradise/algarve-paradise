@@ -26,7 +26,22 @@
     "hero": {
       "breaking": "Breaking news",
       "seeNews": "View news",
-      "exploreContent": "Explore content"
+      "exploreContent": "Explore content",
+      "eyebrow": "Regional information portal",
+      "title": "Everything happening in the Algarve, in one place",
+      "description": "News, events and updated information for those who want to closely follow everything happening in the region.",
+      "highlight": "Information updated daily, exclusive focus on the Algarve and simple access on any device.",
+      "editionToday": "Today's edition",
+      "featuredBadge": "Featured",
+      "readMore": "Read more",
+      "defaultAuthor": "Editorial",
+      "fallbackTitle": "The digital portal of southern Portugal",
+      "fallbackDesc": "Information, events and community brought together on one regional platform.",
+      "stats": [
+        { "value": "06", "label": "Editorial and institutional areas organized" },
+        { "value": "03", "label": "Core pillars: news, events and community" },
+        { "value": "24/7", "label": "Language built for relevance and proximity" }
+      ]
     },
     "intro": {
       "eyebrow": "What is it",
@@ -73,7 +88,11 @@
       "contact1Title": "Institutional contact",
       "contact1Desc": "For partnerships, sponsorships, collaborations or connection with regional entities.",
       "contact2Title": "Community",
-      "contact2Desc": "For messages, suggestions and staying close to the news and events of the Algarve."
+      "contact2Desc": "For messages, suggestions and staying close to the news and events of the Algarve.",
+      "title": "A project made for the Algarve",
+      "description": "Algarve TV Paradise was created with the goal of giving greater visibility to the region, bringing people together and celebrating everything that happens locally.",
+      "primaryCtaLabel": "Get in touch",
+      "secondaryCtaLabel": "Join the community"
     }
   },
   "pages": {
@@ -87,7 +106,18 @@
       "noResults": "No articles found.",
       "readMore": "Read full article",
       "seeEvents": "View events",
-      "seeCommunity": "Community"
+      "seeCommunity": "Community",
+      "inFocusBadge": "In focus",
+      "inFocusHeading": "Regional edition of the moment",
+      "inFocusDesc": "The news page consumes real content from the editorial panel and is ready to receive automation in upcoming phases.",
+      "noFocusNews": "No featured news at the moment.",
+      "emptyPublished": "No news published yet. As soon as you create the first article in the admin panel, it will appear here automatically.",
+      "categoriesEyebrow": "Categories",
+      "categoriesTitle": "Find news by topic or keyword",
+      "categoriesDesc": "Use filters to quickly browse editorial areas and search published content.",
+      "currentEditionEyebrow": "Current edition",
+      "currentEditionTitle": "Highlights and recent news",
+      "currentEditionDesc": "Modular structure ready for future pagination, real filters and individual routes."
     },
     "events": {
       "title": "Events",
@@ -97,19 +127,49 @@
       "noEvents": "No events available.",
       "seeMore": "See more",
       "seeNews": "View news",
-      "seeCommunity": "Community"
+      "seeCommunity": "Community",
+      "activeAgendaBadge": "Active agenda",
+      "activeAgendaTitle": "Regional events with editorial coverage",
+      "activeAgendaDesc": "From culture to gastronomy, from sports to institutional initiatives — all relevant Algarve events with clear and up-to-date information.",
+      "coverageBadge": "Territorial coverage",
+      "coverageDesc": "Events from all Algarve municipalities, organized by date and location to ease planning for residents, visitors and institutional partners.",
+      "agendaEyebrow": "Agenda",
+      "editorialSelection": "Editorial selection of the most relevant events for residents, visitors and institutional partners.",
+      "monthlyCalendar": "Monthly calendar"
     },
     "community": {
       "title": "Community",
       "description": "Share your voice with the Algarve community.",
       "seeNews": "View news",
-      "contacts": "Contact"
+      "contacts": "Contact",
+      "card1Title": "The community builds the portal",
+      "card1Desc": "Community participation is an integral part of the project. This section welcomes messages, suggestions and testimonials from Algarve residents and visitors.",
+      "card2Title": "Direct participation",
+      "card2Desc": "Send your message and be part of the regional conversation. Contributions are reviewed by the editorial team before being published.",
+      "voicesEyebrow": "Community voices",
+      "voicesTitle": "What the region is saying",
+      "voicesDesc": "Opinions, suggestions and testimonials shared by Algarve residents and visitors."
     },
     "about": {
       "title": "About",
       "description": "Institutional context of Algarve Paradise Media.",
       "seeNews": "View news",
-      "contacts": "Contact"
+      "contacts": "Contact",
+      "historyTitle": "Project history",
+      "historyP1": "Algarve Paradise Media was created with the aim of giving a voice to the Algarve region, building a bridge between the community, institutions and relevant information.",
+      "historyP2": "The project responds to the need to modernize regional communication with a more accessible, dynamic and people-centred format, without losing institutional rigour.",
+      "pillar1Title": "Regional communication",
+      "pillar1Desc": "Digital structure designed for news, useful information and the regional agenda.",
+      "pillar2Title": "Human proximity",
+      "pillar2Desc": "The community participates, engages and finds a space for representation.",
+      "pillar3Title": "Institutional credibility",
+      "pillar3Desc": "The tone and visual structure were designed to engage with local entities.",
+      "mvvEyebrow": "Mission, vision and values",
+      "mvvTitle": "Institutional foundation ready for modern regional communication",
+      "mvvDesc": "The blocks below define the editorial and institutional framework of the association.",
+      "foundersEyebrow": "Founders",
+      "foundersTitle": "Founding team with professional and institutional background",
+      "foundersDesc": "The portraits and descriptions are ready to receive real photographs and final information."
     },
     "contact": {
       "title": "Contact",
@@ -117,11 +177,118 @@
       "eyebrow": "Contact",
       "heading": "Get in touch",
       "share": "Share a suggestion",
-      "about": "About the project"
+      "about": "About the project",
+      "socialChannels": "Social networks and channels"
     },
     "support": {
       "talkSponsorship": "Talk about sponsorship",
-      "sendSuggestion": "Send suggestion"
+      "sendSuggestion": "Send suggestion",
+      "title": "Support",
+      "heading": "Help strengthen the Algarve's regional information",
+      "description": "Algarve TV Paradise grows with the support of the community, businesses and institutions who believe in a useful, simple platform focused on the region.",
+      "donateBadge": "Online donation",
+      "donateHeading": "Make a donation",
+      "donateAccent": "now",
+      "donateDesc": "In less than a minute you can contribute to keeping Algarve TV Paradise free, independent and focused on the region.",
+      "donateCta": "Donate now",
+      "donateSubtext": "From €1 · Secure · No subscription",
+      "steps": [
+        { "title": "Choose the amount", "desc": "€5, €10, €25, €50 or any amount of your choice." },
+        { "title": "Pay securely", "desc": "Card, PayPal or MB Way — fast and encrypted." },
+        { "title": "Receive confirmation", "desc": "Receipt sent by email with transaction reference." }
+      ],
+      "ways": [
+        {
+          "title": "One-time donation",
+          "description": "Direct contribution to support platform maintenance, editorial production and regional coverage.",
+          "details": ["Ideal for readers and community", "Simple and direct support", "Helps keep access open"]
+        },
+        {
+          "title": "Editorial sponsorship",
+          "description": "Institutional presence in strategic areas of the site, with a clear framing aligned with regional identity.",
+          "details": ["Highlight for local brands", "Association with regional content", "Visibility among the community"]
+        },
+        {
+          "title": "Institutional partnership",
+          "description": "Collaboration with entities, municipalities, associations and companies that want to promote the Algarve.",
+          "details": ["Special projects", "Coverage of initiatives", "Ongoing relationship with the platform"]
+        }
+      ],
+      "howToDonateTitle": "How to donate",
+      "howToDonateDesc": "For donations, sponsorships or recurring support, contact our team. We will confirm the best payment method and provide the necessary details.",
+      "sendEmail": "Send email",
+      "channelBankLabel": "Bank transfer",
+      "channelBankValue": "IBAN available upon request",
+      "channelReceiptLabel": "Invoice / receipt request",
+      "sponsorEyebrow": "Sponsorship",
+      "sponsorTitle": "Support models for brands and institutions",
+      "sponsorDesc": "Sponsor presence should be clear, credible and useful for those who follow the Algarve.",
+      "tiers": [
+        {
+          "name": "Local Supporter",
+          "description": "For small businesses and professionals who want to support regional information.",
+          "benefits": ["Mention on the support page", "Direct contact with the team", "Presence associated with the community"]
+        },
+        {
+          "name": "Regional Partner",
+          "description": "For companies and entities with a regular presence in the Algarve.",
+          "benefits": ["Institutional highlight", "Possibility of thematic campaigns", "Simple presence reports"]
+        },
+        {
+          "name": "Main Sponsor",
+          "description": "For investors and brands who want a strong connection to the platform's growth.",
+          "benefits": ["Priority presence", "Special editorial projects", "Activation planning with the team"]
+        }
+      ],
+      "contactEyebrow": "Direct contact",
+      "contactTitle": "Send your sponsorship request",
+      "contactDesc": "Fill in the form and our team will respond within 48 business hours."
+    },
+    "donate": {
+      "metaTitle": "Make a Donation · Support",
+      "metaDescription": "Contribute to the Algarve's regional information in a simple and secure way.",
+      "back": "Back to support",
+      "secure": "Secure payment",
+      "badge": "Donation",
+      "heading": "Support regional",
+      "headingAccent": "journalism",
+      "description": "Your donation helps keep the platform active, free and independent. Every contribution makes a difference to Algarve coverage.",
+      "impactLabel": "Impact of your donation",
+      "impactHeading": "What your support enables",
+      "impactItems": [
+        { "value": "€5", "label": "Covers 1 day of server costs" },
+        { "value": "€10", "label": "Funds one complete local news story" },
+        { "value": "€25", "label": "Supports one week of editorial coverage" },
+        { "value": "€50", "label": "Sponsors a regional feature report" }
+      ],
+      "trust": [
+        { "label": "Secure payments", "sub": "Data encrypted via SSL" },
+        { "label": "Automatic receipt", "sub": "Sent to your email" },
+        { "label": "Open platform", "sub": "Free access for everyone" }
+      ],
+      "demoNotice": "Demo mode: This flow illustrates how integration with Stripe, PayPal or MB Way would work. No financial data is transmitted or charged.",
+      "preferOther": "Prefer another method?",
+      "contactEmail": "Contact us by email"
+    },
+    "success": {
+      "metaTitle": "Donation Confirmed · Support",
+      "metaDescription": "Your donation was received successfully. Thank you for supporting Algarve TV Paradise.",
+      "methodStripe": "Credit/debit card",
+      "methodPaypal": "PayPal",
+      "methodMbway": "MB Way",
+      "badge": "Thank you for your support",
+      "heading": "Donation confirmed!",
+      "description": "Your contribution helps keep Algarve TV Paradise active, free and independent for the entire community.",
+      "labelAmount": "Amount donated",
+      "labelMethod": "Method",
+      "labelRef": "Transaction reference",
+      "demoNotice": "Demo mode: No amount was charged. This receipt is illustrative only.",
+      "receiptSent": "Receipt sent to",
+      "downloadReceipt": "Download proof (demo)",
+      "goHome": "Go to home",
+      "otherSupport": "Other ways to support",
+      "shareMessage": "Share with those who love the Algarve and help us grow.",
+      "seeLatestNews": "See the latest news"
     },
     "privacy": {
       "title": "Privacy Policy",
@@ -144,6 +311,68 @@
       "submitting": "Sending...",
       "success": "Message sent! Awaiting editorial review.",
       "errorConn": "Connection error. Please try again."
+    },
+    "donation": {
+      "step1Title": "Choose the amount",
+      "step2Title": "Payment method",
+      "step3StripeTitle": "Card details",
+      "step3PaypalTitle": "PayPal account",
+      "step3MbwayTitle": "MB Way number",
+      "otherAmount": "Other amount",
+      "totalToProcess": "Total to process:",
+      "methodCardLabel": "Card",
+      "methodCardSub": "Visa · Mastercard · Amex",
+      "methodPaypalLabel": "PayPal",
+      "methodPaypalSub": "PayPal account",
+      "methodMbwayLabel": "MB Way",
+      "methodMbwaySub": "PT mobile",
+      "sslBadge": "SSL encryption · Demo environment",
+      "paypalDesc": "Enter the email associated with your PayPal account to continue with payment securely.",
+      "mbwayDesc": "You will receive a push notification in the MB Way app to confirm the payment.",
+      "confirmBtn": "Confirm donation",
+      "selectAmountBtn": "Select an amount to continue",
+      "demoNotice": "Demo environment — no real payment will be processed",
+      "processingStep1": "Verifying details...",
+      "processingStep2": "Processing payment...",
+      "processingStep3": "Confirming transaction...",
+      "processingStep4": "Complete!",
+      "processingConfirmed": "Donation confirmed!",
+      "processingAmountPrefix": "Donation of",
+      "processingDemo": "demo environment"
+    },
+    "sponsorship": {
+      "tier1Label": "Local Supporter",
+      "tier2Label": "Regional Partner",
+      "tier3Label": "Main Sponsor",
+      "tier4Label": "Other / Custom",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "companyLabel": "Company / Entity",
+      "phoneLabel": "Phone",
+      "tierLabel": "Sponsorship type",
+      "messageLabel": "Message / Proposal",
+      "namePlaceholder": "Your full name",
+      "emailPlaceholder": "email@company.com",
+      "companyPlaceholder": "Company name (optional)",
+      "phonePlaceholder": "+351 9XX XXX XXX",
+      "messagePlaceholder": "Briefly describe what you are looking for and how you think we can collaborate...",
+      "submit": "Send sponsorship request",
+      "submitting": "Sending...",
+      "successTitle": "Request received!",
+      "successDesc": "Our team will review your request and get in touch shortly at the email provided.",
+      "errorMsg": "An error occurred while sending the request. Please try again or contact us directly by email."
+    },
+    "contact": {
+      "title": "Get in touch",
+      "description": "Form ready for future integration with email, CRM or automation.",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "name@example.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Share the reason for your contact.",
+      "submit": "Send message",
+      "successMsg": "Request registered in demo mode. The final delivery can connect this form to email or CRM."
     }
   },
   "cookies": {
