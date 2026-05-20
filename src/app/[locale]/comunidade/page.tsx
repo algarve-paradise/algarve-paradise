@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { HeartHandshake, MessageSquareShare } from "lucide-react";
 
 import { MessageCard } from "@/components/cards/message-card";
@@ -7,26 +8,35 @@ import { PageShell } from "@/components/shared/page-shell";
 import { Reveal } from "@/components/shared/reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { communityMessages as fallbackMessages, communityIntro } from "@/data/community";
+import { communityMessages as fallbackMessages } from "@/data/community";
 import { getApprovedCommunityMessages } from "@/lib/community";
 import { siteRoutes } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Comunidade",
-  description: "Partilhe a sua voz com a comunidade do Algarve — opiniões, sugestões e testemunhos da região.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "pages.community" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export default async function CommunityPage() {
+  const t = await getTranslations("pages.community");
   const dbMessages = await getApprovedCommunityMessages();
   const messages = dbMessages.length > 0 ? dbMessages : fallbackMessages;
 
   return (
     <PageShell
-      eyebrow={communityIntro.eyebrow}
-      title={communityIntro.title}
-      description={communityIntro.description}
-      primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
-      secondaryCta={{ label: "Contactos", href: siteRoutes.contact }}
+      eyebrow={t("title")}
+      title={t("title")}
+      description={t("description")}
+      primaryCta={{ label: t("seeNews"), href: siteRoutes.news }}
+      secondaryCta={{ label: t("contacts"), href: siteRoutes.contact }}
     >
       <Reveal className="grid gap-8 md:grid-cols-2">
         <Card className="border border-white/10 bg-[#04162f] text-white shadow-[0_24px_60px_rgba(4,22,47,0.24)]">

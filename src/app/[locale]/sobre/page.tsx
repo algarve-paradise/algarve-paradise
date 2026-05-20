@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Landmark, Signal, Users } from "lucide-react";
 
 import { FounderCard } from "@/components/cards/founder-card";
@@ -9,20 +10,29 @@ import { aboutStory, founders, missionVisionValues } from "@/data/about";
 import { editorialStats } from "@/data/site";
 import { siteRoutes } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Sobre",
-  description:
-    "Contexto institucional da Algarve Paradise Media, missão, visão e equipa fundadora.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "pages.about" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getTranslations("pages.about");
+
   return (
     <PageShell
       eyebrow={aboutStory.eyebrow}
       title={aboutStory.title}
       description={aboutStory.description}
-      primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
-      secondaryCta={{ label: "Contactos", href: siteRoutes.contact }}
+      primaryCta={{ label: t("seeNews"), href: siteRoutes.news }}
+      secondaryCta={{ label: t("contacts"), href: siteRoutes.contact }}
       stats={editorialStats}
     >
       <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">

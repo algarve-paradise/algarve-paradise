@@ -1,9 +1,12 @@
+import { getTranslations } from "next-intl/server";
+
 import { NewsCard } from "@/components/cards/news-card";
 import { SectionShell } from "@/components/shared/section-shell";
 import { getHomepageNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 
 export async function NewsHighlightsSection() {
+  const t = await getTranslations("home.highlights");
   const newsItems = await getHomepageNews();
   const featured = newsItems.filter((item) => item.featured);
   const featuredLead = featured[0] ?? newsItems[0];
@@ -17,14 +20,14 @@ export async function NewsHighlightsSection() {
 
   return (
     <SectionShell
-      eyebrow="Destaques"
+      eyebrow={t("eyebrow")}
       title={
         <>
-          Últimas notícias do <em className="not-italic text-[var(--dt-color-accent)]">Algarve</em>
+          {t("title")} <em className="not-italic text-[var(--dt-color-accent)]">{t("titleAccent")}</em>
         </>
       }
-      description="Acompanhe as principais novidades da região de forma rápida, clara e acessível."
-      cta={{ label: "Ver todas", href: siteRoutes.news }}
+      description={t("description")}
+      cta={{ label: t("seeAll"), href: siteRoutes.news }}
       withDivider={false}
     >
       <div data-reveal-grid className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">

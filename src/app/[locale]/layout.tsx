@@ -6,8 +6,6 @@ import { getMessages } from "next-intl/server";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { CookieConsentBanner } from "@/components/shared/cookie-consent-banner";
-import { SmoothScroll } from "@/components/shared/smooth-scroll";
 import { siteConfig } from "@/lib/site";
 import { routing } from "@/i18n/routing";
 
@@ -39,8 +37,6 @@ export default async function LocaleLayout({ children, params }: Props) {
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
-      <SmoothScroll />
-      <CookieConsentBanner />
     </NextIntlClientProvider>
   );
 }

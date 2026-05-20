@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { CalendarDays } from "lucide-react";
 import Link from "next/link";
 
@@ -32,6 +33,7 @@ function newsItemToEvent(news: NewsItem): EventItem {
 }
 
 export async function EventsSection() {
+  const t = await getTranslations("home.events");
   const [dbEvents, eventNews] = await Promise.all([
     getHomepageEvents(),
     getPublishedEventNews(),
@@ -60,14 +62,15 @@ export async function EventsSection() {
 
   return (
     <SectionShell
-      eyebrow="Agenda regional"
+      eyebrow={t("eyebrow")}
       title={
         <>
-          O que está a <em className="not-italic text-[var(--dt-color-accent)]">acontecer</em> no Algarve
+          {t("title")} <em className="not-italic text-[var(--dt-color-accent)]">{t("titleAccent")}</em>{" "}
+          {t("titleSuffix")}
         </>
       }
-      description="Descubra eventos culturais, desportivos e iniciativas locais em toda a região."
-      cta={{ label: "Ver agenda", href: siteRoutes.events }}
+      description={t("description")}
+      cta={{ label: t("seeAgenda"), href: siteRoutes.events }}
       withDivider={false}
     >
       <div data-reveal-grid className="grid gap-6 lg:grid-cols-[0.55fr_0.45fr]">
@@ -77,13 +80,13 @@ export async function EventsSection() {
           <div className="flex items-center justify-between">
             <span className="pill pill-soft">
               <CalendarDays className="size-3" />
-              Próximos
+              {t("upcoming")}
             </span>
             <Link
               href={siteRoutes.events}
               className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground link-tech"
             >
-              Calendário
+              {t("calendar")}
             </Link>
           </div>
           {otherEvents.slice(0, 5).map((item) => (

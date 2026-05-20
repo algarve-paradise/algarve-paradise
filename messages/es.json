@@ -7,7 +7,9 @@
     "community": "Comunidad",
     "support": "Apóyanos",
     "contacts": "Contacto",
-    "admin": "Admin"
+    "admin": "Admin",
+    "supportBtn": "Apoyar",
+    "updated": "Actualizado"
   },
   "header": {
     "tagline": "Medios regionales",
@@ -21,47 +23,128 @@
     "cookiePolicy": "Política de Cookies"
   },
   "home": {
-    "heroEyebrow": "Noticias destacadas",
-    "latestNews": "Últimas noticias",
-    "seeAll": "Ver todas",
-    "readMore": "Leer más"
+    "hero": {
+      "breaking": "Última hora",
+      "seeNews": "Ver noticias",
+      "exploreContent": "Explorar contenidos"
+    },
+    "intro": {
+      "eyebrow": "Qué es",
+      "title": "¿Qué es Algarve TV Paradise?",
+      "description": "Algarve TV Paradise es una plataforma digital de información dedicada al Algarve. Reunimos noticias, contenidos y actualizaciones relevantes de la región, organizadas de forma sencilla para que cualquier persona pueda seguir lo que realmente importa.",
+      "pill": "Información regional",
+      "cardTitle": "Un punto central sobre el Algarve",
+      "cardDesc": "Noticias locales, eventos, información útil y conexión con la comunidad, dentro y fuera de la región.",
+      "reasons": [
+        "Información actualizada diariamente",
+        "Contenidos organizados en un solo lugar",
+        "Enfoque exclusivo en el Algarve",
+        "Acceso sencillo en cualquier dispositivo"
+      ]
+    },
+    "highlights": {
+      "eyebrow": "Destacados",
+      "title": "Últimas noticias del",
+      "titleAccent": "Algarve",
+      "description": "Sigue las principales novedades de la región de forma rápida, clara y accesible.",
+      "seeAll": "Ver todas"
+    },
+    "events": {
+      "eyebrow": "Agenda regional",
+      "title": "Lo que está",
+      "titleAccent": "pasando",
+      "titleSuffix": "en el Algarve",
+      "description": "Descubre eventos culturales, deportivos e iniciativas locales en toda la región.",
+      "seeAgenda": "Ver agenda",
+      "upcoming": "Próximos",
+      "calendar": "Calendario"
+    },
+    "community": {
+      "eyebrow": "Comunidad",
+      "title": "Comparte",
+      "titleAccent": "con nosotros",
+      "description": "¿Tienes una noticia, evento o sugerencia? Tu participación ayuda a hacer este proyecto más completo.",
+      "shareVoicePill": "Comparte tu voz",
+      "formTitle": "Envía tu mensaje a la comunidad",
+      "formDesc": "Corto, directo y con tu nombre — después de la revisión editorial, se publica en esta sección."
+    },
+    "closing": {
+      "missionPill": "Misión regional",
+      "contact1Title": "Contacto institucional",
+      "contact1Desc": "Para alianzas, patrocinios, colaboraciones o conexión con entidades regionales.",
+      "contact2Title": "Comunidad",
+      "contact2Desc": "Para mensajes, sugerencias y estar cerca de la actualidad y los eventos del Algarve."
+    }
   },
-  "news": {
-    "title": "Noticias",
-    "description": "Las últimas noticias del Algarve.",
-    "readMore": "Leer artículo completo",
-    "publishedOn": "Publicado el",
-    "noNews": "No hay noticias disponibles en este momento."
+  "pages": {
+    "news": {
+      "title": "Noticias",
+      "heading": "Noticias del Algarve",
+      "description": "Sigue las principales noticias de la región, organizadas de forma clara para facilitar el acceso a la información.",
+      "all": "Todas",
+      "searchPlaceholder": "Buscar noticias...",
+      "clearSearch": "Limpiar",
+      "noResults": "No se encontraron artículos.",
+      "readMore": "Leer artículo completo",
+      "seeEvents": "Ver eventos",
+      "seeCommunity": "Comunidad"
+    },
+    "events": {
+      "title": "Eventos",
+      "heading": "Eventos en el Algarve",
+      "description": "Explora eventos culturales, deportivos e iniciativas locales que ocurren en toda la región.",
+      "upcomingEvents": "Próximos eventos",
+      "noEvents": "No hay eventos disponibles.",
+      "seeMore": "Ver más",
+      "seeNews": "Ver noticias",
+      "seeCommunity": "Comunidad"
+    },
+    "community": {
+      "title": "Comunidad",
+      "description": "Comparte tu voz con la comunidad del Algarve.",
+      "seeNews": "Ver noticias",
+      "contacts": "Contacto"
+    },
+    "about": {
+      "title": "Sobre nosotros",
+      "description": "Contexto institucional de Algarve Paradise Media.",
+      "seeNews": "Ver noticias",
+      "contacts": "Contacto"
+    },
+    "contact": {
+      "title": "Contacto",
+      "description": "Para sugerencias, envío de contenidos o alianzas, contáctanos.",
+      "eyebrow": "Contacto",
+      "heading": "Contáctanos",
+      "share": "Compartir sugerencia",
+      "about": "Sobre el proyecto"
+    },
+    "support": {
+      "talkSponsorship": "Hablar sobre patrocinio",
+      "sendSuggestion": "Enviar sugerencia"
+    },
+    "privacy": {
+      "title": "Política de Privacidad",
+      "description": "Cómo gestionamos tus datos personales."
+    },
+    "cookies": {
+      "title": "Política de Cookies",
+      "description": "Cómo usamos cookies en este sitio."
+    }
   },
-  "events": {
-    "title": "Agenda y Eventos",
-    "description": "Los próximos eventos en el Algarve.",
-    "noEvents": "No hay eventos disponibles en este momento.",
-    "seeDetails": "Ver detalles"
-  },
-  "community": {
-    "title": "Voces de la Comunidad",
-    "description": "Comparte tu opinión sobre el Algarve.",
-    "formTitle": "Deja tu mensaje",
-    "namePlaceholder": "Tu nombre",
-    "messagePlaceholder": "Tu mensaje...",
-    "submit": "Enviar mensaje",
-    "submitting": "Enviando...",
-    "success": "¡Mensaje enviado! Pendiente de aprobación.",
-    "error": "Error al enviar. Inténtalo de nuevo."
-  },
-  "support": {
-    "title": "Apoya el Algarve TV Paradise",
-    "donateNow": "Hacer una donación",
-    "fromAmount": "Desde €1 · Seguro · Sin suscripción"
-  },
-  "about": {
-    "title": "Sobre nosotros",
-    "description": "Conoce el Portal del Algarve."
-  },
-  "contact": {
-    "title": "Contacto",
-    "description": "Contáctanos."
+  "forms": {
+    "community": {
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "municipalityLabel": "Municipio",
+      "municipalityPlaceholder": "Ej: Faro, Lagos, Portimão...",
+      "messageLabel": "Mensaje",
+      "messagePlaceholder": "Tu mensaje para la comunidad...",
+      "submit": "Enviar mensaje",
+      "submitting": "Enviando...",
+      "success": "¡Mensaje enviado! Pendiente de revisión editorial.",
+      "errorConn": "Error de conexión. Inténtalo de nuevo."
+    }
   },
   "cookies": {
     "title": "Usamos cookies en este sitio",

@@ -1,20 +1,17 @@
+import { getTranslations } from "next-intl/server";
 import { CheckCircle2, Globe2 } from "lucide-react";
 
 import { SectionShell } from "@/components/shared/section-shell";
 
-const reasons = [
-  "Informação atualizada diariamente",
-  "Conteúdos organizados num só lugar",
-  "Foco exclusivo no Algarve",
-  "Acesso simples em qualquer dispositivo",
-];
+export async function HomeIntroSection() {
+  const t = await getTranslations("home.intro");
+  const reasons = t.raw("reasons") as string[];
 
-export function HomeIntroSection() {
   return (
     <SectionShell
-      eyebrow="O que é"
-      title="O que é o Algarve TV Paradise?"
-      description="O Algarve TV Paradise é uma plataforma digital de informação dedicada ao Algarve. Aqui reunimos notícias, conteúdos e atualizações relevantes da região, organizadas de forma simples para que qualquer pessoa possa acompanhar o que realmente importa."
+      eyebrow={t("eyebrow")}
+      title={t("title")}
+      description={t("description")}
       withDivider={false}
     >
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
@@ -26,13 +23,10 @@ export function HomeIntroSection() {
           <div className="relative space-y-4">
             <span className="pill pill-glass text-foreground">
               <Globe2 className="size-3" />
-              Informação regional
+              {t("pill")}
             </span>
-            <h3 className="font-heading text-3xl leading-tight">Um ponto central sobre o Algarve</h3>
-            <p className="text-sm leading-7 text-white/74">
-              Notícias locais, eventos, informações úteis e ligação com a comunidade, dentro e fora
-              da região.
-            </p>
+            <h3 className="font-heading text-3xl leading-tight">{t("cardTitle")}</h3>
+            <p className="text-sm leading-7 text-white/74">{t("cardDesc")}</p>
           </div>
         </div>
 

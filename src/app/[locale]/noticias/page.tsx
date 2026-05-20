@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Radio, Search, X } from "lucide-react";
 
@@ -11,12 +12,21 @@ import { getPublishedNews } from "@/lib/news";
 import { formatNewsCategory, newsCategories } from "@/lib/news-shared";
 import { siteRoutes } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Notícias",
-  description: "Portal de notícias regionais da Algarve Paradise Media.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "pages.news" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 type NewsPageProps = {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
     categoria?: string;
     q?: string;
@@ -32,6 +42,7 @@ function buildNewsHref(category?: string, query?: string) {
 }
 
 export default async function NewsPage({ searchParams }: NewsPageProps) {
+  const t = await getTranslations("pages.news");
   const params = await searchParams;
   const allNewsItems = await getPublishedNews();
   const visibleCategories = newsCategories.filter((category) => category !== "Reportagem");
@@ -64,11 +75,11 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
 
   return (
     <PageShell
-      eyebrow="Notícias"
-      title="Notícias do Algarve"
-      description="Acompanhe as principais notícias da região, organizadas de forma clara para facilitar o acesso à informação."
-      primaryCta={{ label: "Ver eventos", href: siteRoutes.events }}
-      secondaryCta={{ label: "Comunidade", href: siteRoutes.community }}
+      eyebrow={t("title")}
+      title={t("heading")}
+      description={t("description")}
+      primaryCta={{ label: t("seeEvents"), href: siteRoutes.events }}
+      secondaryCta={{ label: t("seeCommunity"), href: siteRoutes.community }}
       stats={editorialStats}
     >
       {lead ? (
@@ -113,8 +124,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
       ) : (
         <Card className="rounded-none border border-border shadow-none">
           <CardContent className="pt-6 text-sm leading-7 text-muted-foreground">
-            Ainda não existem notícias publicadas. Assim que criar a primeira no painel administrativo,
-            ela passará a aparecer automaticamente aqui.
+            {t("noResults")}
           </CardContent>
         </Card>
       )}
@@ -130,13 +140,13 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             <input type="hidden" name="categoria" value={activeCategory} />
           ) : null}
           <label className="relative block">
-            <span className="sr-only">Pesquisar notícias</span>
+            <span className="sr-only">{t("searchPlaceholder")}</span>
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="search"
               name="q"
               defaultValue={query}
-              placeholder="Pesquisar por tema, local ou palavra-chave"
+              placeholder={t("searchPlaceholder")}
               className="h-12 w-full rounded-full border border-foreground/10 bg-[var(--dt-color-bg)] pl-11 pr-4 text-sm text-foreground outline-none transition focus:border-[var(--dt-color-accent)] focus:bg-white focus:ring-4 focus:ring-[var(--dt-color-accent)]/10"
             />
           </label>
@@ -145,7 +155,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-5 text-sm font-semibold text-background transition hover:bg-[var(--dt-color-accent)]"
           >
             <Search className="size-4" />
-            Pesquisar
+            <span className="sr-only">{t("searchPlaceholder")}</span>
           </button>
         </form>
         <div className="flex flex-wrap gap-3">
@@ -158,7 +168,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
                 : "border-[color:var(--color-brand-200)] bg-white text-[var(--color-brand-700)] hover:border-[var(--dt-color-accent)]"
             }`}
           >
-            Todas
+            {t("all")}
           </Link>
           {visibleCategories.map((category) => (
             <Link
@@ -181,7 +191,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
               className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-[var(--dt-color-accent)] hover:text-foreground"
             >
               <X className="size-4" />
-              Limpar
+              {t("clearSearch")}
             </Link>
           ) : null}
         </div>
@@ -202,8 +212,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
         ) : (
           <Card className="rounded-[1.2rem] border border-foreground/10 bg-white shadow-none">
             <CardContent className="pt-6 text-sm leading-7 text-muted-foreground">
-              Nenhuma notícia encontrada para os filtros atuais. Experimente outra categoria ou
-              limpe a pesquisa.
+              {t("noResults")}
             </CardContent>
           </Card>
         )}

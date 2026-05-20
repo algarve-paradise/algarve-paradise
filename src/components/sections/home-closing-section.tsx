@@ -1,10 +1,13 @@
+import { getTranslations } from "next-intl/server";
 import { ArrowRight, Mail, MessageSquareMore, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { homeClosing } from "@/data/home";
 
-export function HomeClosingSection() {
+export async function HomeClosingSection() {
+  const t = await getTranslations("home.closing");
+
   return (
     <section className="relative py-16 sm:py-24">
       <Container>
@@ -21,7 +24,7 @@ export function HomeClosingSection() {
             <div data-reveal-children className="space-y-6">
               <span data-reveal-child className="pill pill-glass text-foreground inline-flex w-fit">
                 <Sparkles className="size-3" />
-                Missão regional
+                {t("missionPill")}
               </span>
               <h2
                 data-reveal-child
@@ -55,17 +58,13 @@ export function HomeClosingSection() {
             <div data-reveal-grid className="grid gap-4 sm:grid-cols-2 self-end">
               <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 transition-colors duration-300 hover:bg-white/10">
                 <Mail className="size-5 text-[var(--dt-color-accent)]" />
-                <h3 className="mt-3 font-heading text-lg">Contacto institucional</h3>
-                <p className="mt-1 text-xs leading-5 text-white/65">
-                  Para parcerias, patrocínio, colaborações ou ligação com entidades regionais.
-                </p>
+                <h3 className="mt-3 font-heading text-lg">{t("contact1Title")}</h3>
+                <p className="mt-1 text-xs leading-5 text-white/65">{t("contact1Desc")}</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 transition-colors duration-300 hover:bg-white/10">
                 <MessageSquareMore className="size-5 text-[var(--dt-color-accent)]" />
-                <h3 className="mt-3 font-heading text-lg">Comunidade</h3>
-                <p className="mt-1 text-xs leading-5 text-white/65">
-                  Para mensagens, sugestões e proximidade com a atualidade e os eventos do Algarve.
-                </p>
+                <h3 className="mt-3 font-heading text-lg">{t("contact2Title")}</h3>
+                <p className="mt-1 text-xs leading-5 text-white/65">{t("contact2Desc")}</p>
               </div>
             </div>
           </div>

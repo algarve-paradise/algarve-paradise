@@ -1,14 +1,25 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/shared/social-icons";
-
 import { contactLinks } from "@/data/contacts";
-import { navigationFooter } from "@/data/navigation";
 import { siteConfig, siteRoutes } from "@/lib/site";
 import { Container } from "@/components/layout/container";
 
-export function SiteFooter() {
+const FOOTER_NAV_ITEMS = [
+  { key: "about" as const, href: siteRoutes.about },
+  { key: "news" as const, href: siteRoutes.news },
+  { key: "events" as const, href: siteRoutes.events },
+  { key: "community" as const, href: siteRoutes.community },
+  { key: "support" as const, href: siteRoutes.support },
+  { key: "contacts" as const, href: siteRoutes.contact },
+];
+
+export async function SiteFooter() {
+  const t = await getTranslations("footer");
+  const tNav = await getTranslations("nav");
+
   return (
     <footer className="relative mt-10">
       <Container>
@@ -70,17 +81,17 @@ export function SiteFooter() {
 
             <div className="space-y-4">
               <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                Navegação
+                {t("navigation")}
               </h2>
               <div className="grid gap-1">
-                {navigationFooter.map((item) => (
+                {FOOTER_NAV_ITEMS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     className="group inline-flex items-center gap-1.5 text-sm text-foreground transition-colors hover:text-[var(--dt-color-accent)]"
                   >
                     <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    <span className="link-tech">{item.label}</span>
+                    <span className="link-tech">{tNav(item.key)}</span>
                   </Link>
                 ))}
               </div>
@@ -88,7 +99,7 @@ export function SiteFooter() {
 
             <div className="space-y-4">
               <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                Contacto
+                {t("contact")}
               </h2>
               <div className="grid gap-2">
                 {contactLinks.map((item) => (
@@ -108,13 +119,13 @@ export function SiteFooter() {
           </div>
 
           <div className="relative mt-12 flex flex-col gap-3 border-t border-foreground/8 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} O Portal do Algarve. Informação regional, comunidade e agenda.</p>
+            <p>© {new Date().getFullYear()} {t("copyright")}</p>
             <div className="flex flex-wrap gap-x-4 gap-y-1">
               <Link href={siteRoutes.privacyPolicy} className="hover:text-foreground transition-colors">
-                Política de Privacidade
+                {t("privacyPolicy")}
               </Link>
               <Link href={siteRoutes.cookiePolicy} className="hover:text-foreground transition-colors">
-                Política de Cookies
+                {t("cookiePolicy")}
               </Link>
             </div>
           </div>

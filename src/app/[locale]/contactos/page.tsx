@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Globe, Mail, MapPin, Video } from "lucide-react";
 import Link from "next/link";
 
@@ -9,24 +10,34 @@ import { Card, CardContent } from "@/components/ui/card";
 import { contactLinks, socialLinks } from "@/data/contacts";
 import { siteRoutes } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contactos",
-  description: "Página de contactos institucionais da Algarve Paradise Media.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "pages.contact" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 const icons = {
   Email: Mail,
   Localizacao: MapPin,
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const t = await getTranslations("pages.contact");
+
   return (
     <PageShell
-      eyebrow="Contactos"
-      title="Entre em contacto"
-      description="Para sugestões, envio de conteúdos ou parcerias, entre em contacto connosco através dos canais disponíveis."
-      primaryCta={{ label: "Partilhar sugestão", href: siteRoutes.community }}
-      secondaryCta={{ label: "Sobre o projeto", href: siteRoutes.about }}
+      eyebrow={t("eyebrow")}
+      title={t("heading")}
+      description={t("description")}
+      primaryCta={{ label: t("share"), href: siteRoutes.community }}
+      secondaryCta={{ label: t("about"), href: siteRoutes.about }}
     >
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="grid gap-4">

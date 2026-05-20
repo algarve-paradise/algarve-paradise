@@ -7,7 +7,9 @@
     "community": "Community",
     "support": "Support",
     "contacts": "Contact",
-    "admin": "Admin"
+    "admin": "Admin",
+    "supportBtn": "Support us",
+    "updated": "Updated"
   },
   "header": {
     "tagline": "Regional media",
@@ -21,47 +23,128 @@
     "cookiePolicy": "Cookie Policy"
   },
   "home": {
-    "heroEyebrow": "Featured news",
-    "latestNews": "Latest news",
-    "seeAll": "See all",
-    "readMore": "Read more"
+    "hero": {
+      "breaking": "Breaking news",
+      "seeNews": "View news",
+      "exploreContent": "Explore content"
+    },
+    "intro": {
+      "eyebrow": "What is it",
+      "title": "What is Algarve TV Paradise?",
+      "description": "Algarve TV Paradise is a digital information platform dedicated to the Algarve. We gather news, content and relevant regional updates, organized simply so anyone can follow what truly matters.",
+      "pill": "Regional information",
+      "cardTitle": "One central hub for the Algarve",
+      "cardDesc": "Local news, events, useful information and community connection, inside and outside the region.",
+      "reasons": [
+        "Information updated daily",
+        "Content organized in one place",
+        "Exclusive focus on the Algarve",
+        "Easy access on any device"
+      ]
+    },
+    "highlights": {
+      "eyebrow": "Highlights",
+      "title": "Latest news from the",
+      "titleAccent": "Algarve",
+      "description": "Keep up with the main regional news quickly, clearly and accessibly.",
+      "seeAll": "View all"
+    },
+    "events": {
+      "eyebrow": "Regional agenda",
+      "title": "What is",
+      "titleAccent": "happening",
+      "titleSuffix": "in the Algarve",
+      "description": "Discover cultural, sports and local initiative events across the region.",
+      "seeAgenda": "View agenda",
+      "upcoming": "Upcoming",
+      "calendar": "Calendar"
+    },
+    "community": {
+      "eyebrow": "Community",
+      "title": "Share",
+      "titleAccent": "with us",
+      "description": "Have a news tip, event or suggestion? Your participation helps make this project more complete.",
+      "shareVoicePill": "Share your voice",
+      "formTitle": "Send your message to the community",
+      "formDesc": "Short, direct and with your name — after editorial review, it is published in this section."
+    },
+    "closing": {
+      "missionPill": "Regional mission",
+      "contact1Title": "Institutional contact",
+      "contact1Desc": "For partnerships, sponsorships, collaborations or connection with regional entities.",
+      "contact2Title": "Community",
+      "contact2Desc": "For messages, suggestions and staying close to the news and events of the Algarve."
+    }
   },
-  "news": {
-    "title": "News",
-    "description": "The latest news from the Algarve.",
-    "readMore": "Read full article",
-    "publishedOn": "Published on",
-    "noNews": "No news available at the moment."
+  "pages": {
+    "news": {
+      "title": "News",
+      "heading": "Algarve News",
+      "description": "Keep up with the main regional news, organized clearly for easy access to information.",
+      "all": "All",
+      "searchPlaceholder": "Search news...",
+      "clearSearch": "Clear",
+      "noResults": "No articles found.",
+      "readMore": "Read full article",
+      "seeEvents": "View events",
+      "seeCommunity": "Community"
+    },
+    "events": {
+      "title": "Events",
+      "heading": "Events in the Algarve",
+      "description": "Explore cultural, sports and local initiative events happening across the region.",
+      "upcomingEvents": "Upcoming events",
+      "noEvents": "No events available.",
+      "seeMore": "See more",
+      "seeNews": "View news",
+      "seeCommunity": "Community"
+    },
+    "community": {
+      "title": "Community",
+      "description": "Share your voice with the Algarve community.",
+      "seeNews": "View news",
+      "contacts": "Contact"
+    },
+    "about": {
+      "title": "About",
+      "description": "Institutional context of Algarve Paradise Media.",
+      "seeNews": "View news",
+      "contacts": "Contact"
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "For suggestions, content submissions or partnerships, get in touch with us.",
+      "eyebrow": "Contact",
+      "heading": "Get in touch",
+      "share": "Share a suggestion",
+      "about": "About the project"
+    },
+    "support": {
+      "talkSponsorship": "Talk about sponsorship",
+      "sendSuggestion": "Send suggestion"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "How we handle your personal data."
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "description": "How we use cookies on this site."
+    }
   },
-  "events": {
-    "title": "Events & Agenda",
-    "description": "Upcoming events in the Algarve.",
-    "noEvents": "No events available at the moment.",
-    "seeDetails": "See details"
-  },
-  "community": {
-    "title": "Community Voices",
-    "description": "Share your thoughts about the Algarve.",
-    "formTitle": "Leave your message",
-    "namePlaceholder": "Your name",
-    "messagePlaceholder": "Your message...",
-    "submit": "Send message",
-    "submitting": "Sending...",
-    "success": "Message sent! Awaiting approval.",
-    "error": "Error sending. Please try again."
-  },
-  "support": {
-    "title": "Support Algarve TV Paradise",
-    "donateNow": "Make a donation",
-    "fromAmount": "From €1 · Secure · No subscription"
-  },
-  "about": {
-    "title": "About",
-    "description": "Learn about the Algarve Portal."
-  },
-  "contact": {
-    "title": "Contact",
-    "description": "Get in touch with us."
+  "forms": {
+    "community": {
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "municipalityLabel": "Municipality",
+      "municipalityPlaceholder": "E.g.: Faro, Lagos, Portimão...",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Your message to the community...",
+      "submit": "Send message",
+      "submitting": "Sending...",
+      "success": "Message sent! Awaiting editorial review.",
+      "errorConn": "Connection error. Please try again."
+    }
   },
   "cookies": {
     "title": "We use cookies on this site",

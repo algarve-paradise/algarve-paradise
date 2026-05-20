@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { MessageCircle } from "lucide-react";
 
 import { MessageCard } from "@/components/cards/message-card";
@@ -7,18 +8,19 @@ import { communityMessages as fallbackMessages } from "@/data/community";
 import { getApprovedCommunityMessages } from "@/lib/community";
 
 export async function CommunitySection() {
+  const t = await getTranslations("home.community");
   const dbMessages = await getApprovedCommunityMessages();
   const messages = dbMessages.length > 0 ? dbMessages : fallbackMessages;
 
   return (
     <SectionShell
-      eyebrow="Comunidade"
+      eyebrow={t("eyebrow")}
       title={
         <>
-          Partilhe <em className="not-italic text-[var(--dt-color-accent)]">connosco</em>
+          {t("title")} <em className="not-italic text-[var(--dt-color-accent)]">{t("titleAccent")}</em>
         </>
       }
-      description="Tem uma notícia, evento ou sugestão? A sua participação ajuda a tornar este projeto mais completo."
+      description={t("description")}
       withDivider={false}
     >
       <div className="grid gap-8 lg:grid-cols-[0.58fr_0.42fr] lg:gap-12">
@@ -34,14 +36,10 @@ export async function CommunitySection() {
           <div className="relative space-y-5">
             <span className="pill pill-glass text-foreground">
               <MessageCircle className="size-3" />
-              Partilhe a sua voz
+              {t("shareVoicePill")}
             </span>
-            <h3 className="font-heading text-3xl leading-tight">
-              Envie a sua mensagem para a comunidade
-            </h3>
-            <p className="text-sm leading-relaxed text-white/70">
-              Curta, direta e com o seu nome — depois da revisão editorial, é publicada nesta secção.
-            </p>
+            <h3 className="font-heading text-3xl leading-tight">{t("formTitle")}</h3>
+            <p className="text-sm leading-relaxed text-white/70">{t("formDesc")}</p>
             <div className="rounded-[1.4rem] bg-white p-5 text-foreground">
               <CommunityForm />
             </div>

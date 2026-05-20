@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { IBM_Plex_Mono, Manrope, Playfair_Display } from "next/font/google";
 
 import "@/styles/globals.css";
+import { CookieConsentBanner } from "@/components/shared/cookie-consent-banner";
+import { SmoothScroll } from "@/components/shared/smooth-scroll";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -24,6 +26,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html className={`${manrope.variable} ${playfair.variable} ${plexMono.variable} h-full antialiased`}>
       <body className="font-sans min-h-full flex flex-col bg-background text-foreground">
         {children}
+        <SmoothScroll />
+        <CookieConsentBanner />
       </body>
     </html>
   );

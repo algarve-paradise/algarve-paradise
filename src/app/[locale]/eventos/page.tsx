@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { CalendarRange, MapPinned } from "lucide-react";
 
 import { EventCard } from "@/components/cards/event-card";
@@ -13,10 +14,18 @@ import { getPublishedEventNews } from "@/lib/news";
 import { siteRoutes } from "@/lib/site";
 import type { EventItem, NewsItem } from "@/types/content";
 
-export const metadata: Metadata = {
-  title: "Eventos",
-  description: "Agenda regional de eventos do Algarve — cultura, gastronomia, desporto e muito mais.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "pages.events" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 function newsToEventItem(news: NewsItem): EventItem {
   return {
@@ -39,6 +48,7 @@ function newsToEventItem(news: NewsItem): EventItem {
 }
 
 export default async function EventsPage() {
+  const t = await getTranslations("pages.events");
   const [dbEvents, eventNews] = await Promise.all([
     getPublishedEvents(),
     getPublishedEventNews(),
@@ -65,11 +75,11 @@ export default async function EventsPage() {
 
   return (
     <PageShell
-      eyebrow="Eventos"
-      title="Eventos no Algarve"
-      description="Explore eventos culturais, desportivos e iniciativas locais que acontecem em toda a região."
-      primaryCta={{ label: "Ver notícias", href: siteRoutes.news }}
-      secondaryCta={{ label: "Comunidade", href: siteRoutes.community }}
+      eyebrow={t("title")}
+      title={t("heading")}
+      description={t("description")}
+      primaryCta={{ label: t("seeNews"), href: siteRoutes.news }}
+      secondaryCta={{ label: t("seeCommunity"), href: siteRoutes.community }}
     >
       <Reveal className="grid gap-8 md:grid-cols-2">
         <Card className="border border-white/10 bg-[#04162f] text-white shadow-[0_24px_60px_rgba(4,22,47,0.24)]">
@@ -103,7 +113,7 @@ export default async function EventsPage() {
         <div className="space-y-6">
           <SectionHeading
             eyebrow="Agenda"
-            title="Próximos eventos na região"
+            title={t("upcomingEvents")}
             description="Selecção editorial dos eventos mais relevantes para residentes, visitantes e parceiros institucionais."
           />
           <StaggerGroup className="grid gap-8 md:grid-cols-2">
