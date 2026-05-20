@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "news": "News",
+    "events": "Events",
+    "community": "Community",
+    "support": "Support",
+    "contacts": "Contact",
+    "admin": "Admin"
+  },
+  "header": {
+    "tagline": "Regional media",
+    "siteName": "Algarve Portal"
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "copyright": "The Algarve Portal. Regional news, community and events.",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy"
+  },
+  "home": {
+    "heroEyebrow": "Featured news",
+    "latestNews": "Latest news",
+    "seeAll": "See all",
+    "readMore": "Read more"
+  },
+  "news": {
+    "title": "News",
+    "description": "The latest news from the Algarve.",
+    "readMore": "Read full article",
+    "publishedOn": "Published on",
+    "noNews": "No news available at the moment."
+  },
+  "events": {
+    "title": "Events & Agenda",
+    "description": "Upcoming events in the Algarve.",
+    "noEvents": "No events available at the moment.",
+    "seeDetails": "See details"
+  },
+  "community": {
+    "title": "Community Voices",
+    "description": "Share your thoughts about the Algarve.",
+    "formTitle": "Leave your message",
+    "namePlaceholder": "Your name",
+    "messagePlaceholder": "Your message...",
+    "submit": "Send message",
+    "submitting": "Sending...",
+    "success": "Message sent! Awaiting approval.",
+    "error": "Error sending. Please try again."
+  },
+  "support": {
+    "title": "Support Algarve TV Paradise",
+    "donateNow": "Make a donation",
+    "fromAmount": "From €1 · Secure · No subscription"
+  },
+  "about": {
+    "title": "About",
+    "description": "Learn about the Algarve Portal."
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Get in touch with us."
+  },
+  "cookies": {
+    "title": "We use cookies on this site",
+    "description": "In accordance with the LGPD and GDPR, we need your consent to use non-essential cookies.",
+    "learnMore": "Learn more",
+    "acceptAll": "Accept all",
+    "essentialOnly": "Essential only",
+    "customize": "Customize",
+    "savePreferences": "Save preferences",
+    "preferencesTitle": "Cookie preferences",
+    "preferencesDesc": "Choose which categories you accept. Essential cookies are always active.",
+    "essential": "Essential",
+    "essentialDesc": "Authentication, session preferences, and security. Cannot be disabled.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Anonymous usage metrics to improve the platform (e.g. Google Analytics).",
+    "marketing": "Marketing",
+    "marketingDesc": "Personalized advertising and social media tracking.",
+    "alwaysActive": "Always active",
+    "privacyLink": "Privacy policy",
+    "cookieLink": "Cookie policy"
+  },
+  "lang": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español",
+    "switch": "Language"
+  }
+}

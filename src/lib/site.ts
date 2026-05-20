@@ -25,4 +25,6 @@ export const siteRoutes = {
   community: "/comunidade",
   support: "/apoie",
   contact: "/contactos",
+  privacyPolicy: "/politica-de-privacidade",
+  cookiePolicy: "/politica-de-cookies",
 } as const;

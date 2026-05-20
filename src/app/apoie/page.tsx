@@ -6,6 +6,7 @@ import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
 import { ButtonLink } from "@/components/ui/button-link";
+import { SponsorshipForm } from "@/components/forms/sponsorship-form";
 import { siteConfig, siteRoutes } from "@/lib/site";
 
 const HOW_IT_WORKS = [
@@ -233,6 +234,35 @@ export default function SupportPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+      </section>
+
+      {/* Sponsorship contact form */}
+      <section className="py-4">
+        <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+          <div className="space-y-4">
+            <SectionHeading
+              eyebrow="Contacto direto"
+              title="Envie o seu pedido de patrocínio"
+              description="Preencha o formulário e a nossa equipa responderá em até 48 horas úteis."
+            />
+            <div className="space-y-3 rounded-[1.4rem] border border-foreground/8 bg-white p-5 shadow-sm">
+              {sponsorTiers.map((tier) => (
+                <div key={tier.name} className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[var(--dt-color-accent)]" />
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{tier.name}</p>
+                    <p className="text-[12px] leading-5 text-muted-foreground">{tier.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Card className="border border-foreground/8 bg-white shadow-[0_16px_40px_rgba(7,32,67,0.08)]">
+            <CardContent className="pt-6">
+              <SponsorshipForm />
+            </CardContent>
+          </Card>
         </div>
       </section>
     </PageShell>

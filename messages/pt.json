@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "Sobre",
+    "news": "Notícias",
+    "events": "Eventos",
+    "community": "Comunidade",
+    "support": "Apoie",
+    "contacts": "Contactos",
+    "admin": "Admin"
+  },
+  "header": {
+    "tagline": "Media regional",
+    "siteName": "Portal do Algarve"
+  },
+  "footer": {
+    "navigation": "Navegação",
+    "contact": "Contacto",
+    "copyright": "O Portal do Algarve. Informação regional, comunidade e agenda.",
+    "privacyPolicy": "Política de Privacidade",
+    "cookiePolicy": "Política de Cookies"
+  },
+  "home": {
+    "heroEyebrow": "Notícias em destaque",
+    "latestNews": "Últimas notícias",
+    "seeAll": "Ver todas",
+    "readMore": "Ler mais"
+  },
+  "news": {
+    "title": "Notícias",
+    "description": "As últimas notícias do Algarve.",
+    "readMore": "Ler artigo completo",
+    "publishedOn": "Publicado em",
+    "noNews": "Sem notícias disponíveis de momento."
+  },
+  "events": {
+    "title": "Agenda & Eventos",
+    "description": "Os próximos eventos no Algarve.",
+    "noEvents": "Sem eventos disponíveis de momento.",
+    "seeDetails": "Ver detalhes"
+  },
+  "community": {
+    "title": "Vozes da Comunidade",
+    "description": "Partilhe a sua opinião sobre o Algarve.",
+    "formTitle": "Deixe a sua mensagem",
+    "namePlaceholder": "O seu nome",
+    "messagePlaceholder": "A sua mensagem...",
+    "submit": "Enviar mensagem",
+    "submitting": "A enviar...",
+    "success": "Mensagem enviada! Aguarda aprovação.",
+    "error": "Erro ao enviar. Tente novamente."
+  },
+  "support": {
+    "title": "Apoie o Algarve TV Paradise",
+    "donateNow": "Fazer donativo",
+    "fromAmount": "A partir de €1 · Seguro · Sem subscrição"
+  },
+  "about": {
+    "title": "Sobre",
+    "description": "Conheça o Portal do Algarve."
+  },
+  "contact": {
+    "title": "Contactos",
+    "description": "Fale connosco."
+  },
+  "cookies": {
+    "title": "Utilizamos cookies neste site",
+    "description": "De acordo com a LGPD e o RGPD, precisamos do seu consentimento para usar cookies não essenciais.",
+    "learnMore": "Saber mais",
+    "acceptAll": "Aceitar todos",
+    "essentialOnly": "Apenas essenciais",
+    "customize": "Personalizar",
+    "savePreferences": "Guardar preferências",
+    "preferencesTitle": "Preferências de cookies",
+    "preferencesDesc": "Escolha quais categorias aceita. Os essenciais são sempre ativos.",
+    "essential": "Essenciais",
+    "essentialDesc": "Autenticação, preferências de sessão e segurança. Não podem ser desativados.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Métricas de uso anónimas para melhorar a plataforma (ex: Google Analytics).",
+    "marketing": "Marketing",
+    "marketingDesc": "Publicidade personalizada e rastreamento de redes sociais.",
+    "alwaysActive": "Sempre ativos",
+    "privacyLink": "Política de privacidade",
+    "cookieLink": "Política de cookies"
+  },
+  "lang": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español",
+    "switch": "Idioma"
+  }
+}

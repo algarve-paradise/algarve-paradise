@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Manrope, Playfair_Display } from "next/font/google";
 import type { ReactNode } from "react";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 
 import "@/styles/globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { CookieConsentBanner } from "@/components/shared/cookie-consent-banner";
 import { SmoothScroll } from "@/components/shared/smooth-scroll";
 import { siteConfig } from "@/lib/site";
 
@@ -33,21 +36,27 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="pt-PT"
+      lang={locale}
       className={`${manrope.variable} ${playfair.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="font-sans min-h-full flex flex-col bg-background text-foreground">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        <SmoothScroll />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+          <SmoothScroll />
+          <CookieConsentBanner />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

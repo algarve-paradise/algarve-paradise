@@ -11,6 +11,7 @@ import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
 import { siteRoutes } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/layout/container";
+import { LanguageSwitcher } from "@/components/shared/language-switcher";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -100,6 +101,8 @@ export function SiteHeader() {
               <Newspaper className="size-3" />
               <span>Atualizado</span>
             </div>
+
+            <LanguageSwitcher />
 
             <Link
               href={siteRoutes.support}

@@ -1,0 +1,92 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre nosotros",
+    "news": "Noticias",
+    "events": "Eventos",
+    "community": "Comunidad",
+    "support": "Apóyanos",
+    "contacts": "Contacto",
+    "admin": "Admin"
+  },
+  "header": {
+    "tagline": "Medios regionales",
+    "siteName": "Portal del Algarve"
+  },
+  "footer": {
+    "navigation": "Navegación",
+    "contact": "Contacto",
+    "copyright": "El Portal del Algarve. Noticias regionales, comunidad y agenda.",
+    "privacyPolicy": "Política de Privacidad",
+    "cookiePolicy": "Política de Cookies"
+  },
+  "home": {
+    "heroEyebrow": "Noticias destacadas",
+    "latestNews": "Últimas noticias",
+    "seeAll": "Ver todas",
+    "readMore": "Leer más"
+  },
+  "news": {
+    "title": "Noticias",
+    "description": "Las últimas noticias del Algarve.",
+    "readMore": "Leer artículo completo",
+    "publishedOn": "Publicado el",
+    "noNews": "No hay noticias disponibles en este momento."
+  },
+  "events": {
+    "title": "Agenda y Eventos",
+    "description": "Los próximos eventos en el Algarve.",
+    "noEvents": "No hay eventos disponibles en este momento.",
+    "seeDetails": "Ver detalles"
+  },
+  "community": {
+    "title": "Voces de la Comunidad",
+    "description": "Comparte tu opinión sobre el Algarve.",
+    "formTitle": "Deja tu mensaje",
+    "namePlaceholder": "Tu nombre",
+    "messagePlaceholder": "Tu mensaje...",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando...",
+    "success": "¡Mensaje enviado! Pendiente de aprobación.",
+    "error": "Error al enviar. Inténtalo de nuevo."
+  },
+  "support": {
+    "title": "Apoya el Algarve TV Paradise",
+    "donateNow": "Hacer una donación",
+    "fromAmount": "Desde €1 · Seguro · Sin suscripción"
+  },
+  "about": {
+    "title": "Sobre nosotros",
+    "description": "Conoce el Portal del Algarve."
+  },
+  "contact": {
+    "title": "Contacto",
+    "description": "Contáctanos."
+  },
+  "cookies": {
+    "title": "Usamos cookies en este sitio",
+    "description": "De acuerdo con la LGPD y el RGPD, necesitamos tu consentimiento para usar cookies no esenciales.",
+    "learnMore": "Saber más",
+    "acceptAll": "Aceptar todas",
+    "essentialOnly": "Solo esenciales",
+    "customize": "Personalizar",
+    "savePreferences": "Guardar preferencias",
+    "preferencesTitle": "Preferencias de cookies",
+    "preferencesDesc": "Elige qué categorías aceptas. Las esenciales están siempre activas.",
+    "essential": "Esenciales",
+    "essentialDesc": "Autenticación, preferencias de sesión y seguridad. No se pueden desactivar.",
+    "analytics": "Analytics",
+    "analyticsDesc": "Métricas de uso anónimas para mejorar la plataforma (ej: Google Analytics).",
+    "marketing": "Marketing",
+    "marketingDesc": "Publicidad personalizada y seguimiento en redes sociales.",
+    "alwaysActive": "Siempre activas",
+    "privacyLink": "Política de privacidad",
+    "cookieLink": "Política de cookies"
+  },
+  "lang": {
+    "pt": "Português",
+    "en": "English",
+    "es": "Español",
+    "switch": "Idioma"
+  }
+}
