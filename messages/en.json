@@ -20,7 +20,8 @@
     "contact": "Contact",
     "copyright": "The Algarve Portal. Regional news, community and events.",
     "privacyPolicy": "Privacy Policy",
-    "cookiePolicy": "Cookie Policy"
+    "cookiePolicy": "Cookie Policy",
+    "description": "A digital platform for news, events and information dedicated to the Algarve."
   },
   "home": {
     "hero": {
@@ -38,9 +39,18 @@
       "fallbackTitle": "The digital portal of southern Portugal",
       "fallbackDesc": "Information, events and community brought together on one regional platform.",
       "stats": [
-        { "value": "06", "label": "Editorial and institutional areas organized" },
-        { "value": "03", "label": "Core pillars: news, events and community" },
-        { "value": "24/7", "label": "Language built for relevance and proximity" }
+        {
+          "value": "06",
+          "label": "Editorial and institutional areas organized"
+        },
+        {
+          "value": "03",
+          "label": "Core pillars: news, events and community"
+        },
+        {
+          "value": "24/7",
+          "label": "Language built for relevance and proximity"
+        }
       ]
     },
     "intro": {
@@ -169,7 +179,62 @@
       "mvvDesc": "The blocks below define the editorial and institutional framework of the association.",
       "foundersEyebrow": "Founders",
       "foundersTitle": "Founding team with professional and institutional background",
-      "foundersDesc": "The portraits and descriptions are ready to receive real photographs and final information."
+      "foundersDesc": "The portraits and descriptions are ready to receive real photographs and final information.",
+      "storyEyebrow": "About the project",
+      "storyTitle": "A platform created to give voice to the Algarve",
+      "storyDesc": "Algarve TV Paradise is a digital platform created to give voice to the Algarve region. In a context where local information is often limited or scattered, this project brings together, organises and shares relevant content in a simple and accessible way.",
+      "missionVisionValues": [
+        {
+          "tag": "Mission",
+          "title": "Inform, connect and promote the Algarve",
+          "description": "Communication must be accessible, relevant and useful for residents, visitors and local entities.",
+          "bullets": [
+            "Clear language",
+            "Regional focus",
+            "Public usefulness"
+          ]
+        },
+        {
+          "tag": "Vision",
+          "title": "Become a regional reference in digital communication",
+          "description": "The project aims to consolidate an editorial and institutional presence that unites people and local initiatives.",
+          "bullets": [
+            "Strong digital presence",
+            "Relations with entities",
+            "Sustained growth"
+          ]
+        },
+        {
+          "tag": "Values",
+          "title": "Transparency, proximity, credibility and innovation",
+          "description": "The identity of the site must reflect editorial rigour without losing human warmth and regional proximity.",
+          "bullets": [
+            "Transparency",
+            "Proximity",
+            "Credibility"
+          ]
+        }
+      ],
+      "founders": [
+        {
+          "name": "Joao Silva",
+          "role": "Founder and head of communications",
+          "description": "Coordinates editorial direction and the project connection with the community and local partners.",
+          "imageLabel": "Professional portrait of founder in a media context"
+        },
+        {
+          "name": "Maria Fernandes",
+          "role": "Content coordinator and institutional relations",
+          "description": "Ensures institutional coherence, relations with entities and monitoring of the regional agenda.",
+          "imageLabel": "Professional portrait of institutional coordinator"
+        },
+        {
+          "name": "Carlos Almeida",
+          "role": "Technical lead and digital development",
+          "description": "Ensures the technical foundation of the platform and its evolution towards new formats and channels.",
+          "imageLabel": "Professional portrait of technical lead"
+        }
+      ]
     },
     "contact": {
       "title": "Contact",
@@ -193,25 +258,46 @@
       "donateCta": "Donate now",
       "donateSubtext": "From €1 · Secure · No subscription",
       "steps": [
-        { "title": "Choose the amount", "desc": "€5, €10, €25, €50 or any amount of your choice." },
-        { "title": "Pay securely", "desc": "Card, PayPal or MB Way — fast and encrypted." },
-        { "title": "Receive confirmation", "desc": "Receipt sent by email with transaction reference." }
+        {
+          "title": "Choose the amount",
+          "desc": "€5, €10, €25, €50 or any amount of your choice."
+        },
+        {
+          "title": "Pay securely",
+          "desc": "Card, PayPal or MB Way — fast and encrypted."
+        },
+        {
+          "title": "Receive confirmation",
+          "desc": "Receipt sent by email with transaction reference."
+        }
       ],
       "ways": [
         {
           "title": "One-time donation",
           "description": "Direct contribution to support platform maintenance, editorial production and regional coverage.",
-          "details": ["Ideal for readers and community", "Simple and direct support", "Helps keep access open"]
+          "details": [
+            "Ideal for readers and community",
+            "Simple and direct support",
+            "Helps keep access open"
+          ]
         },
         {
           "title": "Editorial sponsorship",
           "description": "Institutional presence in strategic areas of the site, with a clear framing aligned with regional identity.",
-          "details": ["Highlight for local brands", "Association with regional content", "Visibility among the community"]
+          "details": [
+            "Highlight for local brands",
+            "Association with regional content",
+            "Visibility among the community"
+          ]
         },
         {
           "title": "Institutional partnership",
           "description": "Collaboration with entities, municipalities, associations and companies that want to promote the Algarve.",
-          "details": ["Special projects", "Coverage of initiatives", "Ongoing relationship with the platform"]
+          "details": [
+            "Special projects",
+            "Coverage of initiatives",
+            "Ongoing relationship with the platform"
+          ]
         }
       ],
       "howToDonateTitle": "How to donate",
@@ -227,17 +313,29 @@
         {
           "name": "Local Supporter",
           "description": "For small businesses and professionals who want to support regional information.",
-          "benefits": ["Mention on the support page", "Direct contact with the team", "Presence associated with the community"]
+          "benefits": [
+            "Mention on the support page",
+            "Direct contact with the team",
+            "Presence associated with the community"
+          ]
         },
         {
           "name": "Regional Partner",
           "description": "For companies and entities with a regular presence in the Algarve.",
-          "benefits": ["Institutional highlight", "Possibility of thematic campaigns", "Simple presence reports"]
+          "benefits": [
+            "Institutional highlight",
+            "Possibility of thematic campaigns",
+            "Simple presence reports"
+          ]
         },
         {
           "name": "Main Sponsor",
           "description": "For investors and brands who want a strong connection to the platform's growth.",
-          "benefits": ["Priority presence", "Special editorial projects", "Activation planning with the team"]
+          "benefits": [
+            "Priority presence",
+            "Special editorial projects",
+            "Activation planning with the team"
+          ]
         }
       ],
       "contactEyebrow": "Direct contact",
@@ -256,15 +354,36 @@
       "impactLabel": "Impact of your donation",
       "impactHeading": "What your support enables",
       "impactItems": [
-        { "value": "€5", "label": "Covers 1 day of server costs" },
-        { "value": "€10", "label": "Funds one complete local news story" },
-        { "value": "€25", "label": "Supports one week of editorial coverage" },
-        { "value": "€50", "label": "Sponsors a regional feature report" }
+        {
+          "value": "€5",
+          "label": "Covers 1 day of server costs"
+        },
+        {
+          "value": "€10",
+          "label": "Funds one complete local news story"
+        },
+        {
+          "value": "€25",
+          "label": "Supports one week of editorial coverage"
+        },
+        {
+          "value": "€50",
+          "label": "Sponsors a regional feature report"
+        }
       ],
       "trust": [
-        { "label": "Secure payments", "sub": "Data encrypted via SSL" },
-        { "label": "Automatic receipt", "sub": "Sent to your email" },
-        { "label": "Open platform", "sub": "Free access for everyone" }
+        {
+          "label": "Secure payments",
+          "sub": "Data encrypted via SSL"
+        },
+        {
+          "label": "Automatic receipt",
+          "sub": "Sent to your email"
+        },
+        {
+          "label": "Open platform",
+          "sub": "Free access for everyone"
+        }
       ],
       "demoNotice": "Demo mode: This flow illustrates how integration with Stripe, PayPal or MB Way would work. No financial data is transmitted or charged.",
       "preferOther": "Prefer another method?",

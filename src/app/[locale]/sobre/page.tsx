@@ -6,9 +6,9 @@ import { FounderCard } from "@/components/cards/founder-card";
 import { PageShell } from "@/components/shared/page-shell";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { aboutStory, founders, missionVisionValues } from "@/data/about";
 import { editorialStats } from "@/data/site";
 import { siteRoutes } from "@/lib/site";
+import type { FeatureCard, FounderItem } from "@/types/content";
 
 export async function generateMetadata({
   params,
@@ -25,12 +25,14 @@ export async function generateMetadata({
 
 export default async function AboutPage() {
   const t = await getTranslations("pages.about");
+  const mvv = t.raw("missionVisionValues") as FeatureCard[];
+  const foundersList = t.raw("founders") as FounderItem[];
 
   return (
     <PageShell
-      eyebrow={aboutStory.eyebrow}
-      title={aboutStory.title}
-      description={aboutStory.description}
+      eyebrow={t("storyEyebrow")}
+      title={t("storyTitle")}
+      description={t("storyDesc")}
       primaryCta={{ label: t("seeNews"), href: siteRoutes.news }}
       secondaryCta={{ label: t("contacts"), href: siteRoutes.contact }}
       stats={editorialStats}
@@ -85,7 +87,7 @@ export default async function AboutPage() {
           description={t("mvvDesc")}
         />
         <div className="grid gap-5 md:grid-cols-3">
-          {missionVisionValues.map((value) => (
+          {mvv.map((value) => (
             <Card
               key={value.title}
               className="border border-white/10 bg-white shadow-[0_16px_40px_rgba(7,32,67,0.08)]"
@@ -114,7 +116,7 @@ export default async function AboutPage() {
           description={t("foundersDesc")}
         />
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {founders.map((item) => (
+          {foundersList.map((item) => (
             <FounderCard key={item.name} item={item} />
           ))}
         </div>

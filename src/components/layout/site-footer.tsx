@@ -38,7 +38,7 @@ export async function SiteFooter() {
                 </span>
               </Link>
               <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                {siteConfig.description}
+                {t("description")}
               </p>
               <div className="flex flex-wrap gap-3">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-white px-3 py-1.5 text-xs text-foreground">
