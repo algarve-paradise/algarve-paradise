@@ -7,7 +7,6 @@ export const newsCategories: NewsCategory[] = [
   "Turismo",
   "Seguranca",
   "Eventos",
-  "Reportagem",
 ];
 
 const newsCategoryLabels: Record<NewsCategory, string> = {
@@ -17,7 +16,6 @@ const newsCategoryLabels: Record<NewsCategory, string> = {
   Turismo: "Turismo",
   Seguranca: "Segurança",
   Eventos: "Eventos",
-  Reportagem: "Reportagem",
 };
 
 export function formatNewsCategory(category: NewsCategory | string) {

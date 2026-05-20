@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, NotebookPen, PenSquare, Radio, Sparkles, SquarePen } from "lucide-react";
+import { CalendarDays, NotebookPen, PenSquare, Sparkles, SquarePen } from "lucide-react";
 
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -103,7 +103,6 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
     currentPage * ITEMS_PER_PAGE
   );
 
-  const dashboardReportRows = items.filter((item) => item.category === "Reportagem");
   const eventNewsItems = items.filter((item) => item.category === "Eventos");
   const dashboardEventRows = [
     ...events.map((event) => ({
@@ -149,7 +148,6 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
         {[
           { label: "Total de noticias", value: summary.total, icon: SquarePen },
-          { label: "Reportagens", value: dashboardReportRows.length, icon: Radio },
           { label: "Eventos", value: dashboardEventRows.length, icon: CalendarDays },
           { label: "Publicadas", value: summary.published, icon: Sparkles },
           { label: "Destaques", value: summary.featured, icon: PenSquare },

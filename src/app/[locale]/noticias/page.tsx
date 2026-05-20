@@ -45,7 +45,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
   const t = await getTranslations("pages.news");
   const params = await searchParams;
   const allNewsItems = await getPublishedNews();
-  const visibleCategories = newsCategories.filter((category) => category !== "Reportagem");
+  const visibleCategories = newsCategories;
   const activeCategory = visibleCategories.includes(params.categoria as (typeof visibleCategories)[number])
     ? params.categoria
     : undefined;

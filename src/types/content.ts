@@ -39,8 +39,7 @@ export type NewsCategory =
   | "Economia"
   | "Turismo"
   | "Seguranca"
-  | "Eventos"
-  | "Reportagem";
+  | "Eventos";
 
 export type NewsStatus = "draft" | "published";
 
