@@ -6,20 +6,20 @@ import { updateSession } from "@/lib/supabase/middleware";
 const intlMiddleware = createIntlMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
-  // Handle Supabase auth session first
-  const supabaseResponse = await updateSession(request);
+  const { pathname } = request.nextUrl;
 
-  // Then handle i18n routing
-  const intlResponse = intlMiddleware(request);
-
-  // If intl redirects (locale negotiation), use that; otherwise use supabase response
-  if (intlResponse.status !== 200) {
-    return intlResponse;
+  // Skip i18n for API routes — let Supabase auth handle them
+  if (pathname.startsWith("/api/")) {
+    return updateSession(request);
   }
 
-  return supabaseResponse;
+  // For all other routes: run Supabase session refresh, then i18n
+  await updateSession(request);
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };

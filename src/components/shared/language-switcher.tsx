@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
 import { useState, useRef, useEffect } from "react";
+import { useLocale } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { Globe } from "lucide-react";
+import { useRouter, usePathname } from "@/navigation";
 import { cn } from "@/lib/utils";
 
 const LOCALES = [
@@ -14,15 +14,6 @@ const LOCALES = [
 ] as const;
 
 type Locale = typeof LOCALES[number]["code"];
-
-function getPathWithoutLocale(pathname: string, currentLocale: string): string {
-  if (currentLocale === "pt") return pathname;
-  const prefix = `/${currentLocale}`;
-  if (pathname.startsWith(prefix)) {
-    return pathname.slice(prefix.length) || "/";
-  }
-  return pathname;
-}
 
 export function LanguageSwitcher() {
   const locale = useLocale() as Locale;
@@ -46,10 +37,7 @@ export function LanguageSwitcher() {
   function switchLocale(next: Locale) {
     setOpen(false);
     if (next === locale) return;
-    const pathWithoutLocale = getPathWithoutLocale(pathname, locale);
-    const newPath = next === "pt" ? pathWithoutLocale : `/${next}${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`;
-    router.push(newPath);
-    router.refresh();
+    router.replace(pathname, { locale: next });
   }
 
   return (
