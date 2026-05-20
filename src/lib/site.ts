@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: "Algarve TV Paradise",
   description:
     "Plataforma digital de notícias, eventos e informação dedicada ao Algarve.",
-  url: "https://algarvetvparadise.com",
+  url: "https://medialgarveparadise.pt",
   email: "media@algarvetvparadise.com",
   phone: "+351 964 431 933",
   location: "Algarve, Portugal",
