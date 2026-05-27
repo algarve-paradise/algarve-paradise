@@ -63,7 +63,7 @@ export function SiteHeader() {
           {/* Logo */}
           <Link href={siteRoutes.home} className="flex items-center gap-2 pl-1 group">
             <Image
-              src="/logo.PNG"
+              src="/logo.png"
               alt="Média Algarve Paradise"
               width={40}
               height={40}
