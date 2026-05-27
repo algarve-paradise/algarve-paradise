@@ -124,21 +124,21 @@ export async function WeatherWidget() {
   if (!weather) return null;
 
   return (
-    <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
+    <div className="inline-flex items-center gap-3 rounded-full border border-foreground/15 bg-white/60 px-4 py-2 backdrop-blur-sm shadow-sm">
       <WeatherIcon
         code={weather.weatherCode}
         isDay={weather.isDay}
-        className="size-5 shrink-0 text-white/90"
+        className="size-5 shrink-0 text-foreground/80"
       />
       <div className="flex items-baseline gap-1.5">
-        <span className="text-lg font-semibold leading-none text-white">
+        <span className="text-lg font-semibold leading-none text-foreground">
           {weather.temperature}°C
         </span>
-        <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/70">
+        <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-foreground/60">
           {weather.label}
         </span>
       </div>
-      <span className="hidden text-[10px] uppercase tracking-[0.18em] text-white/50 sm:block">
+      <span className="hidden text-[10px] uppercase tracking-[0.18em] text-foreground/50 sm:block">
         {weather.location}
       </span>
     </div>
