@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: "/logo.PNG",
+    shortcut: "/logo.PNG",
+    apple: "/logo.PNG",
+  },
   // Explicitly declares policy pages so GDPR/privacy scanners can discover them
   other: {
     "privacy-policy": "/politica-de-privacidade",

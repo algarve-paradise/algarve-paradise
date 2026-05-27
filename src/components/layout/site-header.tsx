@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, Newspaper, X } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -60,14 +61,18 @@ export function SiteHeader() {
           }}
         >
           {/* Logo */}
-          <Link href={siteRoutes.home} className="flex items-center gap-2 pl-2 group">
-            <span className="relative inline-flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-500 group-hover:rotate-[18deg]">
-              <span className="absolute inset-0 rounded-full bg-[var(--dt-color-accent)] opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-60" />
-              <span className="relative font-heading text-sm font-semibold">A</span>
-            </span>
+          <Link href={siteRoutes.home} className="flex items-center gap-2 pl-1 group">
+            <Image
+              src="/logo.PNG"
+              alt="Média Algarve Paradise"
+              width={40}
+              height={40}
+              className="size-10 object-contain transition-transform duration-500 group-hover:scale-105"
+              priority
+            />
             <div className="leading-tight">
               <div className="font-heading text-sm sm:text-[15px] tracking-tight text-foreground">
-                Portal do <span className="italic">Algarve</span>
+                Média <span className="italic">Algarve Paradise</span>
               </div>
               <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">
                 {tHeader("tagline")}
