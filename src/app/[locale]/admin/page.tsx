@@ -3,7 +3,7 @@ import { CalendarDays, NotebookPen, PenSquare, Sparkles, SquarePen } from "lucid
 
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireUserWithRole } from "@/lib/auth";
 import { getAdminCronicas } from "@/lib/cronicas";
 import { getAdminNewsList, getAdminSummary } from "@/lib/news";
 import { getAdminEventsList } from "@/lib/events";
@@ -81,7 +81,7 @@ function PaginationBar({
 }
 
 export default async function AdminDashboardPage({ searchParams }: AdminDashboardPageProps) {
-  const user = await requireUser();
+  const { user, role } = await requireUserWithRole();
   const [params, items, events, summary, cronicas] = await Promise.all([
     searchParams,
     getAdminNewsList(),
@@ -144,6 +144,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       title="Dashboard editorial"
       description="Area de gestao editorial de noticias, eventos e cronicas."
       userLabel={user.email ?? "utilizador autenticado"}
+      role={role}
     >
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
         {[

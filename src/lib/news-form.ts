@@ -13,6 +13,18 @@ const optionalUrl = z
     message: "Informe um URL valido iniciado por http:// ou https://",
   });
 
+const optionalYoutubeUrl = z
+  .string()
+  .trim()
+  .nullable()
+  .optional()
+  .transform((value) => value || undefined)
+  .refine(
+    (value) =>
+      !value || /youtube\.com\/watch|youtu\.be/.test(value),
+    { message: "Informe um link valido do YouTube (youtube.com/watch ou youtu.be)" }
+  );
+
 export const newsFormSchema = z.object({
   title: z.string().trim().min(6, "Informe um titulo com pelo menos 6 caracteres."),
   slug: z.string().trim().min(3).optional(),
@@ -23,6 +35,7 @@ export const newsFormSchema = z.object({
   sourceUrl: optionalUrl,
   coverImageUrl: optionalUrl,
   coverImagePath: z.string().trim().optional(),
+  youtubeUrl: optionalYoutubeUrl,
   featured: z.boolean().default(false),
   live: z.boolean().default(false),
   status: z.enum(["draft", "published"]).default("draft"),
@@ -42,5 +55,6 @@ export function normalizeNewsFormValues(values: NewsFormValues) {
     sourceUrl,
     coverImageUrl: values.coverImageUrl || null,
     coverImagePath: values.coverImagePath?.trim() || null,
+    youtubeUrl: values.youtubeUrl || null,
   };
 }

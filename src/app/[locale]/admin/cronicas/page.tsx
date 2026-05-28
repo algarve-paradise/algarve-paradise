@@ -3,11 +3,11 @@ import { FilePlus2 } from "lucide-react";
 
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireUserWithRole } from "@/lib/auth";
 import { getAdminCronicas } from "@/lib/cronicas";
 
 export default async function CronicasListPage() {
-  const user = await requireUser();
+  const { user, role } = await requireUserWithRole();
   const cronicas = await getAdminCronicas();
 
   return (
@@ -15,6 +15,7 @@ export default async function CronicasListPage() {
       title="Cronicas da Semana"
       description="Gerir as cronicas semanais publicadas na homepage do portal."
       userLabel={user.email ?? "utilizador autenticado"}
+      role={role}
     >
       <Card className="rounded-none border border-border shadow-none">
         <CardHeader className="border-b border-border">

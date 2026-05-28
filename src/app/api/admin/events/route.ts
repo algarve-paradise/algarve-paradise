@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUserWithRole } from "@/lib/auth";
 import { eventFormSchema, normalizeEventFormValues } from "@/lib/event-form";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
-  const user = await getCurrentUser();
+  const { user, role } = await getCurrentUserWithRole();
+
   if (!user) {
     return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  }
+
+  if (!["admin", "editor"].includes(role)) {
+    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
   }
 
   const payload = await request.json().catch(() => null);
@@ -21,11 +26,16 @@ export async function POST(request: Request) {
   }
 
   const values = normalizeEventFormValues(parsed.data);
+
+  // Editors cannot publish
+  const status = role === "editor" ? "draft" : values.status;
+
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("events")
     .insert({
+      author_id: user.id,
       slug: values.slug,
       title: values.title,
       description: values.description,
@@ -36,9 +46,9 @@ export async function POST(request: Request) {
       cover_image_path: values.coverImagePath,
       source_name: values.sourceName,
       source_url: values.sourceUrl,
-      status: values.status,
+      status,
       ai_generated: false,
-      published_at: values.status === "published" ? new Date().toISOString() : null,
+      published_at: status === "published" ? new Date().toISOString() : null,
     })
     .select("id")
     .single();

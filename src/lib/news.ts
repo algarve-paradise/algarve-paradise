@@ -30,6 +30,7 @@ export type NewsRecord = {
   ai_confidence: number | null;
   ai_review_deadline: string | null;
   ingest_item_id: string | null;
+  youtube_url: string | null;
 };
 
 function mapNewsRecordToItem(record: NewsRecord): NewsItem {
@@ -56,6 +57,7 @@ function mapNewsRecordToItem(record: NewsRecord): NewsItem {
     aiModel: record.ai_model,
     aiConfidence: record.ai_confidence,
     aiReviewDeadline: record.ai_review_deadline,
+    youtubeUrl: record.youtube_url,
   };
 }
 

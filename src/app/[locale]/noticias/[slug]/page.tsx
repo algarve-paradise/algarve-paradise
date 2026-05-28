@@ -50,6 +50,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
         sourceUrl={item.sourceUrl}
         region={item.region}
         content={item.content}
+        youtubeUrl={item.youtubeUrl}
         backLabel="Voltar às notícias"
         backHref={siteRoutes.news}
         secondaryAction={{ label: "Ver mais notícias", href: siteRoutes.news }}

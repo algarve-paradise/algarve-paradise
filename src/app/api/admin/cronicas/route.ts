@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUserWithRole } from "@/lib/auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const cronicaSchema = z.object({
@@ -22,8 +22,13 @@ const cronicaSchema = z.object({
 });
 
 export async function GET() {
-  const user = await getCurrentUser();
+  const { user, role } = await getCurrentUserWithRole();
+
   if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+
+  if (!["admin", "cronista"].includes(role)) {
+    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
+  }
 
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
@@ -37,8 +42,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const user = await getCurrentUser();
+  const { user, role } = await getCurrentUserWithRole();
+
   if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+
+  if (!["admin", "cronista"].includes(role)) {
+    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
+  }
 
   const payload = await request.json();
   const parsed = cronicaSchema.safeParse(payload);
@@ -51,19 +61,24 @@ export async function POST(request: Request) {
   }
 
   const values = parsed.data;
+
+  // Cronistas cannot publish — force draft
+  const status = role === "cronista" ? "draft" : values.status;
+
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("cronicas")
     .insert({
+      author_id: user.id,
       title: values.title,
       content: values.content,
       author_name: values.authorName,
       author_role: values.authorRole ?? null,
       author_avatar_url: values.authorAvatarUrl ?? null,
       week_label: values.weekLabel,
-      status: values.status,
-      published_at: values.status === "published" ? new Date().toISOString() : null,
+      status,
+      published_at: status === "published" ? new Date().toISOString() : null,
     })
     .select("id")
     .single();

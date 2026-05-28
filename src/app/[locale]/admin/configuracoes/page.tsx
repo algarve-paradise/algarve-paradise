@@ -1,17 +1,18 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireUserWithRole } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
-  const user = await requireUser();
+  const { user, role } = await requireUserWithRole();
 
   return (
     <AdminShell
       title="Configuracoes"
       description="Parametros gerais da plataforma."
       userLabel={user.email ?? "utilizador autenticado"}
+      role={role}
     >
       <Card className="rounded-none border border-border shadow-none">
         <CardHeader className="border-b border-border">

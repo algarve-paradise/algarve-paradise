@@ -3,14 +3,13 @@ import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { EventEditorForm } from "@/components/admin/event-editor-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { requireUser } from "@/lib/auth";
+import { requireUserWithRole } from "@/lib/auth";
 import { getAdminEventById } from "@/lib/events";
 
 type EditEventPageProps = {
   params: Promise<{ id: string }>;
 };
 
-/** Convert ISO timestamp to the value format expected by <input type="datetime-local"> */
 function toLocalInputValue(iso: string | undefined | null): string {
   if (!iso) return "";
   const d = new Date(iso);
@@ -20,7 +19,7 @@ function toLocalInputValue(iso: string | undefined | null): string {
 }
 
 export default async function EditEventPage({ params }: EditEventPageProps) {
-  const user = await requireUser();
+  const { user, role } = await requireUserWithRole();
   const { id } = await params;
   const item = await getAdminEventById(id);
 
@@ -33,6 +32,7 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
       title="Editar evento"
       description="Atualize titulo, descricao, data, local, capa e estado de publicacao."
       userLabel={user.email ?? "utilizador autenticado"}
+      role={role}
     >
       <Card className="rounded-none border border-border shadow-none">
         <CardContent className="pt-6">

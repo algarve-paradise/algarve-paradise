@@ -3,17 +3,29 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { ImagePlus, LoaderCircle, Save, Trash2 } from "lucide-react";
+import { ImagePlus, LoaderCircle, Play, Save, Trash2 } from "lucide-react";
 
 import { newsCategories, slugifyNewsTitle } from "@/lib/news-shared";
 import { normalizeNewsFormValues, type NewsFormValues } from "@/lib/news-form";
+import type { UserRole } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+function extractYouTubeId(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+    return u.searchParams.get("v");
+  } catch {
+    return null;
+  }
+}
+
 type NewsEditorFormProps = {
   mode: "create" | "edit";
   postId?: string;
+  userRole?: UserRole;
   initialValues?: Partial<NewsFormValues>;
 };
 
@@ -27,6 +39,7 @@ const defaultValues: NewsFormValues = {
   sourceUrl: "",
   coverImageUrl: "",
   coverImagePath: "",
+  youtubeUrl: "",
   featured: false,
   live: false,
   status: "draft",
@@ -35,12 +48,12 @@ const defaultValues: NewsFormValues = {
 export function NewsEditorForm({
   mode,
   postId,
+  userRole = "admin",
   initialValues,
 }: NewsEditorFormProps) {
-  const mergedInitialValues = {
-    ...defaultValues,
-    ...initialValues,
-  };
+  const isAdmin = userRole === "admin";
+  const mergedInitialValues = { ...defaultValues, ...initialValues };
+
   const router = useRouter();
   const [values, setValues] = useState<NewsFormValues>(mergedInitialValues);
   const [error, setError] = useState<string | null>(null);
@@ -50,10 +63,7 @@ export function NewsEditorForm({
   const [slugTouched, setSlugTouched] = useState(Boolean(initialValues?.slug));
 
   function updateValue<Key extends keyof NewsFormValues>(key: Key, value: NewsFormValues[Key]) {
-    setValues((current) => ({
-      ...current,
-      [key]: value,
-    }));
+    setValues((current) => ({ ...current, [key]: value }));
   }
 
   async function handleImageUpload(file: File) {
@@ -95,9 +105,7 @@ export function NewsEditorForm({
         mode === "create" ? "/api/admin/posts" : `/api/admin/posts/${postId}`,
         {
           method: mode === "create" ? "POST" : "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         }
       );
@@ -125,6 +133,8 @@ export function NewsEditorForm({
       router.refresh();
     });
   }
+
+  const youtubePreviewId = values.youtubeUrl ? extractYouTubeId(values.youtubeUrl) : null;
 
   return (
     <form className="space-y-8" onSubmit={handleSubmit}>
@@ -274,9 +284,7 @@ export function NewsEditorForm({
                 className="hidden"
                 onChange={(event) => {
                   const file = event.target.files?.[0];
-                  if (file) {
-                    void handleImageUpload(file);
-                  }
+                  if (file) void handleImageUpload(file);
                 }}
               />
             </label>
@@ -294,39 +302,74 @@ export function NewsEditorForm({
             ) : null}
           </div>
 
-          <div className="grid gap-3">
-            <label className="flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={values.featured}
-                onChange={(event) => updateValue("featured", event.target.checked)}
-              />
-              Destacar na homepage
+          {/* YouTube video */}
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              <Play className="size-3.5" />
+              Video YouTube (opcional)
             </label>
-            <label className="flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={values.live}
-                onChange={(event) => updateValue("live", event.target.checked)}
-              />
-              Marcar como em foco / direto
-            </label>
+            <Input
+              value={values.youtubeUrl ?? ""}
+              onChange={(event) => updateValue("youtubeUrl", event.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="h-11 rounded-none"
+            />
+            {youtubePreviewId ? (
+              <div className="flex items-center gap-3 rounded border border-border bg-muted/40 p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://img.youtube.com/vi/${youtubePreviewId}/mqdefault.jpg`}
+                  alt="YouTube preview"
+                  className="h-14 w-24 rounded object-cover"
+                />
+                <p className="text-xs text-muted-foreground">Video detectado. Sera incorporado na noticia.</p>
+              </div>
+            ) : values.youtubeUrl ? (
+              <p className="text-xs text-red-600">Link do YouTube invalido.</p>
+            ) : null}
           </div>
+
+          {isAdmin && (
+            <div className="grid gap-3">
+              <label className="flex items-center gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  checked={values.featured}
+                  onChange={(event) => updateValue("featured", event.target.checked)}
+                />
+                Destacar na homepage
+              </label>
+              <label className="flex items-center gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  checked={values.live}
+                  onChange={(event) => updateValue("live", event.target.checked)}
+                />
+                Marcar como em foco / direto
+              </label>
+            </div>
+          )}
 
           <div className="space-y-2">
             <label className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
               Estado
             </label>
-            <select
-              value={values.status}
-              onChange={(event) =>
-                updateValue("status", event.target.value as NewsFormValues["status"])
-              }
-              className="h-11 w-full border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
-            >
-              <option value="draft">Rascunho</option>
-              <option value="published">Publicado</option>
-            </select>
+            {isAdmin ? (
+              <select
+                value={values.status}
+                onChange={(event) =>
+                  updateValue("status", event.target.value as NewsFormValues["status"])
+                }
+                className="h-11 w-full border border-input bg-background px-3 text-sm outline-none focus-visible:border-ring"
+              >
+                <option value="draft">Rascunho</option>
+                <option value="published">Publicado</option>
+              </select>
+            ) : (
+              <div className="flex h-11 items-center border border-border bg-muted/40 px-3 text-sm text-muted-foreground">
+                Rascunho — aguarda aprovacao do administrador
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -339,6 +382,11 @@ export function NewsEditorForm({
           {isPending ? <LoaderCircle className="size-4 animate-spin" /> : <Save className="size-4" />}
           {mode === "create" ? "Criar noticia" : "Guardar alteracoes"}
         </Button>
+        {!isAdmin && (
+          <p className="text-xs text-muted-foreground">
+            O conteudo sera salvo como rascunho e publicado pelo administrador.
+          </p>
+        )}
       </div>
     </form>
   );

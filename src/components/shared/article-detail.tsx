@@ -18,7 +18,7 @@ import gsap from "gsap";
 
 import { Container } from "@/components/layout/container";
 import { SafeImage } from "@/components/shared/safe-image";
-import { formatDateLong } from "@/lib/utils";
+import { extractYouTubeId, formatDateLong } from "@/lib/utils";
 
 export type ArticleDetailProps = {
   category: string;
@@ -31,6 +31,7 @@ export type ArticleDetailProps = {
   sourceUrl?: string | null;
   region?: string | null;
   content?: string | null;
+  youtubeUrl?: string | null;
   readingMinutes?: number;
   meta?: Array<{ label: string; value: string; icon?: "calendar" | "clock" | "tag" | "map" }>;
   backLabel: string;
@@ -57,6 +58,7 @@ export function ArticleDetail({
   sourceUrl,
   region,
   content,
+  youtubeUrl,
   readingMinutes,
   meta,
   backLabel,
@@ -246,6 +248,20 @@ export function ArticleDetail({
                   </p>
                 ))}
               </article>
+            ) : null}
+
+            {youtubeUrl && extractYouTubeId(youtubeUrl) ? (
+              <div data-detail-rise className="w-full overflow-hidden rounded-2xl border border-border">
+                <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${extractYouTubeId(youtubeUrl)}`}
+                    title="Video relacionado"
+                    className="absolute inset-0 h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
             ) : null}
 
             {(primaryAction || secondaryAction) && (

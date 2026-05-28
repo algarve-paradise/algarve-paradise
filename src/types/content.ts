@@ -66,6 +66,7 @@ export type NewsItem = {
   aiModel?: string | null;
   aiConfidence?: number | null;
   aiReviewDeadline?: string | null;
+  youtubeUrl?: string | null;
 };
 
 export type EventItem = {

@@ -35,3 +35,15 @@ export function formatDateLong(date: Date | string): string {
   const d = toDate(date);
   return `${d.getDate()} de ${PT_MONTHS_LONG[d.getMonth()]} de ${d.getFullYear()}`;
 }
+
+/** Extract the video ID from a YouTube URL (watch?v=, youtu.be/, or /embed/). */
+export function extractYouTubeId(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("youtu.be")) return u.pathname.slice(1).split("?")[0];
+    if (u.pathname.includes("/embed/")) return u.pathname.split("/embed/")[1].split("?")[0];
+    return u.searchParams.get("v");
+  } catch {
+    return null;
+  }
+}
