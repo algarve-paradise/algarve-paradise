@@ -10,12 +10,25 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const LOCALES = new Set(["pt", "en", "es"]);
+
+function isAdminPath(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  const routeSegments = segments[0] === "visualizar" ? segments.slice(1) : segments;
+  const routeIndex = LOCALES.has(routeSegments[0] ?? "") ? 1 : 0;
+
+  return routeSegments[routeIndex] === "admin";
+}
+
 export function SmoothScroll() {
   const pathname = usePathname();
   const lenisRef = useRef<Lenis | null>(null);
   const isFirstRender = useRef(true);
+  const adminPath = isAdminPath(pathname);
 
   useEffect(() => {
+    if (adminPath) return;
+
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -24,10 +37,15 @@ export function SmoothScroll() {
       duration: 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
-  }, [pathname]);
+  }, [adminPath, pathname]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (adminPath) {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+      return;
+    }
+
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let ctx: gsap.Context | undefined;
     let observer: MutationObserver | undefined;
@@ -277,7 +295,7 @@ export function SmoothScroll() {
       ctx?.revert();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-  }, []);
+  }, [adminPath]);
 
   return null;
 }
