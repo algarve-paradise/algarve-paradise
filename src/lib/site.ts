@@ -28,3 +28,41 @@ export const siteRoutes = {
   privacyPolicy: "/politica-de-privacidade",
   cookiePolicy: "/politica-de-cookies",
 } as const;
+
+export const previewPrefix = "/visualizar";
+
+export function isPrelaunchMode() {
+  return process.env.PRELAUNCH_MODE === "true";
+}
+
+export function hasPreviewPrefix(pathname: string) {
+  return pathname === previewPrefix || pathname.startsWith(`${previewPrefix}/`);
+}
+
+export function stripPreviewPrefix(pathname: string) {
+  if (!hasPreviewPrefix(pathname)) return pathname;
+  return pathname.slice(previewPrefix.length) || "/";
+}
+
+function shouldUsePreviewPrefix() {
+  if (typeof window === "undefined") {
+    return isPrelaunchMode();
+  }
+
+  return hasPreviewPrefix(window.location.pathname);
+}
+
+export function withPreviewPrefix(href: string) {
+  if (
+    !href.startsWith("/") ||
+    href.startsWith("//") ||
+    href.startsWith("/api/") ||
+    hasPreviewPrefix(href)
+  ) {
+    return href;
+  }
+
+  if (!shouldUsePreviewPrefix()) return href;
+
+  return `${previewPrefix}${href === "/" ? "" : href}`;
+}

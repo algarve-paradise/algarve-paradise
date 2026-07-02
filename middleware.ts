@@ -3,11 +3,25 @@ import { NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
 import { updateSession } from "@/lib/supabase/middleware";
+import { hasPreviewPrefix, previewPrefix, stripPreviewPrefix } from "@/lib/site";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const PREVIEW_PREFIX = "/visualizar";
 const COMING_SOON_PATH = "/em-breve";
+
+function redirectWithPreviewPrefix(response: NextResponse, request: NextRequest) {
+  const location = response.headers.get("location");
+
+  if (!location) return response;
+
+  const redirectUrl = new URL(location, request.url);
+
+  if (!hasPreviewPrefix(redirectUrl.pathname)) {
+    redirectUrl.pathname = `${previewPrefix}${redirectUrl.pathname === "/" ? "" : redirectUrl.pathname}`;
+  }
+
+  return NextResponse.redirect(redirectUrl, response.status);
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -23,9 +37,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    // /visualizar and /visualizar/* → strip prefix, route through normal app
-    if (pathname === PREVIEW_PREFIX || pathname.startsWith(PREVIEW_PREFIX + "/")) {
-      const strippedPath = pathname.slice(PREVIEW_PREFIX.length) || "/";
+    // /visualizar and /visualizar/* -> strip prefix, route through normal app
+    if (hasPreviewPrefix(pathname)) {
+      const strippedPath = stripPreviewPrefix(pathname);
       const previewUrl = request.nextUrl.clone();
       previewUrl.pathname = strippedPath;
 
@@ -33,7 +47,11 @@ export async function middleware(request: NextRequest) {
         headers: request.headers,
       });
 
-      await updateSession(request);
+      const sessionResponse = await updateSession(previewRequest);
+      if (sessionResponse.headers.has("location")) {
+        return redirectWithPreviewPrefix(sessionResponse, request);
+      }
+
       return intlMiddleware(previewRequest);
     }
 

@@ -8,6 +8,7 @@ import { ImagePlus, LoaderCircle, Play, Save, Trash2 } from "lucide-react";
 import { newsCategories, slugifyNewsTitle } from "@/lib/news-shared";
 import { normalizeNewsFormValues, type NewsFormValues } from "@/lib/news-form";
 import type { UserRole } from "@/lib/auth";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -125,9 +126,9 @@ export function NewsEditorForm({
       if (mode === "create") {
         setValues(defaultValues);
         setSlugTouched(false);
-        router.replace("/admin");
+        router.replace(withPreviewPrefix(siteRoutes.admin));
       } else if (postId) {
-        router.replace(`/admin/noticias/${nextId}`);
+        router.replace(withPreviewPrefix(`${siteRoutes.admin}/noticias/${nextId}`));
       }
 
       router.refresh();

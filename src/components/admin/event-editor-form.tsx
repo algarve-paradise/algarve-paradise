@@ -7,6 +7,7 @@ import { ImagePlus, LoaderCircle, Save, Trash2 } from "lucide-react";
 
 import { slugifyNewsTitle } from "@/lib/news-shared";
 import { normalizeEventFormValues, type EventFormValues } from "@/lib/event-form";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -104,9 +105,9 @@ export function EventEditorForm({ mode, eventId, initialValues }: EventEditorFor
       if (mode === "create") {
         setValues(defaultValues);
         setSlugTouched(false);
-        router.replace("/admin");
+        router.replace(withPreviewPrefix(siteRoutes.admin));
       } else if (nextId) {
-        router.replace(`/admin/eventos/${nextId}`);
+        router.replace(withPreviewPrefix(`${siteRoutes.admin}/eventos/${nextId}`));
       }
 
       router.refresh();

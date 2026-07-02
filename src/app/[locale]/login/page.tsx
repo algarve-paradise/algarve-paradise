@@ -4,7 +4,7 @@ import { LoginForm } from "@/components/admin/login-form";
 import { Container } from "@/components/layout/container";
 import { Card, CardContent } from "@/components/ui/card";
 import { getCurrentUser } from "@/lib/auth";
-import { siteRoutes } from "@/lib/site";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 
 type LoginPageProps = {
   searchParams: Promise<{
@@ -15,7 +15,7 @@ type LoginPageProps = {
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const user = await getCurrentUser();
   const params = await searchParams;
-  const nextUrl = params.next || siteRoutes.admin;
+  const nextUrl = withPreviewPrefix(params.next || siteRoutes.admin);
 
   if (user) {
     redirect(nextUrl);

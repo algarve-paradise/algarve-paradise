@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { LoaderCircle, Save, Trash2 } from "lucide-react";
 
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -56,7 +57,7 @@ export function CronicaEditorForm({ mode, cronicaId, initialValues }: CronicaEdi
       return;
     }
 
-    router.replace("/admin/cronicas");
+    router.replace(withPreviewPrefix(`${siteRoutes.admin}/cronicas`));
     router.refresh();
   }
 
@@ -97,9 +98,9 @@ export function CronicaEditorForm({ mode, cronicaId, initialValues }: CronicaEdi
       setSuccess(mode === "create" ? "Cronica criada com sucesso." : "Cronica atualizada com sucesso.");
 
       if (mode === "create") {
-        router.replace("/admin/cronicas");
+        router.replace(withPreviewPrefix(`${siteRoutes.admin}/cronicas`));
       } else {
-        router.replace(`/admin/cronicas/${cronicaId}`);
+        router.replace(withPreviewPrefix(`${siteRoutes.admin}/cronicas/${cronicaId}`));
       }
 
       router.refresh();

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
-import { siteRoutes } from "@/lib/site";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 import { Button } from "@/components/ui/button";
 
 export function SignOutButton() {
@@ -15,7 +15,7 @@ export function SignOutButton() {
     setLoading(true);
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signOut();
-    router.replace(siteRoutes.login);
+    router.replace(withPreviewPrefix(siteRoutes.login));
     router.refresh();
   }
 

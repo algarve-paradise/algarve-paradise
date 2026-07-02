@@ -4,7 +4,7 @@ import { CalendarPlus, FilePlus2, LayoutDashboard, NotebookPen, Users } from "lu
 
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { Container } from "@/components/layout/container";
-import { siteRoutes } from "@/lib/site";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 import type { UserRole } from "@/lib/auth";
 
 type AdminShellProps = {
@@ -40,7 +40,7 @@ export function AdminShell({ title, description, userLabel, role, children }: Ad
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
-              href={siteRoutes.admin}
+              href={withPreviewPrefix(siteRoutes.admin)}
               className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
             >
               <LayoutDashboard className="size-4" />
@@ -48,7 +48,7 @@ export function AdminShell({ title, description, userLabel, role, children }: Ad
             </Link>
             {canManageNews && (
               <Link
-                href={`${siteRoutes.admin}/noticias/nova`}
+                href={withPreviewPrefix(`${siteRoutes.admin}/noticias/nova`)}
                 className="inline-flex h-10 items-center gap-2 bg-primary px-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground"
               >
                 <FilePlus2 className="size-4" />
@@ -57,7 +57,7 @@ export function AdminShell({ title, description, userLabel, role, children }: Ad
             )}
             {canManageNews && (
               <Link
-                href={`${siteRoutes.admin}/eventos/novo`}
+                href={withPreviewPrefix(`${siteRoutes.admin}/eventos/novo`)}
                 className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
               >
                 <CalendarPlus className="size-4" />
@@ -66,7 +66,7 @@ export function AdminShell({ title, description, userLabel, role, children }: Ad
             )}
             {canManageCronicas && (
               <Link
-                href={`${siteRoutes.admin}/cronicas`}
+                href={withPreviewPrefix(`${siteRoutes.admin}/cronicas`)}
                 className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
               >
                 <NotebookPen className="size-4" />
@@ -75,7 +75,7 @@ export function AdminShell({ title, description, userLabel, role, children }: Ad
             )}
             {role === "admin" && (
               <Link
-                href={`${siteRoutes.admin}/utilizadores`}
+                href={withPreviewPrefix(`${siteRoutes.admin}/utilizadores`)}
                 className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted"
               >
                 <Users className="size-4" />

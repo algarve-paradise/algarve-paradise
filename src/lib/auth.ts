@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { siteRoutes } from "@/lib/site";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type UserRole = "admin" | "editor" | "cronista";
@@ -42,7 +42,7 @@ export async function requireUser() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect(siteRoutes.login);
+    redirect(withPreviewPrefix(siteRoutes.login));
   }
 
   return user;
@@ -55,7 +55,7 @@ export async function requireUserWithRole(): Promise<{
   const { user, role } = await getCurrentUserWithRole();
 
   if (!user) {
-    redirect(siteRoutes.login);
+    redirect(withPreviewPrefix(siteRoutes.login));
   }
 
   return { user, role };
@@ -65,11 +65,11 @@ export async function requireRole(allowedRoles: UserRole[]) {
   const { user, role } = await getCurrentUserWithRole();
 
   if (!user) {
-    redirect(siteRoutes.login);
+    redirect(withPreviewPrefix(siteRoutes.login));
   }
 
   if (!allowedRoles.includes(role)) {
-    redirect(siteRoutes.admin);
+    redirect(withPreviewPrefix(siteRoutes.admin));
   }
 
   return { user, role };

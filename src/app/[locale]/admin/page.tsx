@@ -7,6 +7,7 @@ import { requireUserWithRole } from "@/lib/auth";
 import { getAdminCronicas } from "@/lib/cronicas";
 import { getAdminNewsList, getAdminSummary } from "@/lib/news";
 import { getAdminEventsList } from "@/lib/events";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -28,7 +29,8 @@ function buildHref(current: Params, overrides: Partial<Params>) {
   if (merged.filter && merged.filter !== "all") params.set("filter", merged.filter);
   if (merged.page && Number(merged.page) > 1) params.set("page", merged.page);
   const query = params.toString();
-  return query ? `/admin?${query}` : "/admin";
+  const href = query ? `${siteRoutes.admin}?${query}` : siteRoutes.admin;
+  return withPreviewPrefix(href);
 }
 
 function PaginationBar({
@@ -113,8 +115,8 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       sortDate: event.startsAt ?? "",
       location: event.location,
       status: event.status ?? "draft",
-      href: event.href,
-      editHref: `/admin/eventos/${event.id}`,
+      href: withPreviewPrefix(event.href),
+      editHref: withPreviewPrefix(`${siteRoutes.admin}/eventos/${event.id}`),
     })),
     ...eventNewsItems.map((item) => ({
       id: item.id ?? item.slug,
@@ -124,8 +126,8 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
       sortDate: item.date,
       location: item.region ?? "Algarve",
       status: item.status ?? "draft",
-      href: item.href,
-      editHref: `/admin/noticias/${item.id}`,
+      href: withPreviewPrefix(item.href),
+      editHref: withPreviewPrefix(`${siteRoutes.admin}/noticias/${item.id}`),
     })),
   ].sort((a, b) => {
     const dateA = a.sortDate ? new Date(a.sortDate).getTime() : 0;
@@ -173,7 +175,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <CardTitle>Eventos cadastrados</CardTitle>
             <Link
-              href="/admin/eventos/novo"
+              href={withPreviewPrefix(`${siteRoutes.admin}/eventos/novo`)}
               className="inline-flex h-9 w-fit items-center gap-2 border border-border px-3 text-xs font-semibold uppercase tracking-[0.18em] transition-colors hover:bg-muted"
             >
               <CalendarDays className="size-4" />
@@ -294,7 +296,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
                       </td>
                       <td className="py-4">
                         <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em]">
-                          <Link href={`/admin/noticias/${item.id}`} className="hover:underline">
+                          <Link href={withPreviewPrefix(`${siteRoutes.admin}/noticias/${item.id}`)} className="hover:underline">
                             Editar
                           </Link>
                           <Link href={item.href} className="hover:underline">

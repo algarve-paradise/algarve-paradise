@@ -5,6 +5,7 @@ import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireUserWithRole } from "@/lib/auth";
 import { getAdminCronicas } from "@/lib/cronicas";
+import { siteRoutes, withPreviewPrefix } from "@/lib/site";
 
 export default async function CronicasListPage() {
   const { user, role } = await requireUserWithRole();
@@ -22,7 +23,7 @@ export default async function CronicasListPage() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <CardTitle>Cronicas cadastradas</CardTitle>
             <Link
-              href="/admin/cronicas/nova"
+              href={withPreviewPrefix(`${siteRoutes.admin}/cronicas/nova`)}
               className="inline-flex h-9 w-fit items-center gap-2 bg-primary px-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground"
             >
               <FilePlus2 className="size-4" />
@@ -63,7 +64,7 @@ export default async function CronicasListPage() {
                       </td>
                       <td className="py-4">
                         <Link
-                          href={`/admin/cronicas/${cronica.id}`}
+                          href={withPreviewPrefix(`${siteRoutes.admin}/cronicas/${cronica.id}`)}
                           className="text-xs uppercase tracking-[0.18em] hover:underline"
                         >
                           Editar
