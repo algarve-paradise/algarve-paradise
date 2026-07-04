@@ -1,12 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils"; // utility for classnames, assumed existent
+import { cn } from "@/lib/utils";
 
 /**
- * Simple Tabs component based on Radix UI style, but implemented with React state.
- * Designed to fit the project's existing design system (tailwind, shadcn conventions).
+ * Simple Tabs implementation based on React context. This avoids the need to
+ * manually clone element props and gives proper TypeScript inference.
  */
+interface TabsContextValue {
+  value: string;
+  setValue: (v: string) => void;
+}
+
+const TabsContext = React.createContext<TabsContextValue | undefined>(undefined);
+
 export function Tabs({
   defaultValue,
   children,
@@ -18,26 +25,21 @@ export function Tabs({
 }) {
   const [value, setValue] = React.useState(defaultValue);
   return (
-    <div className={cn("flex flex-col space-y-4", className)}>
-      {React.Children.map(children, (child) => {
-        if (!React.isValidElement(child)) return child;
-        return React.cloneElement(child, { value, setValue });
-      })}
-    </div>
+    <TabsContext.Provider value={{ value, setValue }}>
+      <div className={cn("flex flex-col space-y-4", className)}>{children}</div>
+    </TabsContext.Provider>
   );
 }
 
 export function TabsList({
   children,
   className,
-  value,
-  setValue,
 }: {
   children: React.ReactNode;
   className?: string;
-  value?: string;
-  setValue?: (v: string) => void;
 }) {
+  const ctx = React.useContext(TabsContext);
+  if (!ctx) return null;
   return (
     <div
       role="tablist"
@@ -46,10 +48,7 @@ export function TabsList({
         className,
       )}
     >
-      {React.Children.map(children, (child) => {
-        if (!React.isValidElement(child)) return child;
-        return React.cloneElement(child, { isActive: child.props.value === value, setValue });
-      })}
+      {children}
     </div>
   );
 }
@@ -58,15 +57,14 @@ export function TabsTrigger({
   value: triggerValue,
   children,
   className,
-  isActive,
-  setValue,
 }: {
   value: string;
   children: React.ReactNode;
   className?: string;
-  isActive?: boolean;
-  setValue?: (v: string) => void;
 }) {
+  const ctx = React.useContext(TabsContext);
+  if (!ctx) return null;
+  const isActive = ctx.value === triggerValue;
   return (
     <button
       role="tab"
@@ -78,7 +76,7 @@ export function TabsTrigger({
           : "hover:bg-accent hover:text-accent-foreground",
         className,
       )}
-      onClick={() => setValue?.(triggerValue)}
+      onClick={() => ctx.setValue(triggerValue)}
     >
       {children}
     </button>
@@ -89,14 +87,14 @@ export function TabsContent({
   value: contentValue,
   children,
   className,
-  value: activeValue,
 }: {
   value: string;
   children: React.ReactNode;
   className?: string;
-  value?: string;
 }) {
-  if (activeValue !== contentValue) return null;
+  const ctx = React.useContext(TabsContext);
+  if (!ctx) return null;
+  if (ctx.value !== contentValue) return null;
   return (
     <div className={cn("mt-4 rounded-md border bg-card p-6", className)}>
       {children}

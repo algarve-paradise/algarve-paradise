@@ -1,8 +1,8 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireUserWithRole } from "@/lib/auth";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AccountSettingsForm } from "@/components/admin/account-settings-form";
-
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
