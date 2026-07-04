@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { CalendarPlus, FilePlus2, LayoutDashboard, NotebookPen, Users } from "lucide-react";
+import { CalendarPlus, FilePlus2, LayoutDashboard, NotebookPen, Users, Settings } from "lucide-react";
 
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { Container } from "@/components/layout/container";
