@@ -54,7 +54,12 @@ async function main() {
   });
 
   if (authError) {
-    if (authError.message.toLowerCase().includes("already exists") || authError.message.toLowerCase().includes("conflict")) {
+    const errorMsg = authError.message.toLowerCase();
+    if (
+      errorMsg.includes("already exists") ||
+      errorMsg.includes("conflict") ||
+      errorMsg.includes("already been registered")
+    ) {
       console.log("O utilizador já existe no Supabase Auth. A garantir permissões de Administrador...");
       
       const { data } = await supabase.auth.admin.listUsers();
