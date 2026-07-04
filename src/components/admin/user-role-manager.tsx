@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { LoaderCircle } from "lucide-react";
-
+import { LoaderCircle, Settings, Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
 type Utilizador = {
   id: string;
   fullName: string | null;
@@ -26,8 +26,11 @@ const roleLabels: Record<Utilizador["role"], string> = {
 export function UserRoleManager({ utilizadores, currentUserId }: UserRoleManagerProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const currentUserRole = utilizadores.find(u => u.id === currentUserId)?.role ?? "editor";
   const [savingId, setSavingId] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [editingId, setEditingId] = useState<string | null>(null);
+  
 
   async function handleRoleChange(userId: string, newRole: Utilizador["role"]) {
     setSavingId(userId);
@@ -52,6 +55,42 @@ export function UserRoleManager({ utilizadores, currentUserId }: UserRoleManager
     });
   }
 
+async function handleDelete(userId: string) {
+  setSavingId(userId);
+  setErrors(prev => ({ ...prev, [userId]: "" }));
+  const response = await fetch(`/api/admin/users/${userId}`, {
+    method: "DELETE",
+  });
+  setSavingId(null);
+  if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as { error?: string } | null;
+    setErrors(prev => ({ ...prev, [userId]: data?.error ?? "Erro ao excluir utilizador." }));
+    return;
+  }
+  startTransition(() => {
+    router.refresh();
+  });
+}
+
+async function handleUserUpdate(userId: string, fullName: string, role: Utilizador["role"]) {
+  setSavingId(userId);
+  setErrors(prev => ({ ...prev, [userId]: "" }));
+  const response = await fetch(`/api/admin/users/${userId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fullName, role }),
+  });
+  setSavingId(null);
+  if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as { error?: string } | null;
+    setErrors(prev => ({ ...prev, [userId]: data?.error ?? "Erro ao atualizar utilizador." }));
+    return;
+  }
+  startTransition(() => {
+    router.refresh();
+  });
+}
+
   if (!utilizadores.length) {
     return (
       <div className="py-8 text-sm text-muted-foreground">
@@ -61,17 +100,6 @@ export function UserRoleManager({ utilizadores, currentUserId }: UserRoleManager
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[560px] border-collapse text-left">
-        <thead>
-          <tr className="border-b border-border text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            <th className="py-4">Utilizador</th>
-            <th className="py-4">Email</th>
-            <th className="py-4">Membro desde</th>
-            <th className="py-4 w-52">Permissao</th>
-          </tr>
-        </thead>
-        <tbody>
     <div className="space-y-4">
       {currentUserRole === "admin" && (
         <Link
