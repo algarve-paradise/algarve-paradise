@@ -82,6 +82,10 @@ export function AdminShell({ title, description, userLabel, role, children }: Ad
                 Utilizadores
               </Link>
             )}
+            <Link href={withPreviewPrefix(`${siteRoutes.admin}/configuracoes`)} className="inline-flex h-10 items-center gap-2 border border-border px-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-muted">
+              <Settings className="size-4" />
+              Configurações
+            </Link>
             <SignOutButton />
           </div>
         </div>
