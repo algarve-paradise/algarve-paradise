@@ -1,6 +1,8 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { UserCreateForm } from "@/components/admin/user-create-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { requireRole } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +22,7 @@ export default async function NovoUtilizadorPage() {
           <CardTitle>Criar novo membro</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <UserCreateForm />
+          <UserCreateForm currentUserRole={role} />
         </CardContent>
       </Card>
     </AdminShell>

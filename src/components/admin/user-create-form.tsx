@@ -23,7 +23,7 @@ const defaultValues: UserCreateFormValues = {
   role: "editor",
 };
 
-export function UserCreateForm() {
+export function UserCreateForm({ currentUserRole }: { currentUserRole: "admin" | "editor" | "cronista" }) {
   const router = useRouter();
   const [values, setValues] = useState<UserCreateFormValues>(defaultValues);
   const [error, setError] = useState<string | null>(null);
@@ -60,7 +60,8 @@ export function UserCreateForm() {
       }
 
       setSuccess("Utilizador criado com sucesso!");
-      
+      // Reset form values
+      setValues(defaultValues);
       // Redirect back to utilizadores list after 1.5 seconds
       setTimeout(() => {
         router.push(withPreviewPrefix(`${siteRoutes.admin}/utilizadores`));
@@ -132,7 +133,7 @@ export function UserCreateForm() {
           >
             <option value="editor">Editor</option>
             <option value="cronista">Cronista</option>
-            <option value="admin">Administrador</option>
+            {currentUserRole === "admin" && <option value="admin">Administrador</option>}
           </select>
         </div>
       </div>
