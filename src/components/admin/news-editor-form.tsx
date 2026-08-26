@@ -95,6 +95,21 @@ export function NewsEditorForm({
     }));
   }
 
+async function handleDelete() {
+  if (!postId || !confirm("Tem certeza que deseja apagar esta noticia? Esta acao e irreversivel.")) return;
+  
+  const response = await fetch(`/api/admin/posts/${postId}`, { method: "DELETE" });
+  
+  if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as { error?: string } | null;
+    setError(data?.error ?? "Nao foi possivel apagar a noticia.");
+    return;
+  }
+  
+  router.replace(withPreviewPrefix(siteRoutes.admin));
+  router.refresh();
+}
+  
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -383,6 +398,18 @@ export function NewsEditorForm({
           {isPending ? <LoaderCircle className="size-4 animate-spin" /> : <Save className="size-4" />}
           {mode === "create" ? "Criar noticia" : "Guardar alteracoes"}
         </Button>
+        {mode === "edit" && postId ? (
+      <Button
+        type="button"
+        variant="outline"
+        className="rounded-none text-red-700 hover:bg-red-50"
+        onClick={handleDelete}
+        disabled={isPending || isUploading}
+        >
+      <Trash2 className="size-4" />
+      Apagar
+      </Button>
+      ) : null}
         {!isAdmin && (
           <p className="text-xs text-muted-foreground">
             O conteudo sera salvo como rascunho e publicado pelo administrador.
