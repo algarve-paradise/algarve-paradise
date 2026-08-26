@@ -27,6 +27,7 @@ export function UserRoleManager({ utilizadores, currentUserId }: UserRoleManager
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const currentUserRole = utilizadores.find(u => u.id === currentUserId)?.role ?? "editor";
+  const adminCount = utilizadores.filter((u) => u.role === "admin").length;
   const [savingId, setSavingId] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -56,6 +57,8 @@ export function UserRoleManager({ utilizadores, currentUserId }: UserRoleManager
   }
 
 async function handleDelete(userId: string) {
+  if (!confirm("Tem certeza que deseja apagar este utilizador? Esta acao e irreversivel.")) return;
+  
   setSavingId(userId);
   setErrors(prev => ({ ...prev, [userId]: "" }));
   const response = await fetch(`/api/admin/users/${userId}`, {
@@ -126,6 +129,7 @@ async function handleUserUpdate(userId: string, fullName: string, role: Utilizad
             {utilizadores.map((u) => {
               const isSelf = u.id === currentUserId;
               const isSaving = savingId === u.id || isPending;
+            const isLastAdmin = u.role === "admin" && adminCount <= 1;
 
               return (
                 <tr key={u.id} className="border-b border-border/70 align-middle">
@@ -136,6 +140,11 @@ async function handleUserUpdate(userId: string, fullName: string, role: Utilizad
                         Voce
                       </div>
                     )}
+                    {isLastAdmin && (
+                    <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Ultimo administrador
+                    </div>
+                  )}
                   </td>
                   <td className="py-4 pr-6 text-sm text-muted-foreground">{u.email ?? "—"}</td>
                   <td className="py-4 pr-6 text-sm text-muted-foreground">
@@ -145,7 +154,8 @@ async function handleUserUpdate(userId: string, fullName: string, role: Utilizad
                     <div className="flex items-center gap-2">
                       <select
                         defaultValue={u.role}
-                        disabled={isSelf || isSaving}
+                        disabled={isSelf || isSaving || isLastAdmin}
+                        title={isLastAdmin ? "Nao e possivel remover o ultimo administrador do sistema." : undefined}
                         onChange={(e) =>
                           void handleRoleChange(u.id, e.target.value as Utilizador["role"])
                         }
@@ -175,8 +185,9 @@ async function handleUserUpdate(userId: string, fullName: string, role: Utilizad
                       </button>
                       <button
                         type="button"
-                        className="text-muted-foreground hover:text-destructive"
-                        disabled={isSelf || isSaving}
+                        className="text-muted-foreground hover:text-destructive disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={isSelf || isSaving || isLastAdmin}
+                        title={isLastAdmin ? "Nao e possivel apagar o ultimo administrador do sistema." : undefined}
                         onClick={() => void handleDelete(u.id)}
                       >
                         <Trash2 className="size-4" />
