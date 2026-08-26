@@ -34,7 +34,7 @@ export const newsFormSchema = z.object({
   sourceName: z.string().trim().optional(),
   sourceUrl: optionalUrl,
   coverImageUrl: optionalUrl,
-  coverImagePath: z.string().trim().optional(),
+  coverImagePath: z.string().trim().nullable().optional(),
   youtubeUrl: optionalYoutubeUrl,
   featured: z.boolean().default(false),
   live: z.boolean().default(false),
