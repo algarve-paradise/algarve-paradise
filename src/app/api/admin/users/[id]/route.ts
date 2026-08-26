@@ -30,6 +30,28 @@ export async function PATCH(request: Request, { params }: RouteContext) {
   const supabase = await createSupabaseServerClient();
   const adminClient = createSupabaseAdminClient();
 
+  if (newRole && newRole !== "admin") {
+      const { data: targetProfile } = await adminClient
+        .from("profiles")
+        .select("role")
+        .eq("id", id)
+        .single();
+    
+      if (targetProfile?.role === "admin") {
+            const { count } = await adminClient
+              .from("profiles")
+              .select("id", { count: "exact", head: true })
+              .eq("role", "admin");
+        
+            if ((count ?? 0) <= 1) {
+                    return NextResponse.json(
+                      { error: "Nao e possivel remover o ultimo administrador do sistema." },
+                      { status: 400 }
+                            );
+            }
+      }
+  }
+  
   // Update profile fields
   const updates: any = {};
   if (newRole) updates.role = newRole;
@@ -57,6 +79,26 @@ export async function DELETE(request: Request, { params }: RouteContext) {
   const { id } = await params;
   const adminClient = createSupabaseAdminClient();
 
+  const { data: targetProfile } = await adminClient
+    .from("profiles")
+    .select("role")
+    .eq("id", id)
+    .single();
+  
+  if (targetProfile?.role === "admin") {
+      const { count } = await adminClient
+        .from("profiles")
+        .select("id", { count: "exact", head: true })
+        .eq("role", "admin");
+    
+      if ((count ?? 0) <= 1) {
+            return NextResponse.json(
+              { error: "Nao e possivel apagar o ultimo administrador do sistema." },
+              { status: 400 }
+                  );
+      }
+  }
+  
   // Delete auth user
   const { error: authError } = await adminClient.auth.admin.deleteUser(id);
   if (authError) return NextResponse.json({ error: authError.message }, { status: 400 });
