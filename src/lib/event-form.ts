@@ -18,11 +18,11 @@ export const eventFormSchema = z.object({
   description: z.string().trim().min(20, "Informe uma descricao com pelo menos 20 caracteres."),
   location: z.string().trim().min(2, "Informe o local."),
   startsAt: z.string().min(1, "Informe a data/hora de inicio."),
-  endsAt: z.string().optional(),
-  sourceName: z.string().trim().optional(),
+  endsAt: z.string().trim().nullable().optional(),
+  sourceName: z.string().trim().nullable().optional(),
   sourceUrl: optionalUrl,
   coverImageUrl: optionalUrl,
-  coverImagePath: z.string().trim().optional(),
+  coverImagePath: z.string().trim().nullable().optional(),
   status: z.enum(["draft", "published"]).default("draft"),
 });
 
