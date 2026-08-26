@@ -75,6 +75,21 @@ export function EventEditorForm({ mode, eventId, initialValues }: EventEditorFor
     setValues((current) => ({ ...current, coverImageUrl: "", coverImagePath: "" }));
   }
 
+  async function handleDelete() {
+      if (!eventId || !confirm("Tem certeza que deseja apagar este evento? Esta acao e irreversivel.")) return;
+    
+      const response = await fetch(`/api/admin/events/${eventId}`, { method: "DELETE" });
+    
+      if (!response.ok) {
+            const data = (await response.json().catch(() => null)) as { error?: string } | null;
+            setError(data?.error ?? "Nao foi possivel apagar o evento.");
+            return;
+      }
+    
+      router.replace(withPreviewPrefix(siteRoutes.admin));
+      router.refresh();
+  }
+  
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -300,6 +315,18 @@ export function EventEditorForm({ mode, eventId, initialValues }: EventEditorFor
           {isPending ? <LoaderCircle className="size-4 animate-spin" /> : <Save className="size-4" />}
           {mode === "create" ? "Criar evento" : "Guardar alteracoes"}
         </Button>
+        {mode === "edit" && eventId ? (
+        <Button
+              type="button"
+              variant="outline"
+              className="rounded-none text-red-700 hover:bg-red-50"
+              onClick={handleDelete}
+              disabled={isPending || isUploading}
+            >
+          <Trash2 className="size-4" />
+          Apagar
+        </Button>
+      ) : null}
       </div>
     </form>
   );
