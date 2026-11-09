@@ -115,8 +115,8 @@ Mostrar:
 * Lista de eventos com data
 
 **Exemplo:**  
- Festival Cultural de Lagos – 12 Abril  
- Feira Gastronómica de Faro – 18 Abril
+ Festival Cultural de Lagos
+ Feira Gastronómica de Faro
 
 Botão:  
  Ver todos os eventos
