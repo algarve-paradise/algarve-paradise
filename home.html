@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site em Manutenção</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #101827, #263b5c);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 50px 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .icon {
+            font-size: 75px;
+            margin-bottom: 25px;
+            animation: rotate 4s linear infinite;
+        }
+
+        h1 {
+            font-size: 34px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #d1d9e6;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            display: inline-block;
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            margin: 15px 0 25px;
+        }
+
+        .footer {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 30px;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 27px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="icon">🛠️</div>
+
+        <h1>Estamos em Manutenção!</h1>
+
+        <div class="status">
+            ● Manutenção em andamento
+        </div>
+
+        <p>
+            Estamos a trabalhar para melhorar a sua experiência.
+            O nosso site encontra-se temporariamente indisponível
+            para manutenção.
+        </p>
+
+        <p>
+            Voltaremos em breve com novidades!
+        </p>
+
+        <div class="footer">
+            &copy; 2026 - Todos os direitos reservados.
+            <br><br>
+            Obrigado pela sua compreensão.
+        </div>
+
+    </div>
+
+</body>
+</html>
